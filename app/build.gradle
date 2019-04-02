@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -18,6 +17,23 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+detekt {
+    version = "1.0.0-RC14"
+    input = files("${project.rootDir}/${project.getName()}/src/main/java")
+    config = files("${project.rootDir}/detekt/detekt-config.yml")
+    filters = ".*test.*,.*/resources/.*,.*/tmp/.*"
+    reports {
+        xml {
+            enabled = true
+            destination = file("build/reports/detekt.xml")
+        }
+        html {
+            enabled = true
+            destination = file("build/reports/detekt.html")
         }
     }
 }
