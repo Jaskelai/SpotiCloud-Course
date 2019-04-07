@@ -36,8 +36,8 @@ class StartFragment : Fragment(), StartView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        btn_start_soundcloud.setOnClickListener { startPresenter.showSouncloudLoginPage() }
-        btn_start_spotify.setOnClickListener { startPresenter.showSpotifyLoginPage() }
+        btn_start_soundcloud.setOnClickListener { startPresenter.onSoundcloudButtonClicked() }
+        btn_start_spotify.setOnClickListener { startPresenter.onSpotifyButtonClicked() }
     }
 
     companion object {

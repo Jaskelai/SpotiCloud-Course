@@ -6,11 +6,11 @@ import com.arellomobile.mvp.MvpPresenter
 @InjectViewState
 class StartPresenter : MvpPresenter<StartView>() {
 
-    fun showSouncloudLoginPage() {
+    fun onSoundcloudButtonClicked() {
 
     }
 
-    fun showSpotifyLoginPage() {
+    fun onSpotifyButtonClicked() {
 
     }
 }
