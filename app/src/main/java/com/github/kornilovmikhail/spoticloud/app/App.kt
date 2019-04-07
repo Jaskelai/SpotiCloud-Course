@@ -4,6 +4,7 @@ import android.app.Application
 import com.github.kornilovmikhail.spoticloud.app.di.component.AppComponent
 import com.github.kornilovmikhail.spoticloud.app.di.component.DaggerAppComponent
 import com.github.kornilovmikhail.spoticloud.app.di.module.ApplicationModule
+import com.github.kornilovmikhail.spoticloud.app.di.module.NavigationModule
 
 class App : Application() {
 
@@ -11,12 +12,13 @@ class App : Application() {
         super.onCreate()
         component = DaggerAppComponent.builder()
             .applicationModule(ApplicationModule(this))
+            .navigationModule(NavigationModule())
             .build()
+
+        component.inject(this)
     }
 
     companion object {
-        private var component: AppComponent? = null
-
-        fun getApplicationComponent(): AppComponent? = component
+        lateinit var component: AppComponent
     }
 }

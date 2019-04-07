@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".ui.start.StartFragment">
+
+    <TextView
+            android:id="@+id/tv_start_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_heading"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/startscreen_headings"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/img_start_logo"/>
+
+    <ImageView
+            android:id="@+id/img_start_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/logo"
+            android:src="@drawable/logo"
+            android:layout_marginTop="@dimen/startscreen_img_margins"
+            android:layout_marginBottom="@dimen/startscreen_img_margins"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_start_heading"
+            app:layout_constraintBottom_toTopOf="@id/btn_start_soundcloud"/>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start_soundcloud"
+            android:text="@string/signin_soundcloud"
+            android:layout_marginBottom="@dimen/startscreen_btns_margins"
+            app:cornerRadius="@dimen/startscreen_btns_radius"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/img_start_logo"
+            app:layout_constraintBottom_toTopOf="@id/tv_start_choice"
+            style="@style/StartScreenButtons"/>
+
+    <TextView
+            android:id="@+id/tv_start_choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_choice"
+            android:textSize="@dimen/startscreen_headings"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_soundcloud"
+            app:layout_constraintBottom_toTopOf="@id/btn_start_spotify"/>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start_spotify"
+            android:text="@string/signin_spotify"
+            android:layout_marginTop="@dimen/startscreen_btns_margins"
+            app:cornerRadius="@dimen/startscreen_btns_radius"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_start_choice"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="@style/StartScreenButtons"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
