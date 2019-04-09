@@ -9,17 +9,16 @@ import ru.terrakok.cicerone.Router
 
 @Module
 class NavigationModule {
-    private val cicerone: Cicerone<Router>
-
-    init {
-        cicerone = Cicerone.create()
-    }
 
     @Provides
     @ApplicationScope
-    fun provideRouter(): Router = cicerone.router
+    fun provideCicerone(): Cicerone<Router> = Cicerone.create()
 
     @Provides
     @ApplicationScope
-    fun provideNavigatorHolder(): NavigatorHolder = cicerone.navigatorHolder
+    fun provideRouter(cicerone: Cicerone<Router>): Router = cicerone.router
+
+    @Provides
+    @ApplicationScope
+    fun provideNavigatorHolder(cicerone: Cicerone<Router>): NavigatorHolder = cicerone.navigatorHolder
 }
