@@ -2,7 +2,6 @@ package com.github.kornilovmikhail.spoticloud.data.di
 
 import android.net.Uri
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
-import com.github.kornilovmikhail.spoticloud.app.di.scope.FeatureScope
 import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import dagger.Module

@@ -14,7 +14,6 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
-
 class MySupportAppNavigator(
     private val activity: FragmentActivity?,
     private val fragmentManager: FragmentManager?,
@@ -37,7 +36,7 @@ class MySupportAppNavigator(
         }
     }
 
-    protected fun activityForwardWithResult(command: ForwardWithResult) {
+    private fun activityForwardWithResult(command: ForwardWithResult) {
         val screen = command.getScreen() as SupportAppScreen
         val requestCode = command.getRequestCode()
         val activityIntent = screen.getActivityIntent(activity)
@@ -47,7 +46,7 @@ class MySupportAppNavigator(
         }
     }
 
-    protected fun checkAndStartActivityWithResult(
+    private fun checkAndStartActivityWithResult(
         screen: SupportAppScreen,
         activityIntent: Intent,
         options: Bundle?,

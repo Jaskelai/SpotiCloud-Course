@@ -1,6 +1,5 @@
 package com.github.kornilovmikhail.spoticloud.data.di
 
-import android.content.Context
 import android.content.SharedPreferences
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
