@@ -67,7 +67,7 @@ class StartFragment : MvpAppCompatFragment(), StartView {
 
     override fun showSnackBar() {
         val snackbar =
-            Snackbar.make(layout_start_coordinator,"", Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(layout_start,"", Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.go_to_app) {
                     startPresenter.onSnackBarClicked()
                 }
