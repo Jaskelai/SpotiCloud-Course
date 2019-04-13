@@ -66,11 +66,16 @@ class StartFragment : MvpAppCompatFragment(), StartView {
     }
 
     override fun showSnackBar() {
-        Snackbar.make(layout_start_coordinator, getString(R.string.go_to_app), Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.go) {
-                startPresenter.onSnackBarClicked()
-            }
-            .show()
+        val snackbar =
+            Snackbar.make(layout_start_coordinator,"", Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.go_to_app) {
+                    startPresenter.onSnackBarClicked()
+                }
+        context?.let {
+            snackbar.setActionTextColor(ContextCompat.getColor(it,R.color.white))
+            snackbar.view.setBackgroundColor(ContextCompat.getColor(it, R.color.colorDarkAccent))
+        }
+        snackbar.show()
     }
 
     companion object {
