@@ -17,10 +17,15 @@ class StartPresenter(private val router: Router, private val spotifyUseCase: Log
         router.navigateToLoginSpotifyScreen(requestCode)
     }
 
+    fun onSnackBarClicked() {
+
+    }
+
     fun onSpotifyLoginResult(any: Any?) {
         val isSuccessful = spotifyUseCase.saveObject(any)
         if (isSuccessful) {
             viewState.disableSpotifyButton()
+            viewState.showSnackBar()
         }
     }
 }

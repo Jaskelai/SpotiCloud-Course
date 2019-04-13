@@ -4,7 +4,7 @@ import com.github.kornilovmikhail.spoticloud.navigation.cicerone.command.Forward
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.screens.SpotifyLoginScreen
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.screens.StartScreen
 import ru.terrakok.cicerone.BaseRouter
-import ru.terrakok.cicerone.commands.Forward
+import ru.terrakok.cicerone.commands.Replace
 import javax.inject.Inject
 
 class RouterCiceroneImpl @Inject constructor(
@@ -13,7 +13,7 @@ class RouterCiceroneImpl @Inject constructor(
 ) : Router, BaseRouter() {
 
     override fun navigateToStartScreen() {
-        executeCommands(Forward(startScreen))
+        executeCommands(Replace(startScreen))
     }
 
     override fun navigateToLoginSpotifyScreen(requestCode: Int) {

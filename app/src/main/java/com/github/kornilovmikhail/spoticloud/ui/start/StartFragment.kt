@@ -14,11 +14,11 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.github.kornilovmikhail.spoticloud.R
 import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.MySupportAppNavigator
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_start.*
 import javax.inject.Inject
 
 class StartFragment : MvpAppCompatFragment(), StartView {
-
     @Inject
     @InjectPresenter
     lateinit var startPresenter: StartPresenter
@@ -63,6 +63,14 @@ class StartFragment : MvpAppCompatFragment(), StartView {
             btn_start_spotify.setBackgroundColor(ContextCompat.getColor(it, R.color.colorGrey))
             tv_start_choice.setTextColor(ContextCompat.getColor(it, R.color.colorGrey))
         }
+    }
+
+    override fun showSnackBar() {
+        Snackbar.make(layout_start_coordinator, getString(R.string.go_to_app), Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.go) {
+                startPresenter.onSnackBarClicked()
+            }
+            .show()
     }
 
     companion object {
