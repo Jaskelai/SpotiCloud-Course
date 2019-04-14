@@ -4,5 +4,9 @@ interface Router {
 
     fun navigateToStartScreen()
 
+    fun navigateToLoginSoundcloudScreen()
+
     fun navigateToLoginSpotifyScreen(requestCode: Int)
+
+    fun back()
 }

@@ -12,4 +12,10 @@
         <item name="android:backgroundTint">@color/colorDarkAccent</item>
     </style>
 
+    <style name="LoginScreenButtons">
+        <item name="android:layout_width">@dimen/startscreen_btns_width</item>
+        <item name="android:layout_height">@dimen/startscreen_btns_height</item>
+        <item name="android:backgroundTint">@color/colorDarkGreen</item>
+    </style>
+
 </resources>

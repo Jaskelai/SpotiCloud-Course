@@ -17,10 +17,10 @@ class SpotifyLoginScreen @Inject constructor(private val request: Authentication
         }
         val bundle = Bundle()
         bundle.putParcelable(REQUEST_KEY, request)
-        return Intent(context, LoginActivity::class.java).apply {
-            putExtra(EXTRA_AUTH_REQUEST, bundle)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        }
+        val intent = Intent(context, LoginActivity::class.java)
+        intent.putExtra(EXTRA_AUTH_REQUEST, bundle)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        return intent
     }
 
     companion object {

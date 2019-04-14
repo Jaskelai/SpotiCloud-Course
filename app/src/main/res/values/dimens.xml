@@ -6,4 +6,6 @@
     <dimen name="startscreen_btns_margins">15dp</dimen>
     <dimen name="startscreen_headings">24sp</dimen>
     <dimen name="startscreen_btns_radius">16dp</dimen>
+    <dimen name="elevation">4dp</dimen>
+    <dimen name="login_soundcloud_logo">150dp</dimen>
 </resources>

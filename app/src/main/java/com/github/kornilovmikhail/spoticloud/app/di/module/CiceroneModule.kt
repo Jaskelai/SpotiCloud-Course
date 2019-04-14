@@ -1,6 +1,7 @@
 package com.github.kornilovmikhail.spoticloud.app.di.module
 
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
+import com.github.kornilovmikhail.spoticloud.navigation.cicerone.screens.SoundcloudLoginScreen
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.screens.SpotifyLoginScreen
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.screens.StartScreen
 import com.github.kornilovmikhail.spoticloud.navigation.router.RouterCiceroneImpl
@@ -15,8 +16,12 @@ class CiceroneModule {
 
     @Provides
     @ApplicationScope
-    fun provideCiceroneRouter(startScreen: StartScreen, spotifyLoginScreen: SpotifyLoginScreen): RouterCiceroneImpl =
-        RouterCiceroneImpl(startScreen, spotifyLoginScreen)
+    fun provideCiceroneRouter(
+        startScreen: StartScreen,
+        spotifyLoginScreen: SpotifyLoginScreen,
+        soundcloudLoginScreen: SoundcloudLoginScreen
+    ): RouterCiceroneImpl =
+        RouterCiceroneImpl(startScreen, spotifyLoginScreen, soundcloudLoginScreen)
 
     @Provides
     @ApplicationScope
@@ -35,4 +40,8 @@ class CiceroneModule {
     @ApplicationScope
     fun provideSpotifyLoginScreen(authenticationRequest: AuthenticationRequest): SpotifyLoginScreen =
         SpotifyLoginScreen(authenticationRequest)
+
+    @Provides
+    @ApplicationScope
+    fun provideSoundcloudLoginScreen(): SoundcloudLoginScreen = SoundcloudLoginScreen()
 }

@@ -8,6 +8,7 @@ import com.github.kornilovmikhail.spoticloud.app.di.module.SharedPrefModule
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.data.di.RepositoryModule
 import com.github.kornilovmikhail.spoticloud.data.di.SpotifyModule
+import com.github.kornilovmikhail.spoticloud.ui.loginsoundcloud.di.component.LoginSoundcloudSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.main.MainActivity
 import com.github.kornilovmikhail.spoticloud.ui.main.di.component.MainSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.start.di.component.StartSubComponent
@@ -25,4 +26,5 @@ interface AppComponent {
 
     fun startSubComponentBuilder(): StartSubComponent.Builder
     fun mainSubComponentBuilder(): MainSubComponent.Builder
+    fun loginSoundcloudSubComponentBuilder(): LoginSoundcloudSubComponent.Builder
 }

@@ -10,7 +10,7 @@ class StartPresenter(private val router: Router, private val spotifyUseCase: Log
     MvpPresenter<StartView>() {
 
     fun onSoundcloudButtonClicked() {
-
+        router.navigateToLoginSoundcloudScreen()
     }
 
     fun onSpotifyButtonClicked(requestCode: Int) {

@@ -6,4 +6,8 @@
     <string name="signin_spotify">Sign in with Spotify</string>
     <string name="start_choice">OR\u002FAND</string>
     <string name="go_to_app">GO TO APP</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="soundcloud_logo">Soundcloud logo</string>
 </resources>
