@@ -18,34 +18,8 @@ class StartPresenter(
     MvpPresenter<StartView>() {
 
     fun onResume() {
-        spotifyUseCase.loadLocalSpotifyToken()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = {
-                    if (it != "") {
-                        viewState.disableSpotifyButton()
-                        viewState.showSnackBar()
-                    }
-                },
-                onError = {
-                    viewState.showErrorMessage()
-                }
-            )
-        soundcloudUseCase.loadLocalSoundCloudToken()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = {
-                    if (it != "") {
-                        viewState.disableSoundCloudButton()
-                        viewState.showSnackBar()
-                    }
-                },
-                onError = {
-                    viewState.showErrorMessage()
-                }
-            )
+        checkSpotify()
+        checkSoundCloud()
     }
 
     fun onSoundcloudButtonClicked() {
@@ -66,5 +40,39 @@ class StartPresenter(
             viewState.disableSpotifyButton()
             viewState.showSnackBar()
         }
+    }
+
+    private fun checkSpotify() {
+        spotifyUseCase.loadLocalSpotifyToken()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onSuccess = {
+                    if (it != "") {
+                        viewState.disableSpotifyButton()
+                        viewState.showSnackBar()
+                    }
+                },
+                onError = {
+                    viewState.showErrorMessage()
+                }
+            )
+    }
+
+    private fun checkSoundCloud() {
+        soundcloudUseCase.loadLocalSoundCloudToken()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onSuccess = {
+                    if (it != "") {
+                        viewState.disableSoundCloudButton()
+                        viewState.showSnackBar()
+                    }
+                },
+                onError = {
+                    viewState.showErrorMessage()
+                }
+            )
     }
 }
