@@ -2,7 +2,6 @@ package com.github.kornilovmikhail.spoticloud.data.repository
 
 import android.content.SharedPreferences
 import io.reactivex.Completable
-import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 

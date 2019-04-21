@@ -1,6 +1,5 @@
 package com.github.kornilovmikhail.spoticloud.ui.loginsoundcloud
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

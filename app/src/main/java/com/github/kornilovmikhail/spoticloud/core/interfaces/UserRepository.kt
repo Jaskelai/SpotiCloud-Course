@@ -1,7 +1,6 @@
 package com.github.kornilovmikhail.spoticloud.core.interfaces
 
 import com.github.kornilovmikhail.spoticloud.core.model.TokenSoundCloud
-import io.reactivex.Maybe
 import io.reactivex.Single
 
 interface UserRepository {

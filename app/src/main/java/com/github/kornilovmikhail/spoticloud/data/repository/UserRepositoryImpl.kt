@@ -4,9 +4,7 @@ import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
 import com.github.kornilovmikhail.spoticloud.core.model.TokenSoundCloud
 import com.github.kornilovmikhail.spoticloud.data.mappers.mapSoundCloudTokenResponseToToken
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
-import io.reactivex.Maybe
 import io.reactivex.Single
-import io.reactivex.rxkotlin.subscribeBy
 
 class UserRepositoryImpl(private val sharedPrefStorage: SharedPrefStorage, private val soundCloudApi: SoundCloudApi) :
     UserRepository {

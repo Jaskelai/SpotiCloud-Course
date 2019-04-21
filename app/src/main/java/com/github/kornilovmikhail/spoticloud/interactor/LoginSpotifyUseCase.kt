@@ -2,9 +2,7 @@ package com.github.kornilovmikhail.spoticloud.interactor
 
 import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
 import com.spotify.sdk.android.authentication.AuthenticationResponse
-import io.reactivex.Maybe
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 
 class LoginSpotifyUseCase(private val userRepository: UserRepository) {
 
