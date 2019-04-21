@@ -63,6 +63,7 @@ dependencies {
     //legacy
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     //moxy
+    implementation "tech.schoolhelper:moxy-x:${moxyX_version}"
     kapt "tech.schoolhelper:moxy-x-compiler:${moxyX_version}"
     implementation "tech.schoolhelper:moxy-x-android:${moxyX_version}"
     implementation "tech.schoolhelper:moxy-x-androidx:${moxyX_version}"

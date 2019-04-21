@@ -3,6 +3,7 @@ package com.github.kornilovmikhail.spoticloud.data.repository
 import android.content.SharedPreferences
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 
 class SharedPrefStorage(private val sharedPreferences: SharedPreferences) {
@@ -14,7 +15,7 @@ class SharedPrefStorage(private val sharedPreferences: SharedPreferences) {
             .subscribe()
     }
 
-    fun readMessage(key: String): Maybe<String> = Maybe.create {
+    fun readMessage(key: String): Single<String> = Single.fromCallable {
         sharedPreferences.getString(key, "")
     }
 }

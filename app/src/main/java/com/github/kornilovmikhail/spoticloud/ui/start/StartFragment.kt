@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_start.*
 import javax.inject.Inject
 
 class StartFragment : MvpAppCompatFragment(), StartView {
+
     @Inject
     @InjectPresenter
     lateinit var startPresenter: StartPresenter
@@ -46,6 +48,11 @@ class StartFragment : MvpAppCompatFragment(), StartView {
         MySupportAppNavigator.setFragment(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        startPresenter.onResume()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
@@ -65,17 +72,29 @@ class StartFragment : MvpAppCompatFragment(), StartView {
         }
     }
 
+    override fun disableSoundCloudButton() {
+        btn_start_soundcloud.isEnabled = false
+        context?.let {
+            btn_start_soundcloud.setBackgroundColor(ContextCompat.getColor(it, R.color.colorGrey))
+            tv_start_choice.setTextColor(ContextCompat.getColor(it, R.color.colorGrey))
+        }
+    }
+
     override fun showSnackBar() {
         val snackbar =
-            Snackbar.make(layout_start,"", Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(layout_start, "", Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.go_to_app) {
                     startPresenter.onSnackBarClicked()
                 }
         context?.let {
-            snackbar.setActionTextColor(ContextCompat.getColor(it,R.color.white))
+            snackbar.setActionTextColor(ContextCompat.getColor(it, R.color.white))
             snackbar.view.setBackgroundColor(ContextCompat.getColor(it, R.color.colorDarkAccent))
         }
         snackbar.show()
+    }
+
+    override fun showErrorMessage() {
+        Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show()
     }
 
     companion object {

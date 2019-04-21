@@ -18,9 +18,4 @@ class LoginSoundcloudModule {
         soundlcloudUseCase: LoginSoundcloudUseCase
     ): SoundcloudLoginPresenter =
         SoundcloudLoginPresenter(router, soundlcloudUseCase)
-
-    @FeatureScope
-    @Provides
-    fun provideSoundcloudLoginUseCase(userRepository: UserRepository): LoginSoundcloudUseCase =
-        LoginSoundcloudUseCase(userRepository)
 }

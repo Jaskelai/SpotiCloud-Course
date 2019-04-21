@@ -6,6 +6,7 @@ import com.spotify.sdk.android.authentication.AuthenticationRequest
 import com.spotify.sdk.android.authentication.AuthenticationResponse
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 
 @Module
 class SpotifyModule {
@@ -13,7 +14,7 @@ class SpotifyModule {
     @Provides
     @ApplicationScope
     fun provideAuthenticationRequest(
-        typeToken: AuthenticationResponse.Type, redirectUri: Uri
+        typeToken: AuthenticationResponse.Type, @Named("SPOTIFY_URI") redirectUri: Uri
     ): AuthenticationRequest =
         AuthenticationRequest.Builder(CLIENT_ID, typeToken, redirectUri.toString())
             .setShowDialog(false)
@@ -23,6 +24,7 @@ class SpotifyModule {
 
     @Provides
     @ApplicationScope
+    @Named("SPOTIFY_URI")
     fun provideRedirectUri(): Uri =
         Uri.Builder()
             .scheme(SCHEME)
@@ -38,6 +40,6 @@ class SpotifyModule {
         private const val SCOPE_USER = "user-read-email"
         private const val SCHEME = "spotify-sdk"
         private const val AUTH = "auth"
-        private const val CLIENT_ID = "089d841ccc194c10a77afad9e1c11d54"
+        private const val CLIENT_ID = "478660842d684ce584e4773733ac3180"
     }
 }

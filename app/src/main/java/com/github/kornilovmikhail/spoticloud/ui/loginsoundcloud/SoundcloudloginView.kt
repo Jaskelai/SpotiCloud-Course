@@ -5,4 +5,11 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(value = AddToEndSingleStrategy::class)
-interface SoundcloudloginView : MvpView
+interface SoundcloudloginView : MvpView {
+
+    fun showProgressBar()
+
+    fun hideProgressBar()
+
+    fun displayError()
+}

@@ -8,5 +8,7 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 interface StartView : MvpView {
 
     fun disableSpotifyButton()
+    fun disableSoundCloudButton()
     fun showSnackBar()
+    fun showErrorMessage()
 }

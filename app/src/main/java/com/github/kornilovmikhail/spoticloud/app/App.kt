@@ -6,6 +6,7 @@ import com.github.kornilovmikhail.spoticloud.app.di.component.DaggerAppComponent
 import com.github.kornilovmikhail.spoticloud.app.di.module.ApplicationModule
 import com.github.kornilovmikhail.spoticloud.app.di.module.CiceroneModule
 import com.github.kornilovmikhail.spoticloud.app.di.module.NavigationModule
+import com.github.kornilovmikhail.spoticloud.app.di.module.RetrofitModule
 import com.github.kornilovmikhail.spoticloud.data.di.SpotifyModule
 
 class App : Application() {
@@ -14,9 +15,6 @@ class App : Application() {
         super.onCreate()
         component = DaggerAppComponent.builder()
             .applicationModule(ApplicationModule(this))
-            .navigationModule(NavigationModule())
-            .ciceroneModule(CiceroneModule())
-            .spotifyModule(SpotifyModule())
             .build()
 
         component.inject(this)

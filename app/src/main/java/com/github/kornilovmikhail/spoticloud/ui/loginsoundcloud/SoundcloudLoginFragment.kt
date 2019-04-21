@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_soundcloud_login.*
 import javax.inject.Inject
 
 class SoundcloudLoginFragment : MvpAppCompatFragment(), SoundcloudloginView {
+
     @Inject
     @InjectPresenter
     lateinit var soundcloudLoginPresenter: SoundcloudLoginPresenter
@@ -43,5 +45,17 @@ class SoundcloudLoginFragment : MvpAppCompatFragment(), SoundcloudloginView {
             val password = et_login_password.text.toString()
             soundcloudLoginPresenter.onSignInClicked(email, password)
         }
+    }
+
+    override fun showProgressBar() {
+        login_soundcloud_progressBar.visibility = ProgressBar.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        login_soundcloud_progressBar.visibility = ProgressBar.INVISIBLE
+    }
+
+    override fun displayError() {
+        tv_login_error.text = getString(R.string.login_error)
     }
 }
