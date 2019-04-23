@@ -24,12 +24,12 @@ class SoundcloudLoginPresenter(private val router: Router, private val soundclou
                 viewState.hideProgressBar()
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy (
-                onSuccess = {
+            .subscribe(
+                {
                     soundcloudUseCase.saveToken(it.accessToken)
                     router.back()
                 },
-                onError = {
+                {
                     viewState.displayError()
                 }
             )

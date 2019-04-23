@@ -1,5 +1,6 @@
 package com.github.kornilovmikhail.spoticloud.data.repository
 
+import com.github.kornilovmikhail.spoticloud.BuildConfig
 import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
 import com.github.kornilovmikhail.spoticloud.core.model.TokenSoundCloud
 import com.github.kornilovmikhail.spoticloud.data.mappers.mapSoundCloudTokenResponseToToken
@@ -14,7 +15,7 @@ class UserRepositoryImpl(private val sharedPrefStorage: SharedPrefStorage, priva
     }
 
     override fun loadSouncloudToken(email: String, password: String): Single<TokenSoundCloud> =
-        soundCloudApi.getToken(email, password, SOUNDCLOUD_CLIENT_ID, SOUNDCLOUD_CLIENT_SECRET, SOUNDCLOUD_GRANT_TYPE)
+        soundCloudApi.getToken(email, password, BuildConfig.SOUNDCLOUD_CLIENT_ID, BuildConfig.SOUNDCLOUD_CLIENT_SECRET, SOUNDCLOUD_GRANT_TYPE)
             .map { mapSoundCloudTokenResponseToToken(it) }
 
     override fun saveSoundCloudToken(token: String) {
@@ -30,7 +31,5 @@ class UserRepositoryImpl(private val sharedPrefStorage: SharedPrefStorage, priva
         private const val TOKEN_SPOTIFY = "TOKEN_SPOTIFY"
         private const val TOKEN_SOUNDCLOUD = "TOKEN_SOUNDCLOUD"
         private const val SOUNDCLOUD_GRANT_TYPE = "password"
-        private const val SOUNDCLOUD_CLIENT_ID = "51762b5b2ec86582ea95a9d816077654"
-        private const val SOUNDCLOUD_CLIENT_SECRET = "9923d03b898d96820129c1b6720d915c"
     }
 }

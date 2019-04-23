@@ -46,14 +46,14 @@ class StartPresenter(
         spotifyUseCase.loadLocalSpotifyToken()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = {
+            .subscribe(
+                {
                     if (it != "") {
                         viewState.disableSpotifyButton()
                         viewState.showSnackBar()
                     }
                 },
-                onError = {
+                {
                     viewState.showErrorMessage()
                 }
             )
@@ -63,14 +63,14 @@ class StartPresenter(
         soundcloudUseCase.loadLocalSoundCloudToken()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onSuccess = {
+            .subscribe(
+                {
                     if (it != "") {
                         viewState.disableSoundCloudButton()
                         viewState.showSnackBar()
                     }
                 },
-                onError = {
+                {
                     viewState.showErrorMessage()
                 }
             )

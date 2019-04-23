@@ -1,5 +1,6 @@
 package com.github.kornilovmikhail.spoticloud.app.di.module
 
+import com.github.kornilovmikhail.spoticloud.BuildConfig
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
 import dagger.Module
@@ -39,9 +40,9 @@ class RetrofitModule {
     @Provides
     @ApplicationScope
     @Named(SOUNDCLOUD_URL)
-    fun provideSoundCloudURL(): String = SOUNDCLOUD_URL
+    fun provideSoundCloudURL(): String = BuildConfig.SOUNDCLOUD_URL
 
     companion object {
-        private const val SOUNDCLOUD_URL = "https://api.soundcloud.com"
+        private const val SOUNDCLOUD_URL = "SOUNDCLOUD_URL"
     }
 }
