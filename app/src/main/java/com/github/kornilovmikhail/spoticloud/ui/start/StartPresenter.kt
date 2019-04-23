@@ -6,15 +6,13 @@ import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSpotifyUseCase
 import com.github.kornilovmikhail.spoticloud.navigation.router.Router
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 @InjectViewState
 class StartPresenter(
     private val router: Router,
     private val spotifyUseCase: LoginSpotifyUseCase,
     private val soundcloudUseCase: LoginSoundcloudUseCase
-) :
-    MvpPresenter<StartView>() {
+) : MvpPresenter<StartView>() {
 
     fun onResume() {
         checkSpotify()
@@ -43,7 +41,6 @@ class StartPresenter(
 
     private fun checkSpotify() {
         spotifyUseCase.loadLocalSpotifyToken()
-            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
@@ -60,7 +57,6 @@ class StartPresenter(
 
     private fun checkSoundCloud() {
         soundcloudUseCase.loadLocalSoundCloudToken()
-            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
