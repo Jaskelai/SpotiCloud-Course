@@ -5,7 +5,6 @@ import com.arellomobile.mvp.MvpPresenter
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
 import com.github.kornilovmikhail.spoticloud.navigation.router.Router
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
 
 @InjectViewState
 class SoundcloudLoginPresenter(private val router: Router, private val soundcloudUseCase: LoginSoundcloudUseCase) :

@@ -15,7 +15,13 @@ class UserRepositoryImpl(private val sharedPrefStorage: SharedPrefStorage, priva
     }
 
     override fun loadSouncloudToken(email: String, password: String): Single<TokenSoundCloud> =
-        soundCloudApi.getToken(email, password, BuildConfig.SOUNDCLOUD_CLIENT_ID, BuildConfig.SOUNDCLOUD_CLIENT_SECRET, SOUNDCLOUD_GRANT_TYPE)
+        soundCloudApi.getToken(
+            email,
+            password,
+            BuildConfig.SOUNDCLOUD_CLIENT_ID,
+            BuildConfig.SOUNDCLOUD_CLIENT_SECRET,
+            SOUNDCLOUD_GRANT_TYPE
+        )
             .map { mapSoundCloudTokenResponseToToken(it) }
 
     override fun saveSoundCloudToken(token: String) {
