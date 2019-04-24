@@ -7,7 +7,6 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.github.kornilovmikhail.spoticloud.R
 import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.MySupportAppNavigator
-import ru.terrakok.cicerone.NavigatorHolder
 import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), MainView {
@@ -15,18 +14,15 @@ class MainActivity : MvpAppCompatActivity(), MainView {
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
 
-    @Inject
-    lateinit var navigatorHolder: NavigatorHolder
+    private val navigator = MySupportAppNavigator(this, R.id.main_container)
 
     @ProvidePresenter
     fun getPresenter(): MainPresenter = mainPresenter
 
-    private val navigator =
-        MySupportAppNavigator(this, R.id.main_container)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         App.component
             .mainSubComponentBuilder()
+            .withActivity(this)
             .build()
             .inject(this)
         super.onCreate(savedInstanceState)
@@ -36,11 +32,11 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     override fun onResume() {
         super.onResume()
-        navigatorHolder.setNavigator(navigator)
+        mainPresenter.setNavigator(navigator)
     }
 
     override fun onPause() {
         super.onPause()
-        navigatorHolder.removeNavigator()
+        mainPresenter.detachNavigator()
     }
 }

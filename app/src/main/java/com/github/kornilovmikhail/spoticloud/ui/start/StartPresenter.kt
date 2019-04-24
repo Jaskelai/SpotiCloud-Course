@@ -6,6 +6,7 @@ import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSpotifyUseCase
 import com.github.kornilovmikhail.spoticloud.navigation.router.Router
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 @InjectViewState
@@ -13,12 +14,17 @@ class StartPresenter(
     private val router: Router,
     private val spotifyUseCase: LoginSpotifyUseCase,
     private val soundcloudUseCase: LoginSoundcloudUseCase
-) :
-    MvpPresenter<StartView>() {
+) : MvpPresenter<StartView>() {
+
+    private val disposables = CompositeDisposable()
 
     fun onResume() {
         checkSpotify()
         checkSoundCloud()
+    }
+
+    fun onDestroyView() {
+        disposables.clear()
     }
 
     fun onSoundcloudButtonClicked() {
@@ -42,36 +48,40 @@ class StartPresenter(
     }
 
     private fun checkSpotify() {
-        spotifyUseCase.loadLocalSpotifyToken()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    if (it != "") {
-                        viewState.disableSpotifyButton()
-                        viewState.showSnackBar()
+        disposables.add(
+            spotifyUseCase.loadLocalSpotifyToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        if (it != "") {
+                            viewState.disableSpotifyButton()
+                            viewState.showSnackBar()
+                        }
+                    },
+                    {
+                        viewState.showErrorMessage()
                     }
-                },
-                {
-                    viewState.showErrorMessage()
-                }
-            )
+                )
+        )
     }
 
     private fun checkSoundCloud() {
-        soundcloudUseCase.loadLocalSoundCloudToken()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    if (it != "") {
-                        viewState.disableSoundCloudButton()
-                        viewState.showSnackBar()
+        disposables.add(
+            soundcloudUseCase.loadLocalSoundCloudToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        if (it != "") {
+                            viewState.disableSoundCloudButton()
+                            viewState.showSnackBar()
+                        }
+                    },
+                    {
+                        viewState.showErrorMessage()
                     }
-                },
-                {
-                    viewState.showErrorMessage()
-                }
-            )
+                )
+        )
     }
 }

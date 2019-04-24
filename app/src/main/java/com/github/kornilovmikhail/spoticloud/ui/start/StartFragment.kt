@@ -53,6 +53,11 @@ class StartFragment : MvpAppCompatFragment(), StartView {
         startPresenter.onResume()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        startPresenter.onDestroyView()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
