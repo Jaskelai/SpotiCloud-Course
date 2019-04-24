@@ -16,4 +16,5 @@ class LoginSoundcloudUseCase(private val userRepository: UserRepository) {
     }
 
     fun loadLocalSoundCloudToken(): Single<String> = userRepository.loadLocalSoundcloudToken()
+        .subscribeOn(Schedulers.io())
 }
