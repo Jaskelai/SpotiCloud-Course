@@ -7,6 +7,7 @@ import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
 import com.github.kornilovmikhail.spoticloud.data.repository.SharedPrefStorage
 import com.github.kornilovmikhail.spoticloud.data.repository.UserRepositoryImpl
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
+import com.github.kornilovmikhail.spoticloud.interactor.LoginUseCase
 import dagger.Module
 import dagger.Provides
 
@@ -27,4 +28,8 @@ class RepositoryModule {
     @ApplicationScope
     fun provideSoundcloudLoginUseCase(userRepository: UserRepository): LoginSoundcloudUseCase =
         LoginSoundcloudUseCase(userRepository)
+
+    @Provides
+    @ApplicationScope
+    fun provideLoginUseCase(userRepository: UserRepository): LoginUseCase = LoginUseCase(userRepository)
 }

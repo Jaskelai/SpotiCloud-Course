@@ -1,15 +1,18 @@
 package com.github.kornilovmikhail.spoticloud.ui.main
 
 import android.os.Bundle
+import android.widget.Toast
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.github.kornilovmikhail.spoticloud.R
 import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.MySupportAppNavigator
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : MvpAppCompatActivity(), MainView {
+
     @Inject
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
@@ -35,8 +38,16 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         mainPresenter.setNavigator(navigator)
     }
 
+    override fun showBottomBar() {
+        vs_bottom_nav.inflate()
+    }
+
     override fun onPause() {
         super.onPause()
         mainPresenter.detachNavigator()
+    }
+
+    override fun showErrorMessage() {
+        Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show()
     }
 }

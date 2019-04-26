@@ -14,4 +14,8 @@ interface UserRepository {
     fun loadLocalSpotifyToken(): Single<String>
 
     fun loadLocalSoundcloudToken(): Single<String>
+
+    fun saveLogged()
+
+    fun checkLogin(): Single<String>
 }

@@ -33,7 +33,15 @@ class UserRepositoryImpl(private val sharedPrefStorage: SharedPrefStorage, priva
     override fun loadLocalSpotifyToken(): Single<String> =
         sharedPrefStorage.readMessage(TOKEN_SPOTIFY)
 
+    override fun saveLogged() {
+        sharedPrefStorage.writeMessage(IS_LOGGED, IS_LOGGED)
+    }
+
+    override fun checkLogin(): Single<String> =
+        sharedPrefStorage.readMessage(IS_LOGGED)
+
     companion object {
+        private const val IS_LOGGED = "IS_LOGGED"
         private const val TOKEN_SPOTIFY = "TOKEN_SPOTIFY"
         private const val TOKEN_SOUNDCLOUD = "TOKEN_SOUNDCLOUD"
         private const val SOUNDCLOUD_GRANT_TYPE = "password"

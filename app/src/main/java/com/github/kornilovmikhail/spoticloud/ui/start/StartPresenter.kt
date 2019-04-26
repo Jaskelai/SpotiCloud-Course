@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSpotifyUseCase
+import com.github.kornilovmikhail.spoticloud.interactor.LoginUseCase
 import com.github.kornilovmikhail.spoticloud.navigation.router.Router
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -13,7 +14,8 @@ import io.reactivex.schedulers.Schedulers
 class StartPresenter(
     private val router: Router,
     private val spotifyUseCase: LoginSpotifyUseCase,
-    private val soundcloudUseCase: LoginSoundcloudUseCase
+    private val soundcloudUseCase: LoginSoundcloudUseCase,
+    private val loginUseCase: LoginUseCase
 ) : MvpPresenter<StartView>() {
 
     private val disposables = CompositeDisposable()
@@ -36,7 +38,8 @@ class StartPresenter(
     }
 
     fun onSnackBarClicked() {
-
+        loginUseCase.saveLogged()
+        router.navigateToTrackList()
     }
 
     fun onSpotifyLoginResult(any: Any?) {
@@ -50,7 +53,6 @@ class StartPresenter(
     private fun checkSpotify() {
         disposables.add(
             spotifyUseCase.loadLocalSpotifyToken()
-                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {

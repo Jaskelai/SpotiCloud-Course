@@ -4,6 +4,7 @@ import com.github.kornilovmikhail.spoticloud.app.di.scope.FeatureScope
 import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSpotifyUseCase
+import com.github.kornilovmikhail.spoticloud.interactor.LoginUseCase
 import com.github.kornilovmikhail.spoticloud.navigation.router.Router
 import com.github.kornilovmikhail.spoticloud.ui.start.StartPresenter
 import dagger.Module
@@ -16,10 +17,11 @@ class StartModule {
     @Provides
     fun provideStartPresenter(
         router: Router,
-        spotifyUseCase: LoginSpotifyUseCase,
-        soundcloudUseCase: LoginSoundcloudUseCase
+        loginSpotifyUseCase: LoginSpotifyUseCase,
+        loginSoundcloudUseCase: LoginSoundcloudUseCase,
+        loginUseCase: LoginUseCase
     ): StartPresenter =
-        StartPresenter(router, spotifyUseCase, soundcloudUseCase)
+        StartPresenter(router, loginSpotifyUseCase, loginSoundcloudUseCase, loginUseCase)
 
     @FeatureScope
     @Provides

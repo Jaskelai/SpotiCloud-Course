@@ -8,5 +8,7 @@ interface Router {
 
     fun navigateToLoginSpotifyScreen(requestCode: Int)
 
+    fun navigateToTrackList()
+
     fun back()
 }
