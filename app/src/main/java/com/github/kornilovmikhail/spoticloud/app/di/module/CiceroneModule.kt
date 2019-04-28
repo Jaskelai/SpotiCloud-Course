@@ -21,7 +21,7 @@ class CiceroneModule {
         trackListScreen: TrackListScreen,
         searchScreen: SearchScreen,
         trendsScreen: TrendsScreen
-        ): RouterCiceroneImpl =
+    ): RouterCiceroneImpl =
         RouterCiceroneImpl(
             startScreen,
             spotifyLoginScreen,

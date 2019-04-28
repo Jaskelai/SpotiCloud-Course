@@ -89,40 +89,41 @@ class MySupportAppNavigator(
     override fun fragmentReplace(command: Replace) {
         val screen = command.screen as SupportAppScreen
         val fragment = createFragment(screen)
-
         if (localStackCopy.size > 0) {
-            fragmentManager?.popBackStack()
-            localStackCopy.removeLast()
-
-            val fragmentTransaction = fragmentManager?.beginTransaction()
-
-            setupFragmentTransaction(
-                command,
-                fragmentManager?.findFragmentById(containerId),
-                fragment,
-                fragmentTransaction
-            )
-
-            fragmentTransaction
-                ?.replace(containerId, fragment, screen.screenKey)
-                ?.addToBackStack(screen.screenKey)
-                ?.commit()
-            localStackCopy.add(screen.screenKey)
-
+            fragmentReplaceExisting(command, screen, fragment)
         } else {
-            val fragmentTransaction = fragmentManager?.beginTransaction()
-
-            setupFragmentTransaction(
-                command,
-                fragmentManager?.findFragmentById(containerId),
-                fragment,
-                fragmentTransaction
-            )
-
-            fragmentTransaction
-                ?.replace(containerId, fragment, screen.screenKey)
-                ?.commit()
+            fragmentReplaceEmpty(command, screen, fragment)
         }
+    }
+
+    private fun fragmentReplaceExisting(command: Replace, screen: SupportAppScreen, fragment: Fragment) {
+        fragmentManager?.popBackStack()
+        localStackCopy.removeLast()
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+        setupFragmentTransaction(
+            command,
+            fragmentManager?.findFragmentById(containerId),
+            fragment,
+            fragmentTransaction
+        )
+        fragmentTransaction
+            ?.replace(containerId, fragment, screen.screenKey)
+            ?.addToBackStack(screen.screenKey)
+            ?.commit()
+        localStackCopy.add(screen.screenKey)
+    }
+
+    private fun fragmentReplaceEmpty(command: Replace, screen: SupportAppScreen, fragment: Fragment) {
+        val fragmentTransaction = fragmentManager?.beginTransaction()
+        setupFragmentTransaction(
+            command,
+            fragmentManager?.findFragmentById(containerId),
+            fragment,
+            fragmentTransaction
+        )
+        fragmentTransaction
+            ?.replace(containerId, fragment, screen.screenKey)
+            ?.commit()
     }
 
     override fun backTo(command: BackTo) {

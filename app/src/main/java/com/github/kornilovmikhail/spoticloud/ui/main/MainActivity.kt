@@ -46,6 +46,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments {
         super.onPause()
         mainPresenter.detachNavigator()
     }
+
     override fun onBackPressed() {
         mainPresenter.onBackPressed()
     }
@@ -69,15 +70,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments {
             showTrackListChose()
             bottomNav.setOnNavigationItemSelectedListener {
                 when (it.itemId) {
-                    R.id.bottom_action_search -> {
-                        mainPresenter.onBottomSearchClicked()
-                    }
-                    R.id.bottom_action_tracks -> {
-                        mainPresenter.onBottomTracksClicked()
-                    }
-                    R.id.bottom_action_trends -> {
-                        mainPresenter.onBottomTrendsClicked()
-                    }
+                    R.id.bottom_action_search -> mainPresenter.onBottomSearchClicked()
+                    R.id.bottom_action_tracks -> mainPresenter.onBottomTracksClicked()
+                    R.id.bottom_action_trends -> mainPresenter.onBottomTrendsClicked()
                 }
                 true
             }
