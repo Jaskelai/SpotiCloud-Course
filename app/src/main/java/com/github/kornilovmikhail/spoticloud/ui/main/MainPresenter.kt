@@ -29,8 +29,7 @@ class MainPresenter @Inject constructor(
                 if (it != "") {
                     router.startAtTrackScreen()
                     queue.add(FragmentBottomEnum.TRACKLIST)
-                    viewState.showBottomBar()
-                    viewState.showToolbar()
+                    showGeneralViews()
                 } else {
                     router.navigateToStartScreen()
                 }
@@ -80,5 +79,10 @@ class MainPresenter @Inject constructor(
         } else {
             router.back()
         }
+    }
+
+    private fun showGeneralViews() {
+        viewState.showBottomBar()
+        viewState.showToolbar()
     }
 }
