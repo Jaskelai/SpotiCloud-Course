@@ -25,17 +25,16 @@ class MainPresenter @Inject constructor(
     fun onCreate() {
         disposables.add(loginUseCase.checkLogin()
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    if (it != "") {
-                        router.startAtTrackScreen()
-                        queue.add(FragmentBottomEnum.TRACKLIST)
-                        viewState.showBottomBar()
-                        viewState.showToolbar()
-                    } else {
-                        router.navigateToStartScreen()
-                    }
-                },
+            .subscribe({
+                if (it != "") {
+                    router.startAtTrackScreen()
+                    queue.add(FragmentBottomEnum.TRACKLIST)
+                    viewState.showBottomBar()
+                    viewState.showToolbar()
+                } else {
+                    router.navigateToStartScreen()
+                }
+            },
                 {
                     viewState.showErrorMessage()
                 }
