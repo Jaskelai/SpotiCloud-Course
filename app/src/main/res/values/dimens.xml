@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="startscreen_btns_height">56dp</dimen>
-    <dimen name="startscreen_btns_width">250dp</dimen>
+    <dimen name="startscreen_btns_width">252dp</dimen>
     <dimen name="startscreen_img_margins">80dp</dimen>
-    <dimen name="startscreen_btns_margins">15dp</dimen>
+    <dimen name="startscreen_btns_margins">16dp</dimen>
     <dimen name="startscreen_headings">24sp</dimen>
     <dimen name="startscreen_btns_radius">16dp</dimen>
     <dimen name="elevation">4dp</dimen>
-    <dimen name="login_soundcloud_logo">150dp</dimen>
+    <dimen name="login_soundcloud_logo">152dp</dimen>
 </resources>

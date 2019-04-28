@@ -1,7 +1,6 @@
 package com.github.kornilovmikhail.spoticloud.ui.start.di.module
 
 import com.github.kornilovmikhail.spoticloud.app.di.scope.FeatureScope
-import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSpotifyUseCase
 import com.github.kornilovmikhail.spoticloud.interactor.LoginUseCase
@@ -22,9 +21,4 @@ class StartModule {
         loginUseCase: LoginUseCase
     ): StartPresenter =
         StartPresenter(router, loginSpotifyUseCase, loginSoundcloudUseCase, loginUseCase)
-
-    @FeatureScope
-    @Provides
-    fun provideSpotifyLoginUseCase(userRepository: UserRepository): LoginSpotifyUseCase =
-        LoginSpotifyUseCase(userRepository)
 }

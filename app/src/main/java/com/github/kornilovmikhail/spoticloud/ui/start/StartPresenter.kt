@@ -39,7 +39,9 @@ class StartPresenter(
 
     fun onSnackBarClicked() {
         loginUseCase.saveLogged()
-        router.navigateToTrackList()
+        router.startAtTrackScreen()
+        viewState.showBottomBar()
+        viewState.showToolbar()
     }
 
     fun onSpotifyLoginResult(any: Any?) {

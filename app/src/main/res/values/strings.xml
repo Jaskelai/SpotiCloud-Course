@@ -11,11 +11,10 @@
     <string name="password">Password</string>
     <string name="soundcloud_logo">Soundcloud logo</string>
     <string name="login_error">Wrong email or password</string>
-    <string name="error">Something went wrong...</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error">Something went wrong…</string>
     <string name="search">Search</string>
     <string name="your_tracks">Your tracks</string>
     <string name="trends">Trends</string>
+    <string name="settings">Settings</string>
+    <string name="sort">Sort</string>
 </resources>

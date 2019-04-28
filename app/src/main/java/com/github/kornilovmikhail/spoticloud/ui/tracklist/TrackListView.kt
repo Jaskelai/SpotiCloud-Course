@@ -1,4 +1,5 @@
 package com.github.kornilovmikhail.spoticloud.ui.tracklist
 
-class TrackListView {
-}
+import com.arellomobile.mvp.MvpView
+
+interface TrackListView : MvpView

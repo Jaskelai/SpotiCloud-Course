@@ -11,4 +11,6 @@ interface StartView : MvpView {
     fun disableSoundCloudButton()
     fun showSnackBar()
     fun showErrorMessage()
+    fun showBottomBar()
+    fun showToolbar()
 }

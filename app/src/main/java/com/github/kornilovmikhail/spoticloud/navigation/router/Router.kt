@@ -10,5 +10,13 @@ interface Router {
 
     fun navigateToTrackList()
 
+    fun navigateToSearch()
+
+    fun navigateToTrends()
+
+    fun startAtTrackScreen()
+
     fun back()
+
+    fun exit()
 }

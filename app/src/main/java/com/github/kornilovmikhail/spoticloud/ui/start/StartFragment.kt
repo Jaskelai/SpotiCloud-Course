@@ -15,6 +15,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.github.kornilovmikhail.spoticloud.R
 import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.MySupportAppNavigator
+import com.github.kornilovmikhail.spoticloud.ui.main.CallbackFromFragments
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_start.*
 import javax.inject.Inject
@@ -24,6 +25,8 @@ class StartFragment : MvpAppCompatFragment(), StartView {
     @Inject
     @InjectPresenter
     lateinit var startPresenter: StartPresenter
+
+    private var callback: CallbackFromFragments? = null
 
     @ProvidePresenter
     fun getPresenter(): StartPresenter = startPresenter
@@ -41,6 +44,11 @@ class StartFragment : MvpAppCompatFragment(), StartView {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_start, container, false)
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        callback = context as CallbackFromFragments
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_start_soundcloud.setOnClickListener { startPresenter.onSoundcloudButtonClicked() }
@@ -51,6 +59,11 @@ class StartFragment : MvpAppCompatFragment(), StartView {
     override fun onResume() {
         super.onResume()
         startPresenter.onResume()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback = null
     }
 
     override fun onDestroy() {
@@ -100,6 +113,14 @@ class StartFragment : MvpAppCompatFragment(), StartView {
 
     override fun showErrorMessage() {
         Toast.makeText(context, getString(R.string.error), Toast.LENGTH_SHORT).show()
+    }
+
+    override fun showBottomBar() {
+        callback?.enableBottomNavBar()
+    }
+
+    override fun showToolbar() {
+        callback?.enableToolbar()
     }
 
     companion object {

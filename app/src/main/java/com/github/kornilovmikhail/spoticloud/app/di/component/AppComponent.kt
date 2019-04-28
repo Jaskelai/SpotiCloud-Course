@@ -9,6 +9,7 @@ import com.github.kornilovmikhail.spoticloud.ui.loginsoundcloud.di.component.Log
 import com.github.kornilovmikhail.spoticloud.ui.main.MainActivity
 import com.github.kornilovmikhail.spoticloud.ui.main.di.component.MainSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.start.di.component.StartSubComponent
+import com.github.kornilovmikhail.spoticloud.ui.tracklist.di.component.TrackListSubComponent
 import dagger.Component
 
 @ApplicationScope
@@ -24,4 +25,5 @@ interface AppComponent {
     fun startSubComponentBuilder(): StartSubComponent.Builder
     fun mainSubComponentBuilder(): MainSubComponent.Builder
     fun loginSoundcloudSubComponentBuilder(): LoginSoundcloudSubComponent.Builder
+    fun trackListSubComponentBuilder(): TrackListSubComponent.Builder
 }

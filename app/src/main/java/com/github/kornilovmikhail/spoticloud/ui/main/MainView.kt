@@ -10,4 +10,12 @@ interface MainView : MvpView {
     fun showErrorMessage()
 
     fun showBottomBar()
+
+    fun showToolbar()
+
+    fun showSearchChose()
+
+    fun showTrackListChose()
+
+    fun showTrendsChose()
 }
