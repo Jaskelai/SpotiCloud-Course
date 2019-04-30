@@ -20,9 +20,6 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments {
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
 
-    //    @Inject
-    //    lateinit var navigator: MySupportAppNavigator
-
     private val navigator = MySupportAppNavigator(this, R.id.main_container)
 
     private lateinit var bottomNav: BottomNavigationView

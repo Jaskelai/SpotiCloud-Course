@@ -7,7 +7,7 @@ import com.github.kornilovmikhail.spoticloud.navigation.router.Router
 import com.github.kornilovmikhail.spoticloud.navigation.router.RouterCiceroneImpl
 import dagger.Module
 import dagger.Provides
-import java.util.*
+import java.util.LinkedList
 
 @Module
 class NavigationModule {

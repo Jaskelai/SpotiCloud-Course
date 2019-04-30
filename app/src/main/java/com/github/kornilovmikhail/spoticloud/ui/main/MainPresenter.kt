@@ -9,7 +9,7 @@ import com.github.kornilovmikhail.spoticloud.navigation.router.Router
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import ru.terrakok.cicerone.NavigatorHolder
-import java.util.*
+import java.util.LinkedList
 import javax.inject.Inject
 
 @InjectViewState

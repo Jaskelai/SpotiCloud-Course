@@ -1,6 +1,6 @@
 package com.github.kornilovmikhail.spoticloud.navigation
 
-import java.util.*
+import java.util.LinkedList
 
 class LimitedUniqueQueue<E : Any>(private val limit: Int) : LinkedList<E>() {
 
