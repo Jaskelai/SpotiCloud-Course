@@ -68,7 +68,7 @@ class StartFragment : MvpAppCompatFragment(), StartView {
 
     override fun onDestroy() {
         super.onDestroy()
-        startPresenter.onDestroyView()
+        startPresenter.onCleared()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -25,10 +25,6 @@ class StartPresenter(
         checkSoundCloud()
     }
 
-    fun onDestroyView() {
-        disposables.clear()
-    }
-
     fun onSoundcloudButtonClicked() {
         router.navigateToLoginSoundcloudScreen()
     }
@@ -49,6 +45,12 @@ class StartPresenter(
         if (isSuccessful) {
             viewState.disableSpotifyButton()
             viewState.showSnackBar()
+        }
+    }
+
+    fun onCleared() {
+        if (!disposables.isDisposed) {
+            disposables.dispose()
         }
     }
 

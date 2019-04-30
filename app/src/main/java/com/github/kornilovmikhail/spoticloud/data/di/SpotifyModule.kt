@@ -19,7 +19,7 @@ class SpotifyModule {
     ): AuthenticationRequest =
         AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID, typeToken, redirectUri.toString())
             .setShowDialog(false)
-            .setScopes(arrayOf(SCOPE_USER))
+            .setScopes(arrayOf(SCOPE_LIBRARY_MODIFY, SCOPE_USER_READ_PRIVATE, SCOPE_LIBRARY_READ))
             .setCampaign(CAMPAIGN)
             .build()
 
@@ -38,7 +38,9 @@ class SpotifyModule {
 
     companion object {
         private const val CAMPAIGN = "your-campaign-token"
-        private const val SCOPE_USER = "user-read-email"
+        private const val SCOPE_LIBRARY_READ = "user-library-read"
+        private const val SCOPE_LIBRARY_MODIFY = "user-library-modify"
+        private const val SCOPE_USER_READ_PRIVATE = "user-read-private"
         private const val SCHEME = "spotify-sdk"
         private const val AUTH = "auth"
     }

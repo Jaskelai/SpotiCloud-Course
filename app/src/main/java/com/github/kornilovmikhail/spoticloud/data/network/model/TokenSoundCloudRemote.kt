@@ -2,7 +2,7 @@ package com.github.kornilovmikhail.spoticloud.data.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class TokenSoundCloudResponse(
+data class TokenSoundCloudRemote(
     @SerializedName("access_token")
     val accessToken: String,
 

@@ -48,7 +48,7 @@ class SoundcloudLoginFragment : MvpAppCompatFragment(), SoundcloudloginView {
 
     override fun onDestroy() {
         super.onDestroy()
-        soundcloudLoginPresenter.onDestroyView()
+        soundcloudLoginPresenter.onCleared()
     }
 
     override fun showProgressBar() {

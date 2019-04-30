@@ -5,6 +5,8 @@ import com.github.kornilovmikhail.spoticloud.app.di.component.AppComponent
 import com.github.kornilovmikhail.spoticloud.app.di.component.DaggerAppComponent
 import com.github.kornilovmikhail.spoticloud.app.di.module.ApplicationModule
 
+
+
 class App : Application() {
 
     override fun onCreate() {
@@ -12,7 +14,6 @@ class App : Application() {
         component = DaggerAppComponent.builder()
             .applicationModule(ApplicationModule(this))
             .build()
-
         component.inject(this)
     }
 

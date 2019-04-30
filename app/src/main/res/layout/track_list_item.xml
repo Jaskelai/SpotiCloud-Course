@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rv_track_item_height">
+
+    <ImageView
+            android:id="@+id/img_list_track_item_cover"
+            android:src="@drawable/soundcloudlogo"
+            android:layout_width="@dimen/rv_track_item_cover_size"
+            android:layout_height="@dimen/rv_track_item_cover_size"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/track_cover"
+            android:layout_marginStart="@dimen/rv_track_item_cover_padding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+            android:id="@+id/tv_list_track_item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/rv_track_item_cover_padding"
+            app:layout_constraintTop_toTopOf="@id/img_list_track_item_cover"
+            app:layout_constraintStart_toEndOf="@id/img_list_track_item_cover"/>
+
+    <TextView
+            android:id="@+id/tv_list_track_item_author"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_list_track_item_title"
+            app:layout_constraintStart_toStartOf="@id/tv_list_track_item_title"/>
+
+    <ImageView
+            android:id="@+id/img_list_track_item_source"
+            android:src="@drawable/soundcloudlogo"
+            android:layout_width="@dimen/rv_track_item_source_size"
+            android:layout_height="@dimen/rv_track_item_source_size"
+            android:scaleType="fitCenter"
+            android:contentDescription="@string/track_cover"
+            android:layout_marginEnd="@dimen/rv_track_item_cover_padding"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

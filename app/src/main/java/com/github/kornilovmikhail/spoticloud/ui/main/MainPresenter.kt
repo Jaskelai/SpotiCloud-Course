@@ -41,6 +41,12 @@ class MainPresenter @Inject constructor(
         )
     }
 
+    fun onCleared() {
+        if (!disposables.isDisposed) {
+            disposables.dispose()
+        }
+    }
+
     fun setNavigator(navigator: MySupportAppNavigator) {
         navigatorHolder.setNavigator(navigator)
     }

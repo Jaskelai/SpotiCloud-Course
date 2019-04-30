@@ -20,7 +20,11 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments {
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
 
+    //    @Inject
+    //    lateinit var navigator: MySupportAppNavigator
+
     private val navigator = MySupportAppNavigator(this, R.id.main_container)
+
     private lateinit var bottomNav: BottomNavigationView
 
     @ProvidePresenter
@@ -45,6 +49,11 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments {
     override fun onPause() {
         super.onPause()
         mainPresenter.detachNavigator()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainPresenter.onCleared()
     }
 
     override fun onBackPressed() {

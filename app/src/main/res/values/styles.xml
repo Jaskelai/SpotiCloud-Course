@@ -25,6 +25,7 @@
 
     <style name="ThemeOverlay.MyToolbarMenuTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:colorBackground">@color/white</item>
     </style>
 
 </resources>

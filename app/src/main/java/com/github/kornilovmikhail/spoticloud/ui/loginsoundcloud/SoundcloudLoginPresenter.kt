@@ -37,7 +37,7 @@ class SoundcloudLoginPresenter(private val router: Router, private val soundclou
             ))
     }
 
-    fun onDestroyView() {
+    fun onCleared() {
         disposables.clear()
     }
 }
