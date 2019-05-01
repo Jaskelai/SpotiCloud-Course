@@ -3,7 +3,7 @@ package com.github.kornilovmikhail.spoticloud.data.network.model
 import com.google.gson.annotations.SerializedName
 
 data class TrackSoundcloudRemote(
-    val id: Long,
+    val id: Int,
 
     val duration: Int,
 
@@ -24,5 +24,6 @@ data class TrackSoundcloudRemote(
     @SerializedName("stream_url")
     val streamUrl: String,
 
-    val user: AuthorSoundcloudRemote
+    @SerializedName("user")
+    val author: AuthorSoundcloudRemote
 )

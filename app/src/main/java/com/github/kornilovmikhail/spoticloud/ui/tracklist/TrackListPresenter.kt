@@ -35,7 +35,11 @@ class TrackListPresenter(
             tracksUseCase.loadTracks(token)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    viewState.showTracks(it)
+                    if (it.isEmpty()) {
+                        println("IT IS EMPTY")
+                    } else {
+                        viewState.showTracks(it)
+                    }
                 }, {
 
                 })

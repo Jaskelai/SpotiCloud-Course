@@ -15,7 +15,7 @@ import dagger.Component
 @ApplicationScope
 @Component(
     modules = [ApplicationModule::class, NavigationModule::class, CiceroneModule::class, SpotifyModule::class,
-        SharedPrefModule::class, RepositoryModule::class, RetrofitModule::class]
+        SharedPrefModule::class, RepositoryModule::class, RetrofitModule::class, RoomModule::class]
 )
 interface AppComponent {
 

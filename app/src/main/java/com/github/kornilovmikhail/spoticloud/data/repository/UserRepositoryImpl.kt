@@ -3,7 +3,7 @@ package com.github.kornilovmikhail.spoticloud.data.repository
 import com.github.kornilovmikhail.spoticloud.BuildConfig
 import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
 import com.github.kornilovmikhail.spoticloud.core.model.TokenSoundCloud
-import com.github.kornilovmikhail.spoticloud.data.mappers.mapSoundCloudTokenResponseToToken
+import com.github.kornilovmikhail.spoticloud.data.mappers.mapSoundCloudTokenRemoteToToken
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
 import io.reactivex.Single
 
@@ -22,7 +22,7 @@ class UserRepositoryImpl(private val sharedPrefStorage: SharedPrefStorage, priva
             BuildConfig.SOUNDCLOUD_CLIENT_SECRET,
             SOUNDCLOUD_GRANT_TYPE
         )
-            .map { mapSoundCloudTokenResponseToToken(it) }
+            .map { mapSoundCloudTokenRemoteToToken(it) }
 
     override fun saveSoundCloudToken(token: String) {
         sharedPrefStorage.writeMessage(TOKEN_SOUNDCLOUD, token)

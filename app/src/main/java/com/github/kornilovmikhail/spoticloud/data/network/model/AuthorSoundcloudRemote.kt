@@ -3,7 +3,7 @@ package com.github.kornilovmikhail.spoticloud.data.network.model
 import com.google.gson.annotations.SerializedName
 
 data class AuthorSoundcloudRemote(
-    val id: Long,
+    val id: Int,
 
     val username: String,
 

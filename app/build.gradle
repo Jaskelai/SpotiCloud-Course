@@ -48,6 +48,7 @@ detekt {
 
 dependencies {
     def dagger_version = "2.21"
+    def room_version = "2.0.0"
     def cicerone_version = "5.0.0"
     def support_version = "1.0.2"
     def recycler_version = "1.0.0"
@@ -97,6 +98,10 @@ dependencies {
     //rx
     implementation "io.reactivex.rxjava2:rxkotlin:${rxkotlin_version}"
     implementation "io.reactivex.rxjava2:rxandroid:${rxandroid_version}"
+    //room
+    implementation "androidx.room:room-runtime:${room_version}"
+    implementation "androidx.room:room-rxjava2:${room_version}"
+    kapt "androidx.room:room-compiler:${room_version}"
     //spotify auth
     implementation "com.spotify.android:auth:${spotifyauth_version}"
 }

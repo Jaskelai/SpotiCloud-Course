@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.core.interfaces.TrackRepository
 import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
+import com.github.kornilovmikhail.spoticloud.data.db.dao.TrackSoundCloudDAO
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
 import com.github.kornilovmikhail.spoticloud.data.repository.SharedPrefStorage
 import com.github.kornilovmikhail.spoticloud.data.repository.TrackRepositorySoundcloudImpl
@@ -25,8 +26,11 @@ class RepositoryModule {
     @Provides
     @ApplicationScope
     @Named(SOUNDCLOUD_TRACK_REPOSITORY)
-    fun provideSoundcloudRepository(soundCloudApi: SoundCloudApi): TrackRepository =
-        TrackRepositorySoundcloudImpl(soundCloudApi)
+    fun provideSoundcloudRepository(
+        soundCloudApi: SoundCloudApi,
+        trackSoundCloudDao: TrackSoundCloudDAO
+    ): TrackRepository =
+        TrackRepositorySoundcloudImpl(soundCloudApi, trackSoundCloudDao)
 
     @Provides
     @ApplicationScope
