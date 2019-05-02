@@ -60,7 +60,7 @@ dependencies {
     def retrofit2_version = "2.5.0"
     def rxandroid_version = "2.1.0"
     def rxkotlin_version = "2.3.0"
-    def paging_version = "2.1.0"
+    def picasso_version = "2.71828"
     def spotifyauth_version = "1.1.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //kotlin
@@ -71,8 +71,6 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:${recycler_version}"
     //core-ktx
     implementation "androidx.core:core-ktx:${coreKTX_version}"
-    //paging library
-    implementation "androidx.paging:paging-runtime:${paging_version}"
     //legacy
     implementation "androidx.legacy:legacy-support-v4:${legacy_verison}"
     //constraint layout
@@ -102,6 +100,8 @@ dependencies {
     implementation "androidx.room:room-runtime:${room_version}"
     implementation "androidx.room:room-rxjava2:${room_version}"
     kapt "androidx.room:room-compiler:${room_version}"
+    //Picasso
+    implementation "com.squareup.picasso:picasso:${picasso_version}"
     //spotify auth
     implementation "com.spotify.android:auth:${spotifyauth_version}"
 }

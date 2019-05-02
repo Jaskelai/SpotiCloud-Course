@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class AuthorDB (
-    @ColumnInfo(index = true)
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(index = true)
     val id: Int,
 
     val username: String,

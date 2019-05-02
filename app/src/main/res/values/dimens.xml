@@ -11,6 +11,6 @@
     <dimen name="rv_track_item_height">72dp</dimen>
     <dimen name="rv_track_item_cover_padding">16dp</dimen>
     <dimen name="rv_track_item_cover_width">36dp</dimen>
-    <dimen name="rv_track_item_cover_size">40dp</dimen>
-    <dimen name="rv_track_item_source_size">24dp</dimen>
+    <dimen name="rv_track_item_cover_size">48dp</dimen>
+    <dimen name="rv_track_item_source_size">32dp</dimen>
 </resources>

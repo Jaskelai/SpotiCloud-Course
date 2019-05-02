@@ -17,4 +17,7 @@ interface TrackSoundCloudDAO {
 
     @Query("SELECT * FROM track_soundcloud WHERE id = :id")
     fun findTrackById(id: Int): Single<TrackSoundCloudDB>
+
+    @Query("DELETE FROM track_soundcloud")
+    fun deleteAllTracks()
 }

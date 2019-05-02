@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import ru.terrakok.cicerone.NavigatorHolder
 import java.util.LinkedList
 import javax.inject.Inject
+import kotlin.collections.LinkedHashSet
 
 @InjectViewState
 class MainPresenter @Inject constructor(

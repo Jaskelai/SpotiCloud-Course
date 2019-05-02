@@ -7,5 +7,5 @@ import io.reactivex.Single
 class TrackRepositorySpotifyImpl() :
     TrackRepository {
 
-    override fun loadTracks(token: String): Single<List<Track>> = Single.just(null)
+    override fun getTracks(token: String): Single<List<Track>> = Single.just(null)
 }

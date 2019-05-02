@@ -5,5 +5,5 @@ import io.reactivex.Single
 
 interface TrackRepository {
 
-    fun loadTracks(token: String): Single<List<Track>>
+    fun getTracks(token: String): Single<List<Track>>
 }

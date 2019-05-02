@@ -8,6 +8,6 @@ class TracksUseCase(
     private val tracksSpotifyUseCase: TracksSpotifyUseCase
 ) {
 
-    fun loadTracks(token: String): Single<List<Track>> =
-        tracksSoundcloudUseCase.loadTracks(token)
+    fun getTracks(): Single<List<Track>> =
+        tracksSoundcloudUseCase.getTracks()
 }

@@ -5,6 +5,7 @@ import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,6 +37,11 @@ class RetrofitModule {
     @Provides
     @ApplicationScope
     fun provideRxJava2CallAdapterFactory(): RxJava2CallAdapterFactory = RxJava2CallAdapterFactory.create()
+
+    @Provides
+    @ApplicationScope
+    fun provideOkHttpClient(): OkHttpClient =
+        OkHttpClient.Builder().build()
 
     @Provides
     @ApplicationScope

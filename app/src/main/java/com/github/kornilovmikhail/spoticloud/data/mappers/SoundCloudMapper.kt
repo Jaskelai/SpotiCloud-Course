@@ -1,6 +1,7 @@
 package com.github.kornilovmikhail.spoticloud.data.mappers
 
 import com.github.kornilovmikhail.spoticloud.core.model.Author
+import com.github.kornilovmikhail.spoticloud.core.model.StreamServiceEnum
 import com.github.kornilovmikhail.spoticloud.core.model.TokenSoundCloud
 import com.github.kornilovmikhail.spoticloud.core.model.Track
 import com.github.kornilovmikhail.spoticloud.data.db.model.TrackSoundCloudDB
@@ -19,11 +20,12 @@ fun mapSoundCloudTrackRemoteToTrack(soundcloudTrack: TrackSoundcloudRemote): Tra
             0,
             title,
             duration,
+            StreamServiceEnum.SOUNDCLOUD,
             originalContentSize,
             genre,
             description,
             uri,
-            permalinkUrl,
+            artworkUrl,
             streamUrl,
             mapSoundCloudAuthorRemoteToAuthor(author)
         )
@@ -36,7 +38,19 @@ fun mapSoundCloudAuthorRemoteToAuthor(authorSoundcloudRemote: AuthorSoundcloudRe
 
 fun mapSoundCloudTrackDBToTrack(trackSoundCloudDB: TrackSoundCloudDB) =
     with(trackSoundCloudDB) {
-        Track(id, title, duration, originalContentSize, genre, description, uri, permalink, streamUrl, author)
+        Track(
+            id,
+            title,
+            duration,
+            streamService,
+            originalContentSize,
+            genre,
+            description,
+            uri,
+            artworkUrl,
+            streamUrl,
+            author
+        )
     }
 
 fun mapTrackToSoundCloudTrackDB(track: Track): TrackSoundCloudDB =
@@ -45,11 +59,12 @@ fun mapTrackToSoundCloudTrackDB(track: Track): TrackSoundCloudDB =
             0,
             title,
             duration,
+            streamService,
             originalContentSize,
             genre,
             description,
             uri,
-            permalink,
+            artworkUrl,
             streamUrl,
             author
         )

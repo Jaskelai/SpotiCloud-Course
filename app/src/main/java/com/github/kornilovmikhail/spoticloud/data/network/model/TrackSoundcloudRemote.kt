@@ -18,8 +18,8 @@ data class TrackSoundcloudRemote(
 
     val uri: String,
 
-    @SerializedName("permalink_url")
-    val permalinkUrl: String,
+    @SerializedName("artwork_url")
+    val artworkUrl: String?,
 
     @SerializedName("stream_url")
     val streamUrl: String,

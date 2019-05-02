@@ -53,9 +53,10 @@ class RepositoryModule {
     @Provides
     @ApplicationScope
     fun provideTracksSoundcloudUseCase(
+        loginSoundcloudUseCase: LoginSoundcloudUseCase,
         @Named(SOUNDCLOUD_TRACK_REPOSITORY) trackSoundcloudRepository: TrackRepository
     ): TracksSoundcloudUseCase =
-        TracksSoundcloudUseCase(trackSoundcloudRepository)
+        TracksSoundcloudUseCase(loginSoundcloudUseCase, trackSoundcloudRepository)
 
     @Provides
     @ApplicationScope

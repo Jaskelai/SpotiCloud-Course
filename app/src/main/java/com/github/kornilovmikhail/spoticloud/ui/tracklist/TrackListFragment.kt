@@ -65,6 +65,14 @@ class TrackListFragment : MvpAppCompatFragment(), TrackListView {
         }
     }
 
+    override fun showProgressBar() {
+        progressBar_list.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressBar() {
+        progressBar_list.visibility = View.INVISIBLE
+    }
+
     private val trackClickListener: (Track?) -> Unit = {
         trackListPresenter.onTrackClicked(it)
     }

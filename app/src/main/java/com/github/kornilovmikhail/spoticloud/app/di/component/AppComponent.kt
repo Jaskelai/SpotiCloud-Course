@@ -10,12 +10,13 @@ import com.github.kornilovmikhail.spoticloud.ui.main.MainActivity
 import com.github.kornilovmikhail.spoticloud.ui.main.di.component.MainSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.start.di.component.StartSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.tracklist.di.component.TrackListSubComponent
+import com.squareup.picasso.Picasso
 import dagger.Component
 
 @ApplicationScope
 @Component(
     modules = [ApplicationModule::class, NavigationModule::class, CiceroneModule::class, SpotifyModule::class,
-        SharedPrefModule::class, RepositoryModule::class, RetrofitModule::class, RoomModule::class]
+        SharedPrefModule::class, RepositoryModule::class, RetrofitModule::class, RoomModule::class, PicassoModule::class]
 )
 interface AppComponent {
 
@@ -26,4 +27,6 @@ interface AppComponent {
     fun mainSubComponentBuilder(): MainSubComponent.Builder
     fun loginSoundcloudSubComponentBuilder(): LoginSoundcloudSubComponent.Builder
     fun trackListSubComponentBuilder(): TrackListSubComponent.Builder
+
+    fun providePicasso(): Picasso
 }

@@ -8,4 +8,8 @@ interface TrackListView : MvpView {
     fun showErrorMessage()
 
     fun showTracks(tracks: List<Track>)
+
+    fun showProgressBar()
+
+    fun hideProgressBar()
 }

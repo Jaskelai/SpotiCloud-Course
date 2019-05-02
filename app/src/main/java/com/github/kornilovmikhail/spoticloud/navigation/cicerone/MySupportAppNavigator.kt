@@ -12,7 +12,7 @@ import com.github.kornilovmikhail.spoticloud.navigation.cicerone.command.SingleF
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.android.support.SupportAppScreen
 import ru.terrakok.cicerone.commands.*
-import java.util.*
+import java.util.LinkedList
 
 class MySupportAppNavigator(
     private val activity: FragmentActivity?,

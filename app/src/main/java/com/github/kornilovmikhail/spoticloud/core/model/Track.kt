@@ -7,6 +7,8 @@ data class Track(
 
     val duration: Int,
 
+    val streamService: StreamServiceEnum,
+
     val originalContentSize: Int,
 
     val genre: String,
@@ -15,7 +17,7 @@ data class Track(
 
     val uri: String,
 
-    val permalink: String,
+    val artworkUrl: String?,
 
     val streamUrl: String,
 

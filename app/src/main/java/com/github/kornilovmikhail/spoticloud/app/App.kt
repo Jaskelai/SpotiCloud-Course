@@ -4,8 +4,7 @@ import android.app.Application
 import com.github.kornilovmikhail.spoticloud.app.di.component.AppComponent
 import com.github.kornilovmikhail.spoticloud.app.di.component.DaggerAppComponent
 import com.github.kornilovmikhail.spoticloud.app.di.module.ApplicationModule
-
-
+import com.squareup.picasso.Picasso
 
 class App : Application() {
 
@@ -14,6 +13,7 @@ class App : Application() {
         component = DaggerAppComponent.builder()
             .applicationModule(ApplicationModule(this))
             .build()
+        Picasso.setSingletonInstance(component.providePicasso())
         component.inject(this)
     }
 

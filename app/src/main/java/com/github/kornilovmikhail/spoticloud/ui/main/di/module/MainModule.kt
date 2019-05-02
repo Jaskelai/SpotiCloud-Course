@@ -11,7 +11,7 @@ import com.github.kornilovmikhail.spoticloud.ui.main.MainPresenter
 import dagger.Module
 import dagger.Provides
 import ru.terrakok.cicerone.NavigatorHolder
-import java.util.*
+import java.util.LinkedList
 
 @Module
 class MainModule {

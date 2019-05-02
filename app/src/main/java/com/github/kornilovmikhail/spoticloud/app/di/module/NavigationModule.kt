@@ -18,6 +18,6 @@ class NavigationModule {
 
     @Provides
     @ApplicationScope
-    fun provideLimitedUniqueQueue(): LinkedList<FragmentBottomEnum> =
+    fun provideLinkedSetWithGetLast(): LinkedList<FragmentBottomEnum> =
         LimitedUniqueQueue(FragmentBottomEnum.values().size)
 }

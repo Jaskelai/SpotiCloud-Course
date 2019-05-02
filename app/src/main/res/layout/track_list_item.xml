@@ -6,8 +6,7 @@
         android:layout_height="@dimen/rv_track_item_height">
 
     <ImageView
-            android:id="@+id/img_list_track_item_cover"
-            android:src="@drawable/soundcloudlogo"
+            android:id="@+id/iv_list_track_item_cover"
             android:layout_width="@dimen/rv_track_item_cover_size"
             android:layout_height="@dimen/rv_track_item_cover_size"
             android:scaleType="fitCenter"
@@ -22,8 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/rv_track_item_cover_padding"
-            app:layout_constraintTop_toTopOf="@id/img_list_track_item_cover"
-            app:layout_constraintStart_toEndOf="@id/img_list_track_item_cover"/>
+            app:layout_constraintTop_toTopOf="@id/iv_list_track_item_cover"
+            app:layout_constraintStart_toEndOf="@id/iv_list_track_item_cover"/>
 
     <TextView
             android:id="@+id/tv_list_track_item_author"
@@ -33,7 +32,7 @@
             app:layout_constraintStart_toStartOf="@id/tv_list_track_item_title"/>
 
     <ImageView
-            android:id="@+id/img_list_track_item_source"
+            android:id="@+id/iv_list_track_item_source"
             android:src="@drawable/soundcloudlogo"
             android:layout_width="@dimen/rv_track_item_source_size"
             android:layout_height="@dimen/rv_track_item_source_size"
