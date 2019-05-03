@@ -1,8 +1,8 @@
-package com.github.kornilovmikhail.spoticloud.data.network.model
+package com.github.kornilovmikhail.spoticloud.data.network.model.soundcloud
 
 import com.google.gson.annotations.SerializedName
 
-data class TrackSoundcloudRemote(
+data class TrackSoundCloudResponse(
     val id: Int,
 
     val duration: Int,
@@ -10,13 +10,7 @@ data class TrackSoundcloudRemote(
     @SerializedName("original_content_size")
     val originalContentSize: Int,
 
-    val genre: String,
-
     val title: String,
-
-    val description: String,
-
-    val uri: String,
 
     @SerializedName("artwork_url")
     val artworkUrl: String?,
@@ -25,5 +19,5 @@ data class TrackSoundcloudRemote(
     val streamUrl: String,
 
     @SerializedName("user")
-    val author: AuthorSoundcloudRemote
+    val author: AuthorSoundCloudRemote
 )

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kornilovmikhail.spoticloud.R
+import com.github.kornilovmikhail.spoticloud.core.model.StreamServiceEnum
 import com.github.kornilovmikhail.spoticloud.core.model.Track
 import com.squareup.picasso.Picasso
 import kotlinx.android.extensions.LayoutContainer
@@ -40,10 +41,14 @@ class TrackListAdapter(
             with(containerView) {
                 tv_list_track_item_title.text = track?.title
                 tv_list_track_item_author.text = track?.author?.username
+                when (track?.streamService) {
+                    StreamServiceEnum.SPOTIFY -> iv_list_track_item_source.setImageResource(R.drawable.spotify_rounded_logo)
+                    StreamServiceEnum.SOUNDCLOUD -> iv_list_track_item_source.setImageResource(R.drawable.soundcloud_rounded_logo)
+                }
                 setOnClickListener { clickListener(track) }
             }
             Picasso.get()
-                .load(track?.artworkUrl)
+                .load(track?.artworkLowSizeUrl ?: track?.artworkUrl)
                 .placeholder(R.drawable.placeholder_music_notes)
                 .into(iv_list_track_item_cover)
         }

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.data.db.AbstractTrackDB
-import com.github.kornilovmikhail.spoticloud.data.db.dao.TrackSoundCloudDAO
+import com.github.kornilovmikhail.spoticloud.data.db.dao.TrackDAO
 import dagger.Module
 import dagger.Provides
 
@@ -19,7 +19,7 @@ class RoomModule {
 
     @Provides
     @ApplicationScope
-    fun provideTrackSoundCloudDAO(database: AbstractTrackDB): TrackSoundCloudDAO = database.trackSoundCloudDAO()
+    fun provideTrackDAO(database: AbstractTrackDB): TrackDAO = database.trackDAO()
 
     companion object {
         private const val DATABASE_NAME = "tracks_db.db"

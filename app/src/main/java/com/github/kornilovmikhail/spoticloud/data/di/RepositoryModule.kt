@@ -4,8 +4,9 @@ import android.content.SharedPreferences
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.core.interfaces.TrackRepository
 import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
-import com.github.kornilovmikhail.spoticloud.data.db.dao.TrackSoundCloudDAO
+import com.github.kornilovmikhail.spoticloud.data.db.dao.TrackDAO
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
+import com.github.kornilovmikhail.spoticloud.data.network.api.SpotifyApi
 import com.github.kornilovmikhail.spoticloud.data.repository.SharedPrefStorage
 import com.github.kornilovmikhail.spoticloud.data.repository.TrackRepositorySoundcloudImpl
 import com.github.kornilovmikhail.spoticloud.data.repository.TrackRepositorySpotifyImpl
@@ -28,15 +29,15 @@ class RepositoryModule {
     @Named(SOUNDCLOUD_TRACK_REPOSITORY)
     fun provideSoundcloudRepository(
         soundCloudApi: SoundCloudApi,
-        trackSoundCloudDao: TrackSoundCloudDAO
+        trackDao: TrackDAO
     ): TrackRepository =
-        TrackRepositorySoundcloudImpl(soundCloudApi, trackSoundCloudDao)
+        TrackRepositorySoundcloudImpl(soundCloudApi, trackDao)
 
     @Provides
     @ApplicationScope
     @Named(SPOTIFY_TRACK_REPOSITORY)
-    fun provideSpotifyRepository(): TrackRepository =
-        TrackRepositorySpotifyImpl()
+    fun provideSpotifyRepository(spotifyApi: SpotifyApi, trackDao: TrackDAO): TrackRepository =
+        TrackRepositorySpotifyImpl(spotifyApi, trackDao)
 
     @Provides
     @ApplicationScope
@@ -61,9 +62,10 @@ class RepositoryModule {
     @Provides
     @ApplicationScope
     fun provideTracksSpotifyUseCase(
+        loginSpotifyUseCase: LoginSpotifyUseCase,
         @Named(SPOTIFY_TRACK_REPOSITORY) trackSpotifyRepository: TrackRepository
     ): TracksSpotifyUseCase =
-        TracksSpotifyUseCase(trackSpotifyRepository)
+        TracksSpotifyUseCase(loginSpotifyUseCase, trackSpotifyRepository)
 
     @Provides
     @ApplicationScope

@@ -4,17 +4,17 @@ import com.github.kornilovmikhail.spoticloud.core.model.Author
 import com.github.kornilovmikhail.spoticloud.core.model.StreamServiceEnum
 import com.github.kornilovmikhail.spoticloud.core.model.TokenSoundCloud
 import com.github.kornilovmikhail.spoticloud.core.model.Track
-import com.github.kornilovmikhail.spoticloud.data.db.model.TrackSoundCloudDB
-import com.github.kornilovmikhail.spoticloud.data.network.model.AuthorSoundcloudRemote
-import com.github.kornilovmikhail.spoticloud.data.network.model.TokenSoundCloudRemote
-import com.github.kornilovmikhail.spoticloud.data.network.model.TrackSoundcloudRemote
+import com.github.kornilovmikhail.spoticloud.data.db.model.TrackDB
+import com.github.kornilovmikhail.spoticloud.data.network.model.soundcloud.AuthorSoundCloudRemote
+import com.github.kornilovmikhail.spoticloud.data.network.model.soundcloud.TokenSoundCloudRemote
+import com.github.kornilovmikhail.spoticloud.data.network.model.soundcloud.TrackSoundCloudResponse
 
 fun mapSoundCloudTokenRemoteToToken(soundCloudRemote: TokenSoundCloudRemote): TokenSoundCloud =
     with(soundCloudRemote) {
         TokenSoundCloud(accessToken, expiresIn, refreshToken)
     }
 
-fun mapSoundCloudTrackRemoteToTrack(soundcloudTrack: TrackSoundcloudRemote): Track =
+fun mapSoundCloudTrackRemoteToTrack(soundcloudTrack: TrackSoundCloudResponse): Track =
     with(soundcloudTrack) {
         Track(
             0,
@@ -22,51 +22,15 @@ fun mapSoundCloudTrackRemoteToTrack(soundcloudTrack: TrackSoundcloudRemote): Tra
             duration,
             StreamServiceEnum.SOUNDCLOUD,
             originalContentSize,
-            genre,
-            description,
-            uri,
+            null,
             artworkUrl,
             streamUrl,
             mapSoundCloudAuthorRemoteToAuthor(author)
         )
     }
 
-fun mapSoundCloudAuthorRemoteToAuthor(authorSoundcloudRemote: AuthorSoundcloudRemote): Author =
-    with(authorSoundcloudRemote) {
-        Author(0, username, uri, permalinkUrl, avatarUrl)
-    }
-
-fun mapSoundCloudTrackDBToTrack(trackSoundCloudDB: TrackSoundCloudDB) =
-    with(trackSoundCloudDB) {
-        Track(
-            id,
-            title,
-            duration,
-            streamService,
-            originalContentSize,
-            genre,
-            description,
-            uri,
-            artworkUrl,
-            streamUrl,
-            author
-        )
-    }
-
-fun mapTrackToSoundCloudTrackDB(track: Track): TrackSoundCloudDB =
-    with(track) {
-        TrackSoundCloudDB(
-            0,
-            title,
-            duration,
-            streamService,
-            originalContentSize,
-            genre,
-            description,
-            uri,
-            artworkUrl,
-            streamUrl,
-            author
-        )
+fun mapSoundCloudAuthorRemoteToAuthor(authorSoundCloudRemote: AuthorSoundCloudRemote): Author =
+    with(authorSoundCloudRemote) {
+        Author(username, avatarUrl)
     }
 

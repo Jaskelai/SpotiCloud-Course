@@ -31,7 +31,7 @@ class TrackListPresenter(
                         viewState.showTracks(it)
                     }
                 }, {
-
+                    viewState.showErrorMessage()
                 })
         )
     }

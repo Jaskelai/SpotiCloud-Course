@@ -5,17 +5,13 @@ data class Track(
 
     val title: String,
 
-    val duration: Int,
+    val duration: Int?,
 
     val streamService: StreamServiceEnum,
 
-    val originalContentSize: Int,
+    val originalContentSize: Int?,
 
-    val genre: String,
-
-    val description: String,
-
-    val uri: String,
+    val artworkLowSizeUrl: String?,
 
     val artworkUrl: String?,
 

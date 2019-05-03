@@ -10,7 +10,7 @@ import dagger.Provides
 import javax.inject.Named
 
 @Module
-class SpotifyModule {
+class SpotifySDKModule {
 
     @Provides
     @ApplicationScope

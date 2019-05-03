@@ -33,7 +33,6 @@
 
     <ImageView
             android:id="@+id/iv_list_track_item_source"
-            android:src="@drawable/soundcloudlogo"
             android:layout_width="@dimen/rv_track_item_source_size"
             android:layout_height="@dimen/rv_track_item_source_size"
             android:scaleType="fitCenter"
