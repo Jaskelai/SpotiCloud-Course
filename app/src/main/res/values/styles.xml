@@ -28,4 +28,12 @@
         <item name="android:colorBackground">@color/white</item>
     </style>
 
+    <style name="TrackListItemTitle">
+        <item name="android:textColor">@color/colorTrackListItem</item>
+        <item name="android:textSize">@dimen/rv_track_item_title_size</item>
+    </style>
+
+    <style name="TrackListItemAuthor">
+        <item name="android:textSize">@dimen/rv_track_item_author_size</item>
+    </style>
 </resources>

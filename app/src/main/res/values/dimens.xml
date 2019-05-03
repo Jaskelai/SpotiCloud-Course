@@ -13,4 +13,7 @@
     <dimen name="rv_track_item_cover_width">36dp</dimen>
     <dimen name="rv_track_item_cover_size">48dp</dimen>
     <dimen name="rv_track_item_source_size">32dp</dimen>
+    <dimen name="track_list_cover_corner_radius">4dp</dimen>
+    <dimen name="rv_track_item_title_size">16sp</dimen>
+    <dimen name="rv_track_item_author_size">12sp</dimen>
 </resources>

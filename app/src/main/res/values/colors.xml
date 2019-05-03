@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#E63F4D67</color>
     <color name="colorPrimaryDark">#3F4D67</color>
-    <color name="colorAccent">#009688</color>
+    <color name="colorAccent">#E63F4D67</color>
     <color name="colorTextStartScreen">#CC76FF9E</color>
     <color name="colorDarkAccent">#6676FF9E</color>
     <color name="colorGrey">#455A64</color>
@@ -12,4 +12,5 @@
     <color name="colorRed">#E6FF0000</color>
     <color name="colorOrange">#FF5722</color>
     <color name="colorLightGrey">#D1D3D4</color>
+    <color name="colorTrackListItem">#414344</color>
 </resources>
