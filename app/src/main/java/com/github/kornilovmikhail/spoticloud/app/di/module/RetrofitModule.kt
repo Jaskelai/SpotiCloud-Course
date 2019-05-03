@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import okhttp3.logging.HttpLoggingInterceptor
 
-
 @Module
 class RetrofitModule {
 

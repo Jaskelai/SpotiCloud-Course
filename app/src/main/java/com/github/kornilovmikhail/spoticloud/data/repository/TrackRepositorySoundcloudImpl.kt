@@ -35,10 +35,11 @@ class TrackRepositorySoundcloudImpl(
             it.map { track -> mapSoundCloudTrackRemoteToTrack(track) }
         }
 
-    private fun getTracksFromDB(): Single<List<Track>> = trackDAO.findTracksByStreamService(StreamServiceEnum.SOUNDCLOUD.name)
-        .map {
-            it.map { track -> mapTrackDBToTrack(track) }
-        }
+    private fun getTracksFromDB(): Single<List<Track>> =
+        trackDAO.findTracksByStreamService(StreamServiceEnum.SOUNDCLOUD.name)
+            .map {
+                it.map { track -> mapTrackDBToTrack(track) }
+            }
 
     private fun cacheTracks(tracks: List<Track>): Disposable = Completable.fromAction {
         trackDAO.insertTrackList(tracks.map { mapTrackToTrackDB(it) })

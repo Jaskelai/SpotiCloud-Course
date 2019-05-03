@@ -17,16 +17,12 @@ class TrackListPresenter(
     override fun onFirstViewAttach() {
         disposables.add(
             tracksUseCase.getTracks()
-                .doOnSubscribe {
-                    viewState.showProgressBar()
-                }
-                .doAfterTerminate {
-                    viewState.hideProgressBar()
-                }
+                .doOnSubscribe { viewState.showProgressBar() }
+                .doAfterTerminate { viewState.hideProgressBar() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it.isEmpty()) {
-
+                        viewState.showEmptyTracksMessage()
                     } else {
                         viewState.showTracks(it)
                     }

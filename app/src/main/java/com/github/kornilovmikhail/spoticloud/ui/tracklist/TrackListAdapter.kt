@@ -18,9 +18,9 @@ class TrackListAdapter(
     private val clickListener: (Track?) -> Unit
 ) : ListAdapter<Track, TrackListAdapter.TrackHolder>(TrackDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, type: Int): TrackHolder {
-        return TrackHolder(LayoutInflater.from(parent.context).inflate(R.layout.track_list_item, parent, false))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, type: Int): TrackHolder =
+        TrackHolder(LayoutInflater.from(parent.context).inflate(R.layout.track_list_item, parent, false))
+
 
     override fun onBindViewHolder(holder: TrackHolder, position: Int) {
         holder.bind(getItem(position), clickListener)
@@ -42,8 +42,10 @@ class TrackListAdapter(
                 tv_list_track_item_title.text = track?.title
                 tv_list_track_item_author.text = track?.author?.username
                 when (track?.streamService) {
-                    StreamServiceEnum.SPOTIFY -> iv_list_track_item_source.setImageResource(R.drawable.spotify_rounded_logo)
-                    StreamServiceEnum.SOUNDCLOUD -> iv_list_track_item_source.setImageResource(R.drawable.soundcloud_rounded_logo)
+                    StreamServiceEnum.SPOTIFY ->
+                        iv_list_track_item_source.setImageResource(R.drawable.spotify_rounded_logo)
+                    StreamServiceEnum.SOUNDCLOUD ->
+                        iv_list_track_item_source.setImageResource(R.drawable.soundcloud_rounded_logo)
                 }
                 setOnClickListener { clickListener(track) }
             }

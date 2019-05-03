@@ -73,6 +73,10 @@ class TrackListFragment : MvpAppCompatFragment(), TrackListView {
         progressBar_list.visibility = View.INVISIBLE
     }
 
+    override fun showEmptyTracksMessage() {
+        Toast.makeText(context, getString(R.string.empty_list), Toast.LENGTH_SHORT).show()
+    }
+
     private val trackClickListener: (Track?) -> Unit = {
         trackListPresenter.onTrackClicked(it)
     }

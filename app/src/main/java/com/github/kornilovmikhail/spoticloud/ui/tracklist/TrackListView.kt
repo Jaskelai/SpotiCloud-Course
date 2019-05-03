@@ -12,4 +12,6 @@ interface TrackListView : MvpView {
     fun showProgressBar()
 
     fun hideProgressBar()
+
+    fun showEmptyTracksMessage()
 }
