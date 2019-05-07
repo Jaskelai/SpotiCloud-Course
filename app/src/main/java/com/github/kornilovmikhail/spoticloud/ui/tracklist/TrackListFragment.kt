@@ -1,9 +1,7 @@
 package com.github.kornilovmikhail.spoticloud.ui.tracklist
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,12 +39,17 @@ class TrackListFragment : MvpAppCompatFragment(), TrackListView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         initRecyclerViewAdapter()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         trackListPresenter.onCleared()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.toolbar_menu, menu)
     }
 
     override fun showErrorMessage() {

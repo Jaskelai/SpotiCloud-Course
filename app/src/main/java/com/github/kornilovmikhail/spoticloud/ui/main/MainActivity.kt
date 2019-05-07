@@ -57,11 +57,6 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments {
         mainPresenter.onBackPressed()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-    }
-
     override fun showErrorMessage() {
         Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show()
     }
