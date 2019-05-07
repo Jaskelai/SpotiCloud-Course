@@ -6,13 +6,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="StartScreenButtons">
+    <style name="TextLight">
+        <item name="android:fontFamily">@font/oxygen_light</item>
+    </style>
+
+    <style name="TextRegular">
+        <item name="android:fontFamily">@font/oxygen</item>
+    </style>
+
+    <style name="StartScreenButtons" parent="TextRegular">
         <item name="android:layout_width">@dimen/startscreen_btns_width</item>
         <item name="android:layout_height">@dimen/startscreen_btns_height</item>
         <item name="android:backgroundTint">@color/colorDarkAccent</item>
     </style>
 
-    <style name="LoginScreenButtons">
+    <style name="LoginScreenButtons" parent="TextRegular">
         <item name="android:layout_width">@dimen/startscreen_btns_width</item>
         <item name="android:layout_height">@dimen/startscreen_btns_height</item>
         <item name="android:backgroundTint">@color/colorDarkGreen</item>
@@ -28,12 +36,43 @@
         <item name="android:colorBackground">@color/white</item>
     </style>
 
-    <style name="TrackListItemTitle">
+    <style name="TrackListItemTitle" parent="@style/TextRegular">
         <item name="android:textColor">@color/colorTrackListItem</item>
         <item name="android:textSize">@dimen/rv_track_item_title_size</item>
     </style>
 
-    <style name="TrackListItemAuthor">
+    <style name="TrackListItemAuthor" parent="@style/TextRegular">
         <item name="android:textSize">@dimen/rv_track_item_author_size</item>
+    </style>
+
+    <style name="SearchHeader" parent="@style/TextRegular">
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:textSize">@dimen/tv_search_title</item>
+    </style>
+
+    <style name="SoundCloudLoginError" parent="@style/TextRegular">
+        <item name="android:textSize">@dimen/tv_soundcloud_login_error</item>
+        <item name="android:textColor">@color/colorRed</item>
+    </style>
+
+    <style name="SoundCloudLoginHeader" parent="@style/TextRegular">
+        <item name="android:textSize">@dimen/startscreen_headings</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+    <style name="EditText" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:fontFamily">@font/oxygen_light</item>
+    </style>
+
+    <style name="RoundedEditText" parent="EditText">
+        <item name="boxCornerRadiusBottomStart">@dimen/rounded_edit_text_corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/rounded_edit_text_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/rounded_edit_text_corner_radius</item>
+        <item name="boxCornerRadiusTopStart">@dimen/rounded_edit_text_corner_radius</item>
+    </style>
+
+    <style name="StartScreenText" parent="TextRegular">
+        <item name="android:textSize">@dimen/startscreen_headings</item>
+        <item name="android:textColor">@color/colorTextStartScreen</item>
     </style>
 </resources>

@@ -1,4 +1,4 @@
-package com.github.kornilovmikhail.spoticloud.ui.tracklist
+package com.github.kornilovmikhail.spoticloud.ui.search
 
 import com.arellomobile.mvp.MvpView
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy
@@ -7,16 +7,18 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 import com.github.kornilovmikhail.spoticloud.core.model.Track
 
 @StateStrategyType(value = SkipStrategy::class)
-interface TrackListView : MvpView {
-
-    fun showErrorMessage()
+interface SearchView : MvpView {
 
     @StateStrategyType(value = AddToEndSingleStrategy::class)
-    fun showTracks(tracks: List<Track>)
+    fun showSearchedTracks(tracks: List<Track>)
 
     fun showProgressBar()
 
     fun hideProgressBar()
 
-    fun showEmptyTracksMessage()
+    fun showErrorMessage()
+
+    fun showNotFoundMessage()
+
+    fun showTrackAddedMessage()
 }

@@ -28,13 +28,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/signin_soundcloud"
-                android:textSize="@dimen/startscreen_headings"
-                android:textColor="@color/colorBlack"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.15"/>
+                app:layout_constraintVertical_bias="0.15"
+                style="@style/SoundCloudLoginHeader"/>
 
         <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
@@ -64,14 +63,15 @@
                 app:layout_constraintEnd_toEndOf="@id/gd_login_end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.64"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                style="@style/EditText">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_login_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
-                    android:hint="@string/email"/>
+                    android:hint="@string/email"
+                    style="@style/EditText"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,14 +86,15 @@
                 app:layout_constraintEnd_toEndOf="@id/gd_login_end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_bias="0.77"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+                style="@style/EditText">
 
             <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_login_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:hint="@string/password"/>
+                    android:hint="@string/password"
+                    style="@style/EditText"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,13 +102,12 @@
                 android:id="@+id/tv_login_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@color/colorRed"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.82"/>
+                app:layout_constraintVertical_bias="0.82"
+                style="@style/SoundCloudLoginError"/>
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login_signin"

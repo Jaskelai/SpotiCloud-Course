@@ -16,4 +16,14 @@
     <dimen name="track_list_cover_corner_radius">4dp</dimen>
     <dimen name="rv_track_item_title_size">16sp</dimen>
     <dimen name="rv_track_item_author_size">12sp</dimen>
+    <dimen name="footer_player">84dp</dimen>
+    <dimen name="footer_player_item_cover_size">60dp</dimen>
+    <dimen name="footer_player_cover_padding">16dp</dimen>
+    <dimen name="footer_player_title_size">20sp</dimen>
+    <dimen name="footer_action">38dp</dimen>
+    <dimen name="img_search">60dp</dimen>
+    <dimen name="text_search">220dp</dimen>
+    <dimen name="tv_search_title">20sp</dimen>
+    <dimen name="tv_soundcloud_login_error">16sp</dimen>
+    <dimen name="rounded_edit_text_corner_radius">20dp</dimen>
 </resources>

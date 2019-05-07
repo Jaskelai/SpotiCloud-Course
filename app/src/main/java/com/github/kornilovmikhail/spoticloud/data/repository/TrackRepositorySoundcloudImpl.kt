@@ -18,34 +18,49 @@ class TrackRepositorySoundcloudImpl(
     private val trackDAO: TrackDAO
 ) : TrackRepository {
 
-    override fun getTracks(token: String): Single<List<Track>> =
-        getTracksFromNetwork(token)
+    override fun getFavoriteTracks(token: String): Single<List<Track>> =
+        getFavoriteTracksFromNetwork(token)
             .subscribeOn(Schedulers.io())
             .onErrorResumeNext {
-                getTracksFromDB()
+                getFavoriteTracksFromDB()
             }
             .flatMap {
-                deleteTracks()
-                cacheTracks(it)
-                getTracksFromDB()
+                deleteFavoriteTracks()
+                cacheFavoriteTracks(it)
+                getFavoriteTracksFromDB()
             }
 
-    private fun getTracksFromNetwork(token: String): Single<List<Track>> = soundCloudApi.getFavoriteTracks(token)
-        .map {
-            it.map { track -> mapSoundCloudTrackRemoteToTrack(track) }
-        }
+    override fun getSearchedTracks(token: String, keywords: String): Single<List<Track>> =
+        soundCloudApi.getSearchedTracks(keywords, token)
+            .subscribeOn(Schedulers.io())
+            .map {
+                if (it.isEmpty()) {
+                    arrayListOf()
+                } else {
+                    it.map { track -> mapSoundCloudTrackRemoteToTrack(track) }
+                }
+            }
 
-    private fun getTracksFromDB(): Single<List<Track>> =
+    override fun addTrackToFav(token: String, id: String): Completable = soundCloudApi.addTrackToFav(id, token)
+        .subscribeOn(Schedulers.io())
+
+    private fun getFavoriteTracksFromNetwork(token: String): Single<List<Track>> =
+        soundCloudApi.getFavoriteTracks(token)
+            .map {
+                it.map { track -> mapSoundCloudTrackRemoteToTrack(track) }
+            }
+
+    private fun getFavoriteTracksFromDB(): Single<List<Track>> =
         trackDAO.findTracksByStreamService(StreamServiceEnum.SOUNDCLOUD.name)
             .map {
                 it.map { track -> mapTrackDBToTrack(track) }
             }
 
-    private fun cacheTracks(tracks: List<Track>): Disposable = Completable.fromAction {
+    private fun cacheFavoriteTracks(tracks: List<Track>): Disposable = Completable.fromAction {
         trackDAO.insertTrackList(tracks.map { mapTrackToTrackDB(it) })
     }.subscribe()
 
-    private fun deleteTracks(): Disposable = Completable.fromAction {
+    private fun deleteFavoriteTracks(): Disposable = Completable.fromAction {
         trackDAO.deleteTracksByStreamService(StreamServiceEnum.SOUNDCLOUD.name)
     }.subscribe()
 }

@@ -1,7 +1,6 @@
-package com.github.kornilovmikhail.spoticloud.ui.tracklist
+package com.github.kornilovmikhail.spoticloud.ui.search
 
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -16,16 +15,17 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.track_list_item.*
 import kotlinx.android.synthetic.main.track_list_item.view.*
 
-class TrackListAdapter(
-    private val clickListener: (Track?) -> Unit
-) : ListAdapter<Track, TrackListAdapter.TrackHolder>(TrackDiffCallback()) {
+class SearchListAdapter(
+    private val clickListener: (Track?) -> Unit,
+    private val addToFavListener: (Track?) -> Unit
+) : ListAdapter<Track, SearchListAdapter.TrackHolder>(TrackDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): TrackHolder =
         TrackHolder(LayoutInflater.from(parent.context).inflate(R.layout.track_list_item, parent, false))
 
 
     override fun onBindViewHolder(holder: TrackHolder, position: Int) {
-        holder.bind(getItem(position), clickListener)
+        holder.bind(getItem(position), clickListener, addToFavListener)
     }
 
     class TrackDiffCallback : DiffUtil.ItemCallback<Track>() {
@@ -37,9 +37,9 @@ class TrackListAdapter(
 
     class TrackHolder(
         override val containerView: View
-    ) : RecyclerView.ViewHolder(containerView), LayoutContainer{
+    ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        fun bind(track: Track?, clickListener: (Track?) -> Unit) {
+        fun bind(track: Track?, clickListener: (Track?) -> Unit, addToFavListener: (Track?) -> Unit) {
             with(containerView) {
                 tv_list_track_item_title.text = track?.title
                 tv_list_track_item_author.text = track?.author?.username
@@ -50,6 +50,20 @@ class TrackListAdapter(
                         iv_list_track_item_source.setImageResource(R.drawable.soundcloud_rounded_logo)
                 }
                 setOnClickListener { clickListener(track) }
+                setOnLongClickListener {
+                    val popup = PopupMenu(context, containerView)
+                    popup.apply {
+                        inflate(R.menu.search_long_click_item_menu)
+                        setOnMenuItemClickListener {
+                            when (it.itemId) {
+                                R.id.item_search_popup_add_fav -> addToFavListener(track)
+                            }
+                            true
+                        }
+                        show()
+                    }
+                    true
+                }
             }
             Picasso.get()
                 .load(track?.artworkLowSizeUrl ?: track?.artworkUrl)

@@ -18,34 +18,53 @@ class TrackRepositorySpotifyImpl(
     private val trackDAO: TrackDAO
 ) : TrackRepository {
 
-    override fun getTracks(token: String): Single<List<Track>> =
-        getTracksFromNetwork(token)
+    override fun getFavoriteTracks(token: String): Single<List<Track>> =
+        getFavoriteTracksFromNetwork(token)
             .subscribeOn(Schedulers.io())
             .onErrorResumeNext {
-                getTracksFromDB()
+                getFavoriteTracksFromDB()
             }
             .flatMap {
-                deleteTracks()
-                cacheTracks(it)
-                getTracksFromDB()
+                deleteFavoriteTracks()
+                cacheFavoriteTracks(it)
+                getFavoriteTracksFromDB()
             }
 
-    private fun getTracksFromNetwork(token: String): Single<List<Track>> = spotifyApi.getFavoriteTracks("Bearer $token")
-        .map {
-            it.items.map { track -> mapSpotifyTrackRemoteToTrack(track.track) }
-        }
+    override fun getSearchedTracks(token: String, keywords: String): Single<List<Track>> =
+        spotifyApi.getSearchedItems("Bearer $token", keywords, TYPE_TRACK)
+            .subscribeOn(Schedulers.io())
+            .map {
+                if (it.tracks.items.isEmpty()) {
+                    arrayListOf()
+                } else {
+                    it.tracks.items.map { track -> mapSpotifyTrackRemoteToTrack(track) }
+                }
+            }
 
-    private fun getTracksFromDB(): Single<List<Track>> =
+    override fun addTrackToFav(token: String, id: String): Completable = spotifyApi.addTrackToFav("Bearer $token", id)
+        .subscribeOn(Schedulers.io())
+
+    private fun getFavoriteTracksFromNetwork(token: String): Single<List<Track>> =
+        spotifyApi.getFavoriteTracks("Bearer $token")
+            .map {
+                it.items.map { track -> mapSpotifyTrackRemoteToTrack(track.track) }
+            }
+
+    private fun getFavoriteTracksFromDB(): Single<List<Track>> =
         trackDAO.findTracksByStreamService(StreamServiceEnum.SPOTIFY.name)
             .map {
                 it.map { track -> mapTrackDBToTrack(track) }
             }
 
-    private fun cacheTracks(tracks: List<Track>): Disposable = Completable.fromAction {
+    private fun cacheFavoriteTracks(tracks: List<Track>): Disposable = Completable.fromAction {
         trackDAO.insertTrackList(tracks.map { mapTrackToTrackDB(it) })
     }.subscribe()
 
-    private fun deleteTracks(): Disposable = Completable.fromAction {
+    private fun deleteFavoriteTracks(): Disposable = Completable.fromAction {
         trackDAO.deleteTracksByStreamService(StreamServiceEnum.SPOTIFY.name)
     }.subscribe()
+
+    companion object {
+        private const val TYPE_TRACK = "track"
+    }
 }

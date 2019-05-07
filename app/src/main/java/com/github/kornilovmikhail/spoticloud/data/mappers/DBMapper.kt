@@ -7,6 +7,7 @@ fun mapTrackDBToTrack(trackDB: TrackDB): Track =
     with(trackDB) {
         Track(
             id,
+            sourceId,
             title,
             duration,
             streamService,
@@ -22,6 +23,7 @@ fun mapTrackToTrackDB(track: Track): TrackDB =
     with(track) {
         TrackDB(
             0,
+            idSource,
             title,
             duration,
             streamService,

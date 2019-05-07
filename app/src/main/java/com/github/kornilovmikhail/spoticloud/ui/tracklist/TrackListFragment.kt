@@ -57,14 +57,6 @@ class TrackListFragment : MvpAppCompatFragment(), TrackListView {
         (rv_list_tracks.adapter as TrackListAdapter).submitList(tracks)
     }
 
-    private fun initRecyclerViewAdapter() {
-        if (rv_list_tracks.adapter == null) {
-            rv_list_tracks.adapter = TrackListAdapter(trackClickListener)
-            rv_list_tracks.layoutManager = LinearLayoutManager(context)
-            rv_list_tracks.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        }
-    }
-
     override fun showProgressBar() {
         progressBar_list.visibility = View.VISIBLE
     }
@@ -75,6 +67,14 @@ class TrackListFragment : MvpAppCompatFragment(), TrackListView {
 
     override fun showEmptyTracksMessage() {
         Toast.makeText(context, getString(R.string.empty_list), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun initRecyclerViewAdapter() {
+        if (rv_list_tracks.adapter == null) {
+            rv_list_tracks.adapter = TrackListAdapter(trackClickListener)
+            rv_list_tracks.layoutManager = LinearLayoutManager(context)
+            rv_list_tracks.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        }
     }
 
     private val trackClickListener: (Track?) -> Unit = {

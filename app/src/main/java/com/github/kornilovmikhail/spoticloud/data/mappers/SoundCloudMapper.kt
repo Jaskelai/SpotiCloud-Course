@@ -17,6 +17,7 @@ fun mapSoundCloudTrackRemoteToTrack(soundcloudTrack: TrackSoundCloudResponse): T
     with(soundcloudTrack) {
         Track(
             0,
+            id.toString(),
             title,
             duration,
             StreamServiceEnum.SOUNDCLOUD,

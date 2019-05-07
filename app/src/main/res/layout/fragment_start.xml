@@ -15,12 +15,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/start_heading"
-            android:textColor="@color/colorTextStartScreen"
-            android:textSize="@dimen/startscreen_headings"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/gd_start_heading"/>
+            app:layout_constraintTop_toTopOf="@id/gd_start_heading"
+            style="@style/StartScreenText"/>
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gd_start_heading"
@@ -69,12 +68,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/start_choice"
-            android:textSize="@dimen/startscreen_headings"
-            android:textColor="@color/colorTextStartScreen"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/gd_start_choice"
-            app:layout_constraintBottom_toBottomOf="@id/gd_start_choice"/>
+            app:layout_constraintBottom_toBottomOf="@id/gd_start_choice"
+            style="@style/StartScreenText"/>
 
     <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gd_start_choice"

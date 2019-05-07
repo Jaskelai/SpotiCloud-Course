@@ -1,4 +1,4 @@
-package com.github.kornilovmikhail.spoticloud.ui.tracklist
+package com.github.kornilovmikhail.spoticloud.ui.search
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
@@ -8,24 +8,39 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 @InjectViewState
-class TrackListPresenter(
-    private val tracksUseCase: TracksUseCase
-) : MvpPresenter<TrackListView>() {
+class SearchPresenter(private val tracksUseCase: TracksUseCase) : MvpPresenter<SearchView>() {
 
     private val disposables = CompositeDisposable()
 
-    override fun onFirstViewAttach() {
+    fun onSearch(keyword: String) {
         disposables.add(
-            tracksUseCase.getFavoriteTracks()
+            tracksUseCase.getSearchedTracks(keyword)
                 .doOnSubscribe { viewState.showProgressBar() }
                 .doAfterTerminate { viewState.hideProgressBar() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    viewState.showSearchedTracks(it)
                     if (it.isEmpty()) {
-                        viewState.showEmptyTracksMessage()
-                    } else {
-                        viewState.showTracks(it)
+                        viewState.showNotFoundMessage()
                     }
+                }, {
+                    viewState.showErrorMessage()
+                })
+        )
+    }
+
+    fun onTrackClicked(track: Track?) {
+
+    }
+
+    fun trackAddToFav(track: Track?) {
+        disposables.add(
+            tracksUseCase.addTrackToFav(track)
+                .doOnSubscribe { viewState.showProgressBar() }
+                .doAfterTerminate { viewState.hideProgressBar() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    viewState.showTrackAddedMessage()
                 }, {
                     viewState.showErrorMessage()
                 })
@@ -36,9 +51,5 @@ class TrackListPresenter(
         if (!disposables.isDisposed) {
             disposables.dispose()
         }
-    }
-
-    fun onTrackClicked(track: Track?) {
-
     }
 }

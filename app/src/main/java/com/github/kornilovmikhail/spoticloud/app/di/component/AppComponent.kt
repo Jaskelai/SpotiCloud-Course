@@ -8,6 +8,7 @@ import com.github.kornilovmikhail.spoticloud.data.di.SpotifySDKModule
 import com.github.kornilovmikhail.spoticloud.ui.loginsoundcloud.di.component.LoginSoundcloudSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.main.MainActivity
 import com.github.kornilovmikhail.spoticloud.ui.main.di.component.MainSubComponent
+import com.github.kornilovmikhail.spoticloud.ui.search.di.component.SearchSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.start.di.component.StartSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.tracklist.di.component.TrackListSubComponent
 import com.squareup.picasso.Picasso
@@ -28,6 +29,7 @@ interface AppComponent {
     fun mainSubComponentBuilder(): MainSubComponent.Builder
     fun loginSoundcloudSubComponentBuilder(): LoginSoundcloudSubComponent.Builder
     fun trackListSubComponentBuilder(): TrackListSubComponent.Builder
+    fun searchSubComponentBuilder(): SearchSubComponent.Builder
 
     fun providePicasso(): Picasso
 }

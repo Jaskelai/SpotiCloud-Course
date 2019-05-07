@@ -3,6 +3,8 @@ package com.github.kornilovmikhail.spoticloud.data.network.model.spotify
 import com.google.gson.annotations.SerializedName
 
 data class TrackSpotifyRemote(
+    val id: String,
+
     val album: AlbumSpotifyRemote?,
 
     val artists: List<AuthorSpotifyRemote>,

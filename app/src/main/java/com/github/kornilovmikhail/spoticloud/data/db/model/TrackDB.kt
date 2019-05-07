@@ -12,6 +12,9 @@ data class TrackDB(
     @ColumnInfo(index = true)
     val id: Int,
 
+    @ColumnInfo(name = "source_id")
+    val sourceId: String,
+
     val title: String,
 
     val duration: Int?,
