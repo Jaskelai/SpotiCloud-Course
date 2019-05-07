@@ -1,5 +1,6 @@
 package com.github.kornilovmikhail.spoticloud.ui.search
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,24 +52,28 @@ class SearchListAdapter(
                 }
                 setOnClickListener { clickListener(track) }
                 setOnLongClickListener {
-                    val popup = PopupMenu(context, containerView)
-                    popup.apply {
-                        inflate(R.menu.search_long_click_item_menu)
-                        setOnMenuItemClickListener {
-                            when (it.itemId) {
-                                R.id.item_search_popup_add_fav -> addToFavListener(track)
-                            }
-                            true
-                        }
-                        show()
-                    }
-                    true
+                    showPopup(context,track,addToFavListener)
                 }
             }
             Picasso.get()
                 .load(track?.artworkLowSizeUrl ?: track?.artworkUrl)
                 .placeholder(R.drawable.placeholder_music_notes)
                 .into(iv_list_track_item_cover)
+        }
+
+        private fun showPopup(context: Context, track: Track?, addToFavListener: (Track?) -> Unit): Boolean {
+            val popup = PopupMenu(context, containerView)
+            popup.apply {
+                inflate(R.menu.search_long_click_item_menu)
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.item_search_popup_add_fav -> addToFavListener(track)
+                    }
+                    true
+                }
+                show()
+            }
+            return true
         }
     }
 }

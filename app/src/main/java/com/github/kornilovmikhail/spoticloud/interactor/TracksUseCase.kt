@@ -4,7 +4,6 @@ import com.github.kornilovmikhail.spoticloud.core.model.StreamServiceEnum
 import com.github.kornilovmikhail.spoticloud.core.model.Track
 import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 import io.reactivex.functions.BiFunction
 import java.util.ArrayList
 

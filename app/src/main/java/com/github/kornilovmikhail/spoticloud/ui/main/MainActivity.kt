@@ -1,7 +1,6 @@
 package com.github.kornilovmikhail.spoticloud.ui.main
 
 import android.os.Bundle
-import android.view.Menu
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import com.arellomobile.mvp.MvpAppCompatActivity

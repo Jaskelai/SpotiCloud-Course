@@ -87,8 +87,9 @@ class SearchFragment : MvpAppCompatFragment(), SearchView {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchPresenter.onSearch(textView.text.toString())
                 true
+            } else {
+                false
             }
-            false
         }
     }
 
