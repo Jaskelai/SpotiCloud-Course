@@ -44,12 +44,7 @@ class SearchListAdapter(
             with(containerView) {
                 tv_list_track_item_title.text = track?.title
                 tv_list_track_item_author.text = track?.author?.username
-                when (track?.streamService) {
-                    StreamServiceEnum.SPOTIFY ->
-                        iv_list_track_item_source.setImageResource(R.drawable.spotify_rounded_logo)
-                    StreamServiceEnum.SOUNDCLOUD ->
-                        iv_list_track_item_source.setImageResource(R.drawable.soundcloud_rounded_logo)
-                }
+                setLogos(track)
                 setOnClickListener { clickListener(track) }
                 setOnLongClickListener {
                     showPopup(context,track,addToFavListener)
@@ -59,6 +54,15 @@ class SearchListAdapter(
                 .load(track?.artworkLowSizeUrl ?: track?.artworkUrl)
                 .placeholder(R.drawable.placeholder_music_notes)
                 .into(iv_list_track_item_cover)
+        }
+
+        private fun setLogos(track: Track?) {
+            when (track?.streamService) {
+                StreamServiceEnum.SPOTIFY ->
+                    iv_list_track_item_source.setImageResource(R.drawable.spotify_rounded_logo)
+                StreamServiceEnum.SOUNDCLOUD ->
+                    iv_list_track_item_source.setImageResource(R.drawable.soundcloud_rounded_logo)
+            }
         }
 
         private fun showPopup(context: Context, track: Track?, addToFavListener: (Track?) -> Unit): Boolean {
