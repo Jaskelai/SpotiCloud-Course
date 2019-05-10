@@ -23,6 +23,14 @@
     </FrameLayout>
 
     <ViewStub
+            android:id="@+id/vs_footer_player"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/footer_player"
+            android:layout_gravity="bottom"
+            android:inflatedId="@+id/inflate"
+            android:layout="@layout/footer_player"/>
+
+    <ViewStub
             android:id="@+id/vs_bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

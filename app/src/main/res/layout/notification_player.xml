@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="92dp">
+
+    <TextView
+            android:id="@+id/tv_notification_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/notification_player_margin"
+            android:layout_toStartOf="@+id/layout_notification_controls"
+            android:layout_centerInParent="true"
+            style="@style/NotificationTitle"/>
+
+    <LinearLayout
+            android:id="@+id/layout_notification_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+        <ImageButton
+                android:id="@+id/btn_notification_prev"
+                android:layout_width="@dimen/notification_btns_size"
+                android:layout_height="@dimen/notification_btns_size"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ripple_prev"
+                android:contentDescription="@string/prev_track"
+                android:layout_marginStart="@dimen/notification_player_margin"
+                android:layout_marginEnd="@dimen/notification_player_margin"/>
+
+        <ImageButton
+                android:id="@+id/btn_notification_play"
+                android:layout_width="@dimen/notification_btns_size"
+                android:layout_height="@dimen/notification_btns_size"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/play_or_pause"
+                android:layout_marginStart="@dimen/notification_player_margin"
+                android:layout_marginEnd="@dimen/notification_player_margin"/>
+
+        <ImageButton
+                android:id="@+id/btn_notification_next"
+                android:layout_width="@dimen/notification_btns_size"
+                android:layout_height="@dimen/notification_btns_size"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/next_track"
+                android:layout_marginStart="@dimen/notification_player_margin"
+                android:layout_marginEnd="@dimen/notification_player_margin"/>
+    </LinearLayout>
+
+</RelativeLayout>

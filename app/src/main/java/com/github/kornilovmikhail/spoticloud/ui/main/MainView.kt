@@ -18,4 +18,6 @@ interface MainView : MvpView {
     fun showTrackListChose()
 
     fun showTrendsChose()
+
+    fun showFooter()
 }

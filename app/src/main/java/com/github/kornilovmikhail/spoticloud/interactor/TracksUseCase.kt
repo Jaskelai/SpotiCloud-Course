@@ -1,5 +1,6 @@
 package com.github.kornilovmikhail.spoticloud.interactor
 
+import com.github.kornilovmikhail.spoticloud.core.interfaces.CommonTrackRepository
 import com.github.kornilovmikhail.spoticloud.core.model.StreamServiceEnum
 import com.github.kornilovmikhail.spoticloud.core.model.Track
 import io.reactivex.Completable
@@ -9,7 +10,8 @@ import java.util.ArrayList
 
 class TracksUseCase(
     private val tracksSoundcloudUseCase: TracksSoundcloudUseCase,
-    private val tracksSpotifyUseCase: TracksSpotifyUseCase
+    private val tracksSpotifyUseCase: TracksSpotifyUseCase,
+    private val commonTrackRepository: CommonTrackRepository
 ) {
 
     fun getFavoriteTracks(): Single<List<Track>> =
@@ -45,4 +47,7 @@ class TracksUseCase(
             Completable.complete()
         }
     }
+
+    fun findTrackById(id: Int): Single<Track> = commonTrackRepository.findTrackById(id)
+
 }

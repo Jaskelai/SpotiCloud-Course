@@ -4,6 +4,7 @@
           package="com.github.kornilovmikhail.spoticloud">
 
     <dist:module dist:instant="true"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
             android:name=".app.App"
@@ -21,7 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
+        <service android:name=".musicplayer.MusicService"
+                 android:exported="true"/>
+        <meta-data android:name="preloaded_fonts"
+                   android:resource="@array/preloaded_fonts"/>
     </application>
 
 </manifest>

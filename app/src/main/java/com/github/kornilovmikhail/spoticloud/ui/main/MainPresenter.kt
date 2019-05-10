@@ -87,6 +87,10 @@ class MainPresenter @Inject constructor(
         }
     }
 
+    fun showTrack() {
+        viewState.showFooter()
+    }
+
     private fun showGeneralViews() {
         viewState.showBottomBar()
         viewState.showToolbar()

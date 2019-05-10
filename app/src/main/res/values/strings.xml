@@ -28,4 +28,6 @@
     <string name="tracks_not_found">Tracks not found</string>
     <string name="add_to_favorite">Add to favorite</string>
     <string name="track_added_to_fav">Track added to favorites</string>
+    <string name="music_channel_name">Music</string>
+    <string name="music_channel_description">Notification for playing music</string>
 </resources>

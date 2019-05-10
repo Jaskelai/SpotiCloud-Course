@@ -3,6 +3,8 @@ package com.github.kornilovmikhail.spoticloud.ui.tracklist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,10 @@ class TrackListAdapter(
     private val clickListener: (Track?) -> Unit
 ) : ListAdapter<Track, TrackListAdapter.TrackHolder>(TrackDiffCallback()) {
 
+    private var originalList = LinkedHashSet<Track>()
+    private var tempList = ArrayList<Track>()
+    private var isSearching = false
+
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): TrackHolder =
         TrackHolder(LayoutInflater.from(parent.context).inflate(R.layout.track_list_item, parent, false))
 
@@ -26,16 +32,41 @@ class TrackListAdapter(
         holder.bind(getItem(position), clickListener)
     }
 
+    override fun submitList(list: MutableList<Track>?) {
+        super.submitList(list)
+        if (!isSearching) {
+            list?.let {
+                originalList.addAll(list)
+            }
+        }
+    }
+
+    fun filter(text: String) {
+        tempList.clear()
+        if (text.isEmpty()) {
+            tempList.addAll(originalList)
+        } else {
+            val temp = text.toLowerCase()
+            for (track in originalList) {
+                if (track.title.toLowerCase().contains(temp)) {
+                    tempList.add(track)
+                }
+            }
+        }
+        isSearching = true
+        submitList(tempList)
+        isSearching = false
+    }
+
     class TrackDiffCallback : DiffUtil.ItemCallback<Track>() {
         override fun areItemsTheSame(oldItem: Track, newItem: Track): Boolean = oldItem.title == newItem.title
 
         override fun areContentsTheSame(oldItem: Track, newItem: Track): Boolean = oldItem == newItem
-
     }
 
     class TrackHolder(
         override val containerView: View
-    ) : RecyclerView.ViewHolder(containerView), LayoutContainer{
+    ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         fun bind(track: Track?, clickListener: (Track?) -> Unit) {
             with(containerView) {

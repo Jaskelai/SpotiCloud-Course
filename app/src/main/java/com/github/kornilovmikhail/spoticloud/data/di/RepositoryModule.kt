@@ -2,15 +2,13 @@ package com.github.kornilovmikhail.spoticloud.data.di
 
 import android.content.SharedPreferences
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
+import com.github.kornilovmikhail.spoticloud.core.interfaces.CommonTrackRepository
 import com.github.kornilovmikhail.spoticloud.core.interfaces.TrackRepository
 import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
 import com.github.kornilovmikhail.spoticloud.data.db.dao.TrackDAO
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
 import com.github.kornilovmikhail.spoticloud.data.network.api.SpotifyApi
-import com.github.kornilovmikhail.spoticloud.data.repository.SharedPrefStorage
-import com.github.kornilovmikhail.spoticloud.data.repository.TrackRepositorySoundcloudImpl
-import com.github.kornilovmikhail.spoticloud.data.repository.TrackRepositorySpotifyImpl
-import com.github.kornilovmikhail.spoticloud.data.repository.UserRepositoryImpl
+import com.github.kornilovmikhail.spoticloud.data.repository.*
 import com.github.kornilovmikhail.spoticloud.interactor.*
 import dagger.Module
 import dagger.Provides
@@ -41,6 +39,10 @@ class RepositoryModule {
 
     @Provides
     @ApplicationScope
+    fun provideCommonTrackRepository(trackDao: TrackDAO): CommonTrackRepository = CommonTrackRepositoryImpl(trackDao)
+
+    @Provides
+    @ApplicationScope
     fun provideSharedPrefStorage(sharedPreferences: SharedPreferences): SharedPrefStorage =
         SharedPrefStorage(sharedPreferences)
 
@@ -48,8 +50,9 @@ class RepositoryModule {
     @ApplicationScope
     fun provideTracksUseCase(
         tracksSoundcloudUseCase: TracksSoundcloudUseCase,
-        tracksSpotifyUseCase: TracksSpotifyUseCase
-    ): TracksUseCase = TracksUseCase(tracksSoundcloudUseCase, tracksSpotifyUseCase)
+        tracksSpotifyUseCase: TracksSpotifyUseCase,
+        commonTrackRepository: CommonTrackRepository
+    ): TracksUseCase = TracksUseCase(tracksSoundcloudUseCase, tracksSpotifyUseCase, commonTrackRepository)
 
     @Provides
     @ApplicationScope
@@ -82,6 +85,7 @@ class RepositoryModule {
         LoginSpotifyUseCase(userRepository)
 
     companion object {
+        private const val TRACK_REPOSITORY = "TRACK_REPOSITORY"
         private const val SOUNDCLOUD_TRACK_REPOSITORY = "SOUNDCLOUD_TRACK_REPOSITORY"
         private const val SPOTIFY_TRACK_REPOSITORY = "SPOTIFY_TRACK_REPOSITORY"
     }

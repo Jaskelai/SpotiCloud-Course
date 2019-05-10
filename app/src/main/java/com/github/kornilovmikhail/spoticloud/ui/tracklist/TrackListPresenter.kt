@@ -39,6 +39,6 @@ class TrackListPresenter(
     }
 
     fun onTrackClicked(track: Track?) {
-
+        viewState.sendTrackToPlayer(track)
     }
 }

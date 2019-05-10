@@ -75,4 +75,14 @@
         <item name="android:textSize">@dimen/startscreen_headings</item>
         <item name="android:textColor">@color/colorTextStartScreen</item>
     </style>
+
+    <style name="FooterPlayerItemTitle">
+        <item name="android:textColor">@color/colorFooterPlayerTitle</item>
+        <item name="android:textSize">@dimen/footer_player_title_size</item>
+    </style>
+
+    <style name="NotificationTitle" parent="TextRegular">
+        <item name="android:textSize">@dimen/notification_title</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
 </resources>
