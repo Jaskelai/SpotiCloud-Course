@@ -64,7 +64,14 @@ class TrackRepositorySpotifyImpl(
         trackDAO.deleteTracksByStreamService(StreamServiceEnum.SPOTIFY.name)
     }.subscribe()
 
+    override fun getTrendsTracks(token: String): Single<List<Track>> =
+        spotifyApi.getTrendsTracks("Bearer $token", TRENDS_ID)
+            .map {
+                it.items.map { track -> mapSpotifyTrackRemoteToTrack(track.track) }
+            }
+
     companion object {
         private const val TYPE_TRACK = "track"
+        private const val TRENDS_ID = "37i9dQZEVXbMDoHDwVN2tF"
     }
 }

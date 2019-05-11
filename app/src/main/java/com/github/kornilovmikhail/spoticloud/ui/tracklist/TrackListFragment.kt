@@ -17,7 +17,6 @@ import com.github.kornilovmikhail.spoticloud.ui.main.CallbackFromFragments
 import kotlinx.android.synthetic.main.fragment_track_list.*
 import javax.inject.Inject
 
-
 class TrackListFragment : MvpAppCompatFragment(), TrackListView {
 
     @Inject

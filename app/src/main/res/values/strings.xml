@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SpotiCloud(course)</string>
+    <string name="app_name">SpotiCloud</string>
     <string name="logo">logo</string>
     <string name="start_heading">Welcome to SpotiCloud</string>
     <string name="signin_soundcloud">Sign in with Soundcloud</string>
@@ -30,4 +30,6 @@
     <string name="track_added_to_fav">Track added to favorites</string>
     <string name="music_channel_name">Music</string>
     <string name="music_channel_description">Notification for playing music</string>
+    <string name="img_flame">Image flame</string>
+    <string name="trends_header">TRENDS</string>
 </resources>

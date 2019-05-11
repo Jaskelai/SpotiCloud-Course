@@ -21,7 +21,6 @@ import com.github.kornilovmikhail.spoticloud.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.footer_player.*
 
-
 class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, CallbackFromService {
     @Inject
     @InjectPresenter

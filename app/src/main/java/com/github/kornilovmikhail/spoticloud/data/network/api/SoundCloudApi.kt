@@ -29,6 +29,12 @@ interface SoundCloudApi {
         @Query("oauth_token") token: String
     ): Single<List<TrackSoundCloudResponse>>
 
+    @GET("tracks/{id}")
+    fun getTrack(
+        @Path("id") id: String,
+        @Query("oauth_token") token: String
+    ): Single<TrackSoundCloudResponse>
+
     @PUT("me/favorites/{id}")
     fun addTrackToFav(
         @Path("id") id: String,

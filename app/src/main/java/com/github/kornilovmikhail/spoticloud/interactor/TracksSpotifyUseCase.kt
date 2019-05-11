@@ -37,4 +37,13 @@ class TracksSpotifyUseCase(
                 Completable.complete()
             }
         }
+
+    fun getTrendsTracks(): Single<List<Track>> = loginSpotifyUseCase.loadLocalSpotifyToken()
+        .flatMap {
+            if (it != "") {
+                tracksRepository.getTrendsTracks(it)
+            } else {
+                Single.just(arrayListOf())
+            }
+        }
 }

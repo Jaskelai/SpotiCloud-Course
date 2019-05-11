@@ -11,4 +11,6 @@ interface TrackRepository {
     fun getSearchedTracks(token: String, keywords: String): Single<List<Track>>
 
     fun addTrackToFav(token: String, id: String): Completable
+
+    fun getTrendsTracks(token: String): Single<List<Track>>
 }

@@ -3,6 +3,7 @@ package com.github.kornilovmikhail.spoticloud.app.di.module
 import com.github.kornilovmikhail.spoticloud.BuildConfig
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
+import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudV2Api
 import com.github.kornilovmikhail.spoticloud.data.network.api.SpotifyApi
 import dagger.Module
 import dagger.Provides
@@ -23,11 +24,36 @@ class RetrofitModule {
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
         @Named(SOUNDCLOUD_URL) baseURL: String
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(baseURL)
-        .addConverterFactory(gsonConverterFactory)
-        .addCallAdapterFactory(rxJava2CallAdapterFactory)
-        .build()
+    ): Retrofit {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        return Retrofit.Builder()
+            .baseUrl(baseURL)
+            .client(client)
+            .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(rxJava2CallAdapterFactory)
+            .build()
+    }
+
+    @Provides
+    @ApplicationScope
+    @Named(RETROFIT_SOUNDCLOUD_V2)
+    fun provideRetrofitSoundCloudV2(
+        gsonConverterFactory: GsonConverterFactory,
+        rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
+        @Named(SOUNDCLOUD_URL_V2) baseURL: String
+    ): Retrofit {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        return Retrofit.Builder()
+            .baseUrl(baseURL)
+            .client(client)
+            .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(rxJava2CallAdapterFactory)
+            .build()
+    }
 
     @Provides
     @ApplicationScope
@@ -55,6 +81,11 @@ class RetrofitModule {
 
     @Provides
     @ApplicationScope
+    fun provideSoundcloudV2Api(@Named(RETROFIT_SOUNDCLOUD_V2) retrofit: Retrofit): SoundCloudV2Api =
+        retrofit.create(SoundCloudV2Api::class.java)
+
+    @Provides
+    @ApplicationScope
     fun provideSpotifyApi(@Named(RETROFIT_SPOTIFY) retrofit: Retrofit): SpotifyApi =
         retrofit.create(SpotifyApi::class.java)
 
@@ -78,13 +109,20 @@ class RetrofitModule {
 
     @Provides
     @ApplicationScope
+    @Named(SOUNDCLOUD_URL_V2)
+    fun provideSoundCloudURLV2(): String = BuildConfig.SOUNDCLOUD_URL_V2
+
+    @Provides
+    @ApplicationScope
     @Named(SPOTIFY_URL)
     fun provideSpotifyURL(): String = BuildConfig.SPOTIFY_URL
 
     companion object {
         private const val SOUNDCLOUD_URL = "SOUNDCLOUD_URL"
+        private const val SOUNDCLOUD_URL_V2 = "SOUNDCLOUD_URL_V2"
         private const val SPOTIFY_URL = "SPOTIFY_URL"
         private const val RETROFIT_SOUNDCLOUD = "RETROFIT_SOUNDLOUD"
+        private const val RETROFIT_SOUNDCLOUD_V2 = "RETROFIT_SOUNDLOUD_V2"
         private const val RETROFIT_SPOTIFY = "RETROFIT_SPOTIFY"
     }
 }

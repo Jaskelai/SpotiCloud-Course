@@ -27,9 +27,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     MediaPlayer.OnErrorListener, CallbackMessageService {
 
     @Inject
-    lateinit var binder: OnBinder
-
-    @Inject
     lateinit var loginSoundloudUseCase: LoginSoundcloudUseCase
 
     @Inject
@@ -39,9 +36,15 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     lateinit var tracksUseCase: TracksUseCase
 
     private var player: MediaPlayer? = null
-    private var position: Int? = null
-    private var track: Track? = null
+
+    private var trackId: Int? = null
+    private var trackStreamUrl: String? = null
+    private var trackArtworkUrl: String? = null
+    private var trackStreamService: StreamServiceEnum? = null
+    private var trackTitle: String? = null
+    private var trackAuthor: String? = null
     private lateinit var state: PlayingStatusEnum
+
     private val handler = IncomingHandler(this)
     private val messengerReceiver = Messenger(handler)
     private var messengerResponse: Messenger? = null
@@ -83,7 +86,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         state = PlayingStatusEnum.PlAYING
     }
 
-    override fun onCompletion(p0: MediaPlayer?) {
+    override fun onCompletion(mp: MediaPlayer?) {
         //do nothing after track ending
     }
 
@@ -104,28 +107,19 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     }
 
     private fun setupTrackToPlay(intent: Intent) {
-        position = intent.getIntExtra(MusicServiceHelper.TRACK_ID, -1)
-        position?.let {
-            findTrack(it)
-        }
+        trackId = intent.getIntExtra(MusicServiceHelper.TRACK_ID, -1)
+        trackStreamUrl = intent.getStringExtra(MusicServiceHelper.TRACK_URL)
+        trackArtworkUrl = intent.getStringExtra(MusicServiceHelper.TRACK_COVER_LINK)
+        trackStreamService = StreamServiceEnum.valueOf(intent.getStringExtra(MusicServiceHelper.TRACK_SOURCE))
+        trackTitle = intent.getStringExtra(MusicServiceHelper.TRACK_TITLE)
+        trackAuthor = intent.getStringExtra(MusicServiceHelper.TRACK_AUTHOR)
+        getTokenToPlay()
     }
 
-    private fun findTrack(position: Int) {
+    private fun getTokenToPlay() {
         terminatePrevious()
-        disposables.add(
-            tracksUseCase.findTrackById(position)
-                .subscribe({
-                    track = it
-                    getToken(it.streamService)
-                }, {
-                    it.printStackTrace()
-                })
-        )
-    }
-
-    private fun getToken(streamServiceEnum: StreamServiceEnum) {
-        val token = run {
-            when (streamServiceEnum) {
+        val token = trackStreamService?.let {
+            when (it) {
                 StreamServiceEnum.SOUNDCLOUD -> {
                     loginSoundloudUseCase.loadLocalSoundCloudToken()
                 }
@@ -134,13 +128,15 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 }
             }
         }
-        disposables.add(
-            token.subscribe({
-                playTrack(it)
-            }, {
-                it.printStackTrace()
-            })
-        )
+        token?.let {
+            disposables.add(
+                it.subscribe({
+                    playTrack(it)
+                }, {
+                    it.printStackTrace()
+                })
+            )
+        }
     }
 
     private fun playTrack(token: String) {
@@ -153,7 +149,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                         .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
                         .build()
                 )
-                player?.setDataSource("${track?.streamUrl}?oauth_token=$token")
+                player?.setDataSource("$trackStreamUrl?oauth_token=$token")
                 player?.prepareAsync()
             }
                 .subscribeOn(Schedulers.io())
@@ -191,7 +187,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
 
     private fun createNotification(pendIntent: PendingIntent): Notification {
         val notificationView = RemoteViews(applicationContext.packageName, R.layout.notification_player)
-        notificationView.setTextViewText(R.id.tv_notification_title, track?.title)
+        notificationView.setTextViewText(R.id.tv_notification_title, trackTitle)
         return NotificationCompat.Builder(this, MUSIC_CHANNEL_ID)
             .setSmallIcon(R.drawable.logo)
             .setContentIntent(pendIntent)
@@ -248,8 +244,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
 
     override fun sendFooterInit(messenger: Messenger) {
         val bundle = Bundle()
-        bundle.putString(MusicServiceConnection.MESSAGE_LINK_COVER_TRACK, track?.artworkUrl)
-        bundle.putString(MusicServiceConnection.MESSAGE_TITLE_TRACK, track?.title)
+        bundle.putString(MusicServiceConnection.MESSAGE_LINK_COVER_TRACK, trackArtworkUrl)
+        bundle.putString(MusicServiceConnection.MESSAGE_TITLE_TRACK, trackTitle)
         val backMsg = Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_FOOTER_RESPONSE)
         backMsg.data = bundle
         messengerResponse = messenger

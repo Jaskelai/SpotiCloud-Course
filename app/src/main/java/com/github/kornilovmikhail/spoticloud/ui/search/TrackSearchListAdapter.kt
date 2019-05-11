@@ -16,10 +16,10 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.track_list_item.*
 import kotlinx.android.synthetic.main.track_list_item.view.*
 
-class SearchListAdapter(
+class TrackSearchListAdapter(
     private val clickListener: (Track?) -> Unit,
     private val addToFavListener: (Track?) -> Unit
-) : ListAdapter<Track, SearchListAdapter.TrackHolder>(TrackDiffCallback()) {
+) : ListAdapter<Track, TrackSearchListAdapter.TrackHolder>(TrackDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): TrackHolder =
         TrackHolder(LayoutInflater.from(parent.context).inflate(R.layout.track_list_item, parent, false))

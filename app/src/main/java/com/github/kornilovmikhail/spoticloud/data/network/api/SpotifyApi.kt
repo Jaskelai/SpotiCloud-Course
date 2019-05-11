@@ -4,10 +4,7 @@ import com.github.kornilovmikhail.spoticloud.data.network.model.spotify.Searched
 import com.github.kornilovmikhail.spoticloud.data.network.model.spotify.TracksSpotifyResponse
 import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.PUT
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface SpotifyApi {
 
@@ -26,4 +23,10 @@ interface SpotifyApi {
         @Header("Authorization") token: String,
         @Query("ids") id: String
     ): Completable
+
+    @GET("playlists/{id}/tracks")
+    fun getTrendsTracks(
+        @Header("Authorization") token: String,
+        @Path("id") id: String
+    ) : Single<TracksSpotifyResponse>
 }

@@ -1,4 +1,4 @@
-package com.github.kornilovmikhail.spoticloud.ui.search
+package com.github.kornilovmikhail.spoticloud.ui.trends
 
 import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
@@ -8,20 +8,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 
 @InjectViewState
-class SearchPresenter(private val tracksUseCase: TracksUseCase) : MvpPresenter<SearchView>() {
+class TrendsPresenter(private val tracksUseCase: TracksUseCase) : MvpPresenter<TrendsView>() {
     private val disposables = CompositeDisposable()
 
-    fun onSearch(keyword: String) {
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
         disposables.add(
-            tracksUseCase.getSearchedTracks(keyword)
+            tracksUseCase.getTrendsTracks()
                 .doOnSubscribe { viewState.showProgressBar() }
                 .doAfterTerminate { viewState.hideProgressBar() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    viewState.showSearchedTracks(it)
-                    if (it.isEmpty()) {
-                        viewState.showNotFoundMessage()
-                    }
+                    viewState.showTrendsTracks(it)
                 }, {
                     viewState.showErrorMessage()
                 })

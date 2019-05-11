@@ -12,6 +12,7 @@ import com.github.kornilovmikhail.spoticloud.ui.main.di.component.MainSubCompone
 import com.github.kornilovmikhail.spoticloud.ui.search.di.component.SearchSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.start.di.component.StartSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.tracklist.di.component.TrackListSubComponent
+import com.github.kornilovmikhail.spoticloud.ui.trends.di.component.TrendsSubComponent
 import com.squareup.picasso.Picasso
 import dagger.Component
 
@@ -31,6 +32,7 @@ interface AppComponent {
     fun loginSoundcloudSubComponentBuilder(): LoginSoundcloudSubComponent.Builder
     fun trackListSubComponentBuilder(): TrackListSubComponent.Builder
     fun searchSubComponentBuilder(): SearchSubComponent.Builder
+    fun trendsSubComponentBuilder(): TrendsSubComponent.Builder
     fun musicServiceSubComponentBuilder(): MusicServiceSubComponent.Builder
 
     fun providePicasso(): Picasso

@@ -48,6 +48,16 @@ class TracksUseCase(
         }
     }
 
-    fun findTrackById(id: Int): Single<Track> = commonTrackRepository.findTrackById(id)
+    fun getTrendsTracks(): Single<List<Track>> =
+        Single.zip(
+            tracksSoundcloudUseCase.getTrendsTracks(),
+            tracksSpotifyUseCase.getTrendsTracks(),
+            BiFunction { soundcloudList, spotifyList ->
+                val result = ArrayList<Track>()
+                result.addAll(soundcloudList)
+                result.addAll(spotifyList)
+                result
+            }
+        )
 
 }

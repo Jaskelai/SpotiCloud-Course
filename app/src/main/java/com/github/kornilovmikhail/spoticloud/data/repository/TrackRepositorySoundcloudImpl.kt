@@ -8,13 +8,22 @@ import com.github.kornilovmikhail.spoticloud.data.mappers.mapSoundCloudTrackRemo
 import com.github.kornilovmikhail.spoticloud.data.mappers.mapTrackDBToTrack
 import com.github.kornilovmikhail.spoticloud.data.mappers.mapTrackToTrackDB
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
-import io.reactivex.Completable
-import io.reactivex.Single
+import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudV2Api
+import com.github.kornilovmikhail.spoticloud.data.network.model.soundcloud.AuthorSoundCloudRemote
+import com.github.kornilovmikhail.spoticloud.data.network.model.soundcloud.TrackSoundCloudResponse
+import io.reactivex.*
 import io.reactivex.disposables.Disposable
+import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function
+import io.reactivex.functions.Function6
+import io.reactivex.functions.Function7
+import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
+import kotlin.jvm.functions.FunctionN
 
 class TrackRepositorySoundcloudImpl(
     private val soundCloudApi: SoundCloudApi,
+    private val soundCloudV2Api: SoundCloudV2Api,
     private val trackDAO: TrackDAO
 ) : TrackRepository {
 
@@ -34,15 +43,28 @@ class TrackRepositorySoundcloudImpl(
         soundCloudApi.getSearchedTracks(keywords, token)
             .subscribeOn(Schedulers.io())
             .map {
-                if (it.isEmpty()) {
-                    arrayListOf()
-                } else {
-                    it.map { track -> mapSoundCloudTrackRemoteToTrack(track) }
-                }
+                it.map { track -> mapSoundCloudTrackRemoteToTrack(track) }
             }
 
     override fun addTrackToFav(token: String, id: String): Completable = soundCloudApi.addTrackToFav(id, token)
         .subscribeOn(Schedulers.io())
+
+    override fun getTrendsTracks(token: String): Single<List<Track>> =
+        soundCloudV2Api.getTrendsTracks(KIND_TOP, GENRE_ALL_TRACKS, token)
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.collection.map { it.track.uri.substringAfterLast("/") }
+            }
+            .map {
+                it.map { getTrackFromNetwork(it, token) }
+            }
+            .flatMap {
+                Single.zip(it) { objects ->
+                    objects.map { it as Track }
+                        .filter { it.title != "" }
+                }
+            }
+
 
     private fun getFavoriteTracksFromNetwork(token: String): Single<List<Track>> =
         soundCloudApi.getFavoriteTracks(token)
@@ -63,4 +85,19 @@ class TrackRepositorySoundcloudImpl(
     private fun deleteFavoriteTracks(): Disposable = Completable.fromAction {
         trackDAO.deleteTracksByStreamService(StreamServiceEnum.SOUNDCLOUD.name)
     }.subscribe()
+
+    private fun getTrackFromNetwork(id: String, token: String): Single<Track?> =
+        soundCloudApi.getTrack(id, token)
+            .subscribeOn(Schedulers.io())
+            .onErrorResumeNext {
+                Single.just(TrackSoundCloudResponse(0, 0, 0, "", "", "", AuthorSoundCloudRemote("", "")))
+            }
+            .map {
+                mapSoundCloudTrackRemoteToTrack(it)
+            }
+
+    companion object {
+        private const val KIND_TOP = "top"
+        private const val GENRE_ALL_TRACKS = "soundcloud:genres:all-music"
+    }
 }

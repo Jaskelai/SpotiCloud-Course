@@ -37,4 +37,13 @@ class TracksSoundcloudUseCase(
                 Completable.complete()
             }
         }
+
+    fun getTrendsTracks(): Single<List<Track>> = loginSoundcloudUseCase.loadLocalSoundCloudToken()
+        .flatMap {
+            if (it != "") {
+                tracksRepository.getTrendsTracks(it)
+            } else {
+                Single.just(arrayListOf())
+            }
+        }
 }

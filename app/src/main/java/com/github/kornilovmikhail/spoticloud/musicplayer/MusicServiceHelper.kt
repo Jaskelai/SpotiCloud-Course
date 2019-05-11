@@ -25,6 +25,11 @@ class MusicServiceHelper {
         context?.let {
             val musicServiceIntent = Intent(context, MusicService::class.java)
             musicServiceIntent.putExtra(TRACK_ID, track?.id)
+            musicServiceIntent.putExtra(TRACK_URL, track?.streamUrl)
+            musicServiceIntent.putExtra(TRACK_COVER_LINK, track?.artworkLowSizeUrl ?: track?.artworkUrl)
+            musicServiceIntent.putExtra(TRACK_SOURCE, track?.streamService?.name)
+            musicServiceIntent.putExtra(TRACK_TITLE, track?.title)
+            musicServiceIntent.putExtra(TRACK_AUTHOR, track?.author?.username)
             context.startService(musicServiceIntent)
         }
     }
@@ -40,5 +45,9 @@ class MusicServiceHelper {
     companion object {
         const val TRACK_ID = "TRACK_ID"
         const val TRACK_URL = "TRACK_URL"
+        const val TRACK_COVER_LINK = "TRACK_COVER_LINK"
+        const val TRACK_SOURCE = "TRACK_SOURCE"
+        const val TRACK_TITLE = "TRACK_TITLE"
+        const val TRACK_AUTHOR = "TRACK_AUTHOR"
     }
 }

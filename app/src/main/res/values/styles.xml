@@ -85,4 +85,9 @@
         <item name="android:textSize">@dimen/notification_title</item>
         <item name="android:textColor">@color/colorBlack</item>
     </style>
+
+    <style name="TrendsHeader" parent="TextRegular">
+        <item name="android:textSize">@dimen/notification_title</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
 </resources>

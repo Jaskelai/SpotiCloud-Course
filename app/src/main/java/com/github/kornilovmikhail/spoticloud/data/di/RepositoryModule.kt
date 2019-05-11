@@ -7,6 +7,7 @@ import com.github.kornilovmikhail.spoticloud.core.interfaces.TrackRepository
 import com.github.kornilovmikhail.spoticloud.core.interfaces.UserRepository
 import com.github.kornilovmikhail.spoticloud.data.db.dao.TrackDAO
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
+import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudV2Api
 import com.github.kornilovmikhail.spoticloud.data.network.api.SpotifyApi
 import com.github.kornilovmikhail.spoticloud.data.repository.*
 import com.github.kornilovmikhail.spoticloud.interactor.*
@@ -27,9 +28,10 @@ class RepositoryModule {
     @Named(SOUNDCLOUD_TRACK_REPOSITORY)
     fun provideSoundcloudRepository(
         soundCloudApi: SoundCloudApi,
+        soundCloudV2Api: SoundCloudV2Api,
         trackDao: TrackDAO
     ): TrackRepository =
-        TrackRepositorySoundcloudImpl(soundCloudApi, trackDao)
+        TrackRepositorySoundcloudImpl(soundCloudApi, soundCloudV2Api, trackDao)
 
     @Provides
     @ApplicationScope
