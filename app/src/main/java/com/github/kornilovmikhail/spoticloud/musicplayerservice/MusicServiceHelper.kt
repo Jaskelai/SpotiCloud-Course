@@ -1,4 +1,4 @@
-package com.github.kornilovmikhail.spoticloud.musicplayer
+package com.github.kornilovmikhail.spoticloud.musicplayerservice
 
 import android.content.Context
 import android.content.Intent
@@ -21,7 +21,7 @@ class MusicServiceHelper {
         }
     }
 
-    fun startService(context: Context?, track: Track?) {
+    fun startMusicService(context: Context?, track: Track?) {
         context?.let {
             val musicServiceIntent = Intent(context, MusicService::class.java)
             musicServiceIntent.putExtra(TRACK_ID, track?.id)

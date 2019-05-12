@@ -5,7 +5,7 @@ import com.github.kornilovmikhail.spoticloud.app.di.module.*
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.data.di.RepositoryModule
 import com.github.kornilovmikhail.spoticloud.data.di.SpotifySDKModule
-import com.github.kornilovmikhail.spoticloud.musicplayer.di.component.MusicServiceSubComponent
+import com.github.kornilovmikhail.spoticloud.musicplayerservice.MusicService
 import com.github.kornilovmikhail.spoticloud.ui.loginsoundcloud.di.component.LoginSoundcloudSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.main.MainActivity
 import com.github.kornilovmikhail.spoticloud.ui.main.di.component.MainSubComponent
@@ -26,6 +26,7 @@ interface AppComponent {
 
     fun inject(app: App)
     fun inject(mainActivity: MainActivity)
+    fun inject(musicService: MusicService)
 
     fun startSubComponentBuilder(): StartSubComponent.Builder
     fun mainSubComponentBuilder(): MainSubComponent.Builder
@@ -33,7 +34,6 @@ interface AppComponent {
     fun trackListSubComponentBuilder(): TrackListSubComponent.Builder
     fun searchSubComponentBuilder(): SearchSubComponent.Builder
     fun trendsSubComponentBuilder(): TrendsSubComponent.Builder
-    fun musicServiceSubComponentBuilder(): MusicServiceSubComponent.Builder
 
     fun providePicasso(): Picasso
 }

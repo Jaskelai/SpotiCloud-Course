@@ -60,4 +60,7 @@ class TracksUseCase(
             }
         )
 
+    fun getTrackById(id: Int): Single<Track> =
+        commonTrackRepository.findTrackById(id)
+
 }

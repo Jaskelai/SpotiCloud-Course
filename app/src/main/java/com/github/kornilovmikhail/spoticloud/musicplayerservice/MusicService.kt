@@ -1,6 +1,7 @@
-package com.github.kornilovmikhail.spoticloud.musicplayer
+package com.github.kornilovmikhail.spoticloud.musicplayerservice
 
 import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
 import android.media.MediaPlayer
@@ -8,7 +9,6 @@ import androidx.core.app.NotificationCompat
 import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.core.model.PlayingStatusEnum
 import com.github.kornilovmikhail.spoticloud.core.model.StreamServiceEnum
-import com.github.kornilovmikhail.spoticloud.core.model.Track
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
 import com.github.kornilovmikhail.spoticloud.interactor.LoginSpotifyUseCase
 import com.github.kornilovmikhail.spoticloud.interactor.TracksUseCase
@@ -19,12 +19,14 @@ import javax.inject.Inject
 import android.graphics.Color
 import android.os.*
 import android.widget.RemoteViews
+import com.github.kornilovmikhail.spoticloud.BuildConfig
 import com.github.kornilovmikhail.spoticloud.R
+import com.github.kornilovmikhail.spoticloud.core.model.Track
 import com.github.kornilovmikhail.spoticloud.ui.main.MainActivity
-
+import com.spotify.sdk.android.player.*
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener,
-    MediaPlayer.OnErrorListener, CallbackMessageService {
+    MediaPlayer.OnErrorListener, CallbackMessageService, Player.OperationCallback {
 
     @Inject
     lateinit var loginSoundloudUseCase: LoginSoundcloudUseCase
@@ -35,7 +37,11 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     @Inject
     lateinit var tracksUseCase: TracksUseCase
 
-    private var player: MediaPlayer? = null
+    @Inject
+    lateinit var context: Context
+
+    private var mediaPlayer: MediaPlayer? = null
+    private var spotifyPlayer: Player? = null
 
     private var trackId: Int? = null
     private var trackStreamUrl: String? = null
@@ -45,22 +51,16 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     private var trackAuthor: String? = null
     private lateinit var state: PlayingStatusEnum
 
-    private val handler = IncomingHandler(this)
-    private val messengerReceiver = Messenger(handler)
+    private val messengerReceiver = Messenger(IncomingHandler(this))
     private var messengerResponse: Messenger? = null
 
     private val disposables = CompositeDisposable()
 
-    inner class OnBinder : Binder() {
-        val service: MusicService
-            get() = this@MusicService
-    }
+    //lifecycle
 
     override fun onCreate() {
         super.onCreate()
         App.component
-            .musicServiceSubComponentBuilder()
-            .build()
             .inject(this)
         isServiceStarted = true
     }
@@ -81,30 +81,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         clearMusicPlayer()
     }
 
-    override fun onPrepared(mp: MediaPlayer?) {
-        mp?.start()
-        state = PlayingStatusEnum.PlAYING
-    }
-
-    override fun onCompletion(mp: MediaPlayer?) {
-        //do nothing after track ending
-    }
-
-    override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean = false
-
-    override fun pausePlaying() {
-        player?.let {
-            it.pause()
-            state = PlayingStatusEnum.PAUSED
-        }
-    }
-
-    override fun resumePlaying() {
-        player?.let {
-            it.start()
-            it.seekTo(it.currentPosition)
-        }
-    }
+    //send track to player
 
     private fun setupTrackToPlay(intent: Intent) {
         trackId = intent.getIntExtra(MusicServiceHelper.TRACK_ID, -1)
@@ -113,10 +90,19 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         trackStreamService = StreamServiceEnum.valueOf(intent.getStringExtra(MusicServiceHelper.TRACK_SOURCE))
         trackTitle = intent.getStringExtra(MusicServiceHelper.TRACK_TITLE)
         trackAuthor = intent.getStringExtra(MusicServiceHelper.TRACK_AUTHOR)
-        getTokenToPlay()
+        sendTokenToPlay()
     }
 
-    private fun getTokenToPlay() {
+    private fun getInfoFromTrack(track: Track) {
+        trackId = track.id
+        trackStreamUrl = track.streamUrl
+        trackArtworkUrl = track.artworkLowSizeUrl ?: track.artworkUrl
+        trackStreamService = track.streamService
+        trackTitle = track.title
+        trackAuthor = track.author.username
+    }
+
+    private fun sendTokenToPlay() {
         terminatePrevious()
         val token = trackStreamService?.let {
             when (it) {
@@ -142,23 +128,148 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     private fun playTrack(token: String) {
         disposables.add(
             Completable.fromAction {
-                createMediaPlayerIfNeeded()
-                player?.setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
-                        .build()
-                )
-                player?.setDataSource("$trackStreamUrl?oauth_token=$token")
-                player?.prepareAsync()
+                if (trackStreamService == StreamServiceEnum.SPOTIFY) {
+                    playSpotifyTrack(token)
+                } else {
+                    playSoundCloudTrack(token)
+                }
             }
                 .subscribeOn(Schedulers.io())
-                .subscribe({
-                }, {
-                    it.printStackTrace()
-                })
+                .subscribe({}, {})
         )
     }
+
+    //play spotify track
+
+    private fun playSpotifyTrack(token: String) {
+        clearMusicPlayer()
+        spotifyPlayer?.pause(this)
+        configSpotifyPlayer(token)
+        Thread.sleep(1500)
+        configSpotifyPlayer(token)
+        spotifyPlayer?.playUri(null, trackStreamUrl, 0, 0)
+    }
+
+    private fun configSpotifyPlayer(token: String) {
+        val playerConfig = Config(context, token, BuildConfig.SPOTIFY_CLIENT_ID)
+        Spotify.getPlayer(playerConfig, this, object : SpotifyPlayer.InitializationObserver {
+            override fun onInitialized(spotifyPlayer: SpotifyPlayer) {
+                this@MusicService.spotifyPlayer = spotifyPlayer
+            }
+
+            override fun onError(throwable: Throwable) {
+            }
+        })
+    }
+
+    override fun onError(p0: Error?) {
+    }
+
+    override fun onSuccess() {
+    }
+
+    //play soundcloud track
+
+    private fun playSoundCloudTrack(token: String) {
+        clearSpotifyPlayer()
+        createMediaPlayer()
+        mediaPlayer?.setAudioAttributes(
+            AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
+                .build()
+        )
+        mediaPlayer?.setDataSource("$trackStreamUrl?oauth_token=$token")
+        mediaPlayer?.prepareAsync()
+    }
+
+    private fun createMediaPlayer() {
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer()
+            mediaPlayer?.apply {
+                setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
+                setOnPreparedListener(this@MusicService)
+                setOnCompletionListener(this@MusicService)
+                setOnErrorListener(this@MusicService)
+            }
+        } else {
+            mediaPlayer?.reset()
+        }
+    }
+
+    override fun onPrepared(mp: MediaPlayer?) {
+        mp?.start()
+        state = PlayingStatusEnum.PlAYING
+    }
+
+    override fun onCompletion(mp: MediaPlayer?) {
+        //TODO ON COMPLETION SOUNDCLOUD TRACK
+    }
+
+    override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean = false
+
+    //pause track
+
+    override fun pausePlaying() {
+        if (trackStreamService == StreamServiceEnum.SPOTIFY) {
+            spotifyPlayer?.pause(this)
+        } else {
+            mediaPlayer?.let {
+                it.pause()
+            }
+        }
+        state = PlayingStatusEnum.PAUSED
+    }
+
+    //resume track
+
+    override fun resumePlaying() {
+        if (trackStreamService == StreamServiceEnum.SPOTIFY) {
+            spotifyPlayer?.resume(this)
+        } else {
+            mediaPlayer?.let {
+                it.start()
+                it.seekTo(it.currentPosition)
+            }
+        }
+        state = PlayingStatusEnum.PlAYING
+    }
+
+    //play prev
+
+    override fun playPrev(messenger: Messenger) {
+        trackId?.let {
+            disposables.add(
+                tracksUseCase.getTrackById(it - 1)
+                    .subscribe({ track ->
+                        getInfoFromTrack(track)
+                        sendFooterUpdate(messenger)
+                        sendTokenToPlay()
+                    }, {
+
+                    })
+            )
+        }
+    }
+
+    //play next
+
+    override fun playNext(messenger: Messenger) {
+        trackId?.let {
+            disposables.add(
+                tracksUseCase.getTrackById(it + 1)
+                    .subscribe({ track ->
+                        getInfoFromTrack(track)
+                        sendFooterUpdate(messenger)
+                        sendTokenToPlay()
+                    }, {
+
+                    })
+            )
+        }
+    }
+
+    //notification
 
     private fun startForegroundNotification() {
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
@@ -195,42 +306,29 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
             .build()
     }
 
-    private fun createMediaPlayerIfNeeded() {
-        if (player == null) {
-            player = MediaPlayer()
-            player?.setWakeMode(applicationContext, PowerManager.PARTIAL_WAKE_LOCK)
-            player?.setOnPreparedListener(this)
-            player?.setOnCompletionListener(this)
-            player?.setOnErrorListener(this)
-        } else {
-            player?.reset()
-        }
-    }
-
-    fun start() {
-        if (player != null) {
-            player?.start()
-            state = PlayingStatusEnum.PlAYING
-        }
-    }
-
-
     private fun terminatePrevious() {
         disposables.clear()
     }
 
     private fun clearMusicPlayer() {
-        player?.reset()
-        player?.release()
-        player = null
+        mediaPlayer?.reset()
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
+
+    private fun clearSpotifyPlayer() {
+        spotifyPlayer?.pause(this)
+        spotifyPlayer = null
+    }
+
+    // handler for messages from activity
 
     class IncomingHandler(private val callback: CallbackMessageService) : Handler() {
 
         override fun handleMessage(msg: Message?) {
             when (msg?.what) {
                 MusicServiceConnection.MESSAGE_TYPE_FOOTER_INIT -> {
-                    callback.sendFooterInit(msg.replyTo)
+                    callback.sendFooterUpdate(msg.replyTo)
                 }
                 MusicServiceConnection.MESSAGE_TYPE_FOOTER_PAUSE -> {
                     callback.pausePlaying()
@@ -238,11 +336,19 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 MusicServiceConnection.MESSAGE_TYPE_FOOTER_RESUME -> {
                     callback.resumePlaying()
                 }
+                MusicServiceConnection.MESSAGE_TYPE_FOOTER_PREV -> {
+                    callback.playPrev(msg.replyTo)
+                }
+                MusicServiceConnection.MESSAGE_TYPE_FOOTER_NEXT -> {
+                    callback.playNext(msg.replyTo)
+                }
             }
         }
     }
 
-    override fun sendFooterInit(messenger: Messenger) {
+    //messages to activity
+
+    override fun sendFooterUpdate(messenger: Messenger) {
         val bundle = Bundle()
         bundle.putString(MusicServiceConnection.MESSAGE_LINK_COVER_TRACK, trackArtworkUrl)
         bundle.putString(MusicServiceConnection.MESSAGE_TITLE_TRACK, trackTitle)

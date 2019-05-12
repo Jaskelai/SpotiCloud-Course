@@ -19,7 +19,7 @@ class SpotifySDKModule {
     ): AuthenticationRequest =
         AuthenticationRequest.Builder(BuildConfig.SPOTIFY_CLIENT_ID, typeToken, redirectUri.toString())
             .setShowDialog(false)
-            .setScopes(arrayOf(SCOPE_LIBRARY_MODIFY, SCOPE_USER_READ_PRIVATE, SCOPE_LIBRARY_READ))
+            .setScopes(arrayOf(SCOPE_LIBRARY_MODIFY, SCOPE_USER_READ_PRIVATE, SCOPE_LIBRARY_READ, SCOPE_STREAMING))
             .setCampaign(CAMPAIGN)
             .build()
 
@@ -41,6 +41,7 @@ class SpotifySDKModule {
         private const val SCOPE_LIBRARY_READ = "user-library-read"
         private const val SCOPE_LIBRARY_MODIFY = "user-library-modify"
         private const val SCOPE_USER_READ_PRIVATE = "user-read-private"
+        private const val SCOPE_STREAMING = "streaming"
         private const val SCHEME = "spotify-sdk"
         private const val AUTH = "auth"
     }

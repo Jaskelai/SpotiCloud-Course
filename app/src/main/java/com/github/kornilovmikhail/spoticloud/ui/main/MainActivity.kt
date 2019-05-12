@@ -9,8 +9,8 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
 import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.core.model.Track
-import com.github.kornilovmikhail.spoticloud.musicplayer.MusicServiceConnection
-import com.github.kornilovmikhail.spoticloud.musicplayer.MusicServiceHelper
+import com.github.kornilovmikhail.spoticloud.musicplayerservice.MusicServiceConnection
+import com.github.kornilovmikhail.spoticloud.musicplayerservice.MusicServiceHelper
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.MySupportAppNavigator
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -131,7 +131,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
     }
 
     override fun sendTrackToPlayer(track: Track?) {
-        musicServiceHelper.startService(this, track)
+        musicServiceHelper.startMusicService(this, track)
         mainPresenter.showTrack()
     }
 
@@ -139,9 +139,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
         vs_footer_player?.let {
             vs_footer_player.inflate()
         }
-        val message = Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_FOOTER_INIT)
-        message.replyTo = messenger
-        musicServiceConnection.messengerService?.send(message)
+        sendMessage(MusicServiceConnection.MESSAGE_TYPE_FOOTER_INIT)
         addFooterListeners()
     }
 
@@ -162,6 +160,18 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
             }
             musicServiceConnection.messengerService?.send(message)
         }
+        btn_footer_player_prev.setOnClickListener {
+            sendMessage(MusicServiceConnection.MESSAGE_TYPE_FOOTER_PREV)
+        }
+        btn_footer_player_next.setOnClickListener {
+            sendMessage(MusicServiceConnection.MESSAGE_TYPE_FOOTER_NEXT)
+        }
+    }
+
+    private fun sendMessage(what: Int) {
+        val message = Message.obtain(null, what)
+        message.replyTo = messenger
+        musicServiceConnection.messengerService?.send(message)
     }
 
     class MessageHandler(private val callback: CallbackFromService) : Handler() {

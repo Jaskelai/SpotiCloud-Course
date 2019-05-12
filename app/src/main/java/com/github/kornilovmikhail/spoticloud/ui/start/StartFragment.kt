@@ -15,10 +15,11 @@ import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.MySupportAppNavigator
 import com.github.kornilovmikhail.spoticloud.ui.main.CallbackFromFragments
 import com.google.android.material.snackbar.Snackbar
+import com.spotify.sdk.android.player.*
 import kotlinx.android.synthetic.main.fragment_start.*
 import javax.inject.Inject
 
-class StartFragment : MvpAppCompatFragment(), StartView {
+class StartFragment : MvpAppCompatFragment(), StartView{
 
     @Inject
     @InjectPresenter
@@ -66,6 +67,7 @@ class StartFragment : MvpAppCompatFragment(), StartView {
 
     override fun onDestroy() {
         super.onDestroy()
+        Spotify.destroyPlayer(this)
         startPresenter.onCleared()
     }
 

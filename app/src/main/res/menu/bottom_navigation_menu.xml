@@ -11,7 +11,7 @@
             android:id="@+id/bottom_action_tracks"
             android:enabled="true"
             android:icon="@drawable/ic_favorite_white_24dp"
-            android:title="@string/your_tracks"
+            android:title="@string/my_tracks"
             app:showAsAction="ifRoom"/>
     <item
             android:id="@+id/bottom_action_trends"

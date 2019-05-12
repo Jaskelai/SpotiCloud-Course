@@ -1,6 +1,7 @@
 package com.github.kornilovmikhail.spoticloud.ui.tracklist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -9,16 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.github.kornilovmikhail.spoticloud.BuildConfig
 import com.github.kornilovmikhail.spoticloud.R
 
 import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.core.model.Track
 import com.github.kornilovmikhail.spoticloud.ui.main.CallbackFromFragments
+import com.spotify.sdk.android.player.*
 import kotlinx.android.synthetic.main.fragment_track_list.*
 import javax.inject.Inject
 
-class TrackListFragment : MvpAppCompatFragment(), TrackListView {
-
+class TrackListFragment : MvpAppCompatFragment(), TrackListView{
     @Inject
     @InjectPresenter
     lateinit var trackListPresenter: TrackListPresenter

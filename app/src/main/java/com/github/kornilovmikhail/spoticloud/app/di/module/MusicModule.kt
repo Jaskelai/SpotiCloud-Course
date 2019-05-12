@@ -1,8 +1,8 @@
 package com.github.kornilovmikhail.spoticloud.app.di.module
 
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
-import com.github.kornilovmikhail.spoticloud.musicplayer.MusicServiceConnection
-import com.github.kornilovmikhail.spoticloud.musicplayer.MusicServiceHelper
+import com.github.kornilovmikhail.spoticloud.musicplayerservice.MusicServiceConnection
+import com.github.kornilovmikhail.spoticloud.musicplayerservice.MusicServiceHelper
 import dagger.Module
 import dagger.Provides
 
