@@ -167,9 +167,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
             sendMessage(MusicServiceConnection.MESSAGE_TYPE_FOOTER_NEXT)
         }
 
-        footer_player.setOnClickListener {
-            mainPresenter.onFooterClicked()
-        }
+//        footer_player.setOnClickListener {
+//            mainPresenter.onFooterClicked()
+//        }
     }
 
     private fun sendMessage(what: Int) {

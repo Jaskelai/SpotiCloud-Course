@@ -65,7 +65,7 @@
             android:elevation="@dimen/elevation"
             android:textOn=""
             android:textOff=""
-            android:background="@drawable/selector_fav"
+            android:background="@drawable/selector_play_pause_footer"
             app:layout_constraintStart_toEndOf="@id/btn_footer_player_prev"
             app:layout_constraintEnd_toStartOf="@id/btn_footer_player_next"
             app:layout_constraintTop_toTopOf="@id/btn_footer_player_prev"/>
