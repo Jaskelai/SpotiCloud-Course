@@ -12,7 +12,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
-import okhttp3.logging.HttpLoggingInterceptor
 
 @Module
 class RetrofitModule {
@@ -24,17 +23,11 @@ class RetrofitModule {
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
         @Named(SOUNDCLOUD_URL) baseURL: String
-    ): Retrofit {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-        return Retrofit.Builder()
-            .baseUrl(baseURL)
-            .client(client)
-            .addConverterFactory(gsonConverterFactory)
-            .addCallAdapterFactory(rxJava2CallAdapterFactory)
-            .build()
-    }
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(baseURL)
+        .addConverterFactory(gsonConverterFactory)
+        .addCallAdapterFactory(rxJava2CallAdapterFactory)
+        .build()
 
     @Provides
     @ApplicationScope
@@ -43,17 +36,11 @@ class RetrofitModule {
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
         @Named(SOUNDCLOUD_URL_V2) baseURL: String
-    ): Retrofit {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-        return Retrofit.Builder()
-            .baseUrl(baseURL)
-            .client(client)
-            .addConverterFactory(gsonConverterFactory)
-            .addCallAdapterFactory(rxJava2CallAdapterFactory)
-            .build()
-    }
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(baseURL)
+        .addConverterFactory(gsonConverterFactory)
+        .addCallAdapterFactory(rxJava2CallAdapterFactory)
+        .build()
 
     @Provides
     @ApplicationScope
@@ -62,17 +49,11 @@ class RetrofitModule {
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
         @Named(SPOTIFY_URL) baseURL: String
-    ): Retrofit {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-        return Retrofit.Builder()
-            .baseUrl(baseURL)
-            .client(client)
-            .addConverterFactory(gsonConverterFactory)
-            .addCallAdapterFactory(rxJava2CallAdapterFactory)
-            .build()
-    }
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(baseURL)
+        .addConverterFactory(gsonConverterFactory)
+        .addCallAdapterFactory(rxJava2CallAdapterFactory)
+        .build()
 
     @Provides
     @ApplicationScope

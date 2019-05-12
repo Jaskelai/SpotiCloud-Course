@@ -91,6 +91,10 @@ class MainPresenter @Inject constructor(
         viewState.showFooter()
     }
 
+    fun onFooterClicked() {
+        router.navigateToMusicPlayer()
+    }
+
     private fun showGeneralViews() {
         viewState.showBottomBar()
         viewState.showToolbar()

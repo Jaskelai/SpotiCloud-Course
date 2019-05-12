@@ -20,7 +20,8 @@ class CiceroneModule {
         soundcloudLoginScreen: SoundcloudLoginScreen,
         trackListScreen: TrackListScreen,
         searchScreen: SearchScreen,
-        trendsScreen: TrendsScreen
+        trendsScreen: TrendsScreen,
+        musicPlayerScreen: MusicPlayerScreen
     ): RouterCiceroneImpl =
         RouterCiceroneImpl(
             startScreen,
@@ -28,7 +29,8 @@ class CiceroneModule {
             soundcloudLoginScreen,
             trackListScreen,
             searchScreen,
-            trendsScreen
+            trendsScreen,
+            musicPlayerScreen
         )
 
     @Provides
@@ -64,4 +66,8 @@ class CiceroneModule {
     @Provides
     @ApplicationScope
     fun provideTrendsScreen(): TrendsScreen = TrendsScreen()
+
+    @Provides
+    @ApplicationScope
+    fun provideMusicPlayerScreen(): MusicPlayerScreen = MusicPlayerScreen()
 }

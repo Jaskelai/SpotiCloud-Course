@@ -16,7 +16,8 @@ class RouterCiceroneImpl @Inject constructor(
     private val soundcloudLoginScreen: SoundcloudLoginScreen,
     private val trackListScreen: TrackListScreen,
     private val searchScreen: SearchScreen,
-    private val trendsScreen: TrendsScreen
+    private val trendsScreen: TrendsScreen,
+    private val musicPlayerScreen: MusicPlayerScreen
 ) : Router, BaseRouter() {
 
     override fun navigateToStartScreen() {
@@ -29,6 +30,10 @@ class RouterCiceroneImpl @Inject constructor(
 
     override fun navigateToLoginSpotifyScreen(requestCode: Int) {
         executeCommands(ForwardWithResult(spotifyLoginScreen, requestCode))
+    }
+
+    override fun navigateToMusicPlayer() {
+        executeCommands(Forward(musicPlayerScreen))
     }
 
     override fun navigateToTrackList() {

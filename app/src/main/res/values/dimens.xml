@@ -31,4 +31,8 @@
     <dimen name="notification_title">14sp</dimen>
     <dimen name="max_width">120dp</dimen>
     <dimen name="img_trends_flame">64dp</dimen>
+    <dimen name="iv_player_track_source">56dp</dimen>
+    <dimen name="player_header">20sp</dimen>
+    <dimen name="iv_player_track_cover">256dp</dimen>
+    <dimen name="btn_play_oval">56dp</dimen>
 </resources>

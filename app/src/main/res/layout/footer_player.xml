@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/footer_player"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorFooterBackground">
@@ -64,7 +65,7 @@
             android:elevation="@dimen/elevation"
             android:textOn=""
             android:textOff=""
-            android:background="@drawable/selector_play_pause"
+            android:background="@drawable/selector_fav"
             app:layout_constraintStart_toEndOf="@id/btn_footer_player_prev"
             app:layout_constraintEnd_toStartOf="@id/btn_footer_player_next"
             app:layout_constraintTop_toTopOf="@id/btn_footer_player_prev"/>

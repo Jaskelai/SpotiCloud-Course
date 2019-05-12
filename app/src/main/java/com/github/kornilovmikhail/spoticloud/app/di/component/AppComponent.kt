@@ -9,6 +9,7 @@ import com.github.kornilovmikhail.spoticloud.musicplayerservice.MusicService
 import com.github.kornilovmikhail.spoticloud.ui.loginsoundcloud.di.component.LoginSoundcloudSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.main.MainActivity
 import com.github.kornilovmikhail.spoticloud.ui.main.di.component.MainSubComponent
+import com.github.kornilovmikhail.spoticloud.ui.musicplayer.di.component.MusicPlayerSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.search.di.component.SearchSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.start.di.component.StartSubComponent
 import com.github.kornilovmikhail.spoticloud.ui.tracklist.di.component.TrackListSubComponent
@@ -34,6 +35,7 @@ interface AppComponent {
     fun trackListSubComponentBuilder(): TrackListSubComponent.Builder
     fun searchSubComponentBuilder(): SearchSubComponent.Builder
     fun trendsSubComponentBuilder(): TrendsSubComponent.Builder
+    fun musicPlayerSubComponentBuilder(): MusicPlayerSubComponent.Builder
 
     fun providePicasso(): Picasso
 }

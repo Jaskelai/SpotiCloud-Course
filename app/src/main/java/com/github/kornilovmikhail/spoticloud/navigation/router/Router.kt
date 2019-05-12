@@ -14,6 +14,8 @@ interface Router {
 
     fun navigateToTrends()
 
+    fun navigateToMusicPlayer()
+
     fun startAtTrackScreen()
 
     fun back()
