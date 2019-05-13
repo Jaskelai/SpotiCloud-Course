@@ -6,6 +6,8 @@ interface CallbackMessageService {
 
     fun sendFooterUpdate(messenger: Messenger)
 
+    fun sendPlayerUpdate(messenger: Messenger)
+
     fun pausePlaying()
 
     fun resumePlaying()

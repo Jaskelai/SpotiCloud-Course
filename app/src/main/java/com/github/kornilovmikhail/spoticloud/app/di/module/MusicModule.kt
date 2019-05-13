@@ -1,5 +1,6 @@
 package com.github.kornilovmikhail.spoticloud.app.di.module
 
+import android.content.Context
 import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.musicplayerservice.MusicServiceConnection
 import com.github.kornilovmikhail.spoticloud.musicplayerservice.MusicServiceHelper
@@ -11,7 +12,7 @@ class MusicModule {
 
     @ApplicationScope
     @Provides
-    fun provideServiceHelper(): MusicServiceHelper = MusicServiceHelper()
+    fun provideServiceHelper(context: Context): MusicServiceHelper = MusicServiceHelper(context)
 
     @ApplicationScope
     @Provides

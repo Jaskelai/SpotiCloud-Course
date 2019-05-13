@@ -10,7 +10,10 @@
                 </shape>
             </item>
 
-            <item android:drawable="@drawable/ripple_pause">
+            <item android:drawable="@drawable/ripple_pause"
+                  android:gravity="center"
+                  android:height="@dimen/btn_player_drawable"
+                  android:width="@dimen/btn_player_drawable">
             </item>
         </layer-list>
     </item>
@@ -24,7 +27,10 @@
                 </shape>
             </item>
 
-            <item android:drawable="@drawable/ripple_play">
+            <item android:drawable="@drawable/ripple_play"
+                  android:gravity="center"
+                  android:height="@dimen/btn_player_drawable"
+                  android:width="@dimen/btn_player_drawable">
             </item>
         </layer-list>
     </item>

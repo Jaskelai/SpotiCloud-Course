@@ -9,4 +9,16 @@ interface CallbackFromFragments {
     fun enableToolbar()
 
     fun sendTrackToPlayer(track: Track?)
+
+    fun hideMainViews()
+
+    fun showMainViews()
+
+    fun nextTrack()
+
+    fun prevTrack()
+
+    fun pauseTrack()
+
+    fun resumeTrack()
 }

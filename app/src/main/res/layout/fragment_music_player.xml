@@ -35,6 +35,7 @@
             android:layout_height="@dimen/iv_player_track_source"
             android:scaleType="fitCenter"
             android:elevation="@dimen/elevation"
+            android:src="@drawable/selector_source"
             android:contentDescription="@string/track_cover"
             app:layout_constraintEnd_toStartOf="@id/gd_player_end"
             app:layout_constraintTop_toTopOf="@id/gd_player_top"/>
@@ -60,12 +61,13 @@
 
     <ToggleButton
             android:id="@+id/btn_player_track_fav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/fav_button_player"
+            android:layout_height="@dimen/fav_button_player"
             android:elevation="@dimen/elevation"
+            android:background="@drawable/selector_fav"
+            android:clickable="true"
             android:textOn=""
             android:textOff=""
-            android:background="@drawable/selector_fav"
             app:layout_constraintStart_toStartOf="@id/gd_player_start"
             app:layout_constraintTop_toTopOf="@id/tv_player_track_title"
             app:layout_constraintBottom_toBottomOf="@id/tv_player_track_author"/>
@@ -125,8 +127,8 @@
 
     <ToggleButton
             android:id="@+id/btn_player_play_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/btn_player_play"
+            android:layout_height="@dimen/btn_player_play"
             android:elevation="@dimen/elevation"
             android:textOn=""
             android:textOff=""
@@ -142,7 +144,7 @@
             android:layout_height="@dimen/footer_action"
             android:clickable="true"
             android:focusable="true"
-            android:background="@drawable/selector_footer_prev"
+            android:background="@drawable/selector_footer_next"
             android:contentDescription="@string/prev_track"
             app:layout_constraintStart_toEndOf="@id/btn_player_play_pause"
             app:layout_constraintTop_toTopOf="@id/btn_player_play_pause"

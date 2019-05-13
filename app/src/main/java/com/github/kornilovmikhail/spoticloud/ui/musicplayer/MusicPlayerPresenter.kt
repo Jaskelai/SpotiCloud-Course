@@ -14,4 +14,8 @@ class MusicPlayerPresenter(private val router: Router) : MvpPresenter<MusicPlaye
             disposables.dispose()
         }
     }
+
+    fun onBackButtonClicked() {
+        router.back()
+    }
 }

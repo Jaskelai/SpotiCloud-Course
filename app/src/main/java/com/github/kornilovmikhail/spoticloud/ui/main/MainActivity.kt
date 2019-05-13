@@ -17,11 +17,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import android.os.Handler
 import android.os.Messenger
+import android.view.View
 import com.github.kornilovmikhail.spoticloud.R
+import com.github.kornilovmikhail.spoticloud.core.model.StreamServiceEnum
+import com.github.kornilovmikhail.spoticloud.ui.musicplayer.MusicPlayerFragment
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.footer_player.*
 
 class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, CallbackFromService {
+
     @Inject
     @InjectPresenter
     lateinit var mainPresenter: MainPresenter
@@ -34,7 +38,9 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
 
     private val navigator = MySupportAppNavigator(this, R.id.main_container)
 
-    private lateinit var bottomNav: BottomNavigationView
+    private var bottomNav: BottomNavigationView? = null
+    private var footer: View? = null
+    private var toolbarView: Toolbar? = null
 
     private val messenger: Messenger = Messenger(MessageHandler(this))
 
@@ -54,7 +60,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
 
     override fun onStart() {
         super.onStart()
-        musicServiceHelper.doBindService(this, musicServiceConnection)
+        musicServiceHelper.doBindService(musicServiceConnection)
         if (musicServiceHelper.isServiceStarted()) {
             mainPresenter.showTrack()
         }
@@ -72,7 +78,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
 
     override fun onStop() {
         super.onStop()
-        musicServiceHelper.doUnbindService(this, musicServiceConnection)
+        musicServiceHelper.doUnbindService(musicServiceConnection)
     }
 
     override fun onDestroy() {
@@ -96,7 +102,7 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
         if (vs_bottom_nav != null) {
             bottomNav = vs_bottom_nav.inflate() as BottomNavigationView
             showTrackListChose()
-            bottomNav.setOnNavigationItemSelectedListener {
+            bottomNav?.setOnNavigationItemSelectedListener {
                 when (it.itemId) {
                     R.id.bottom_action_search -> mainPresenter.onBottomSearchClicked()
                     R.id.bottom_action_tracks -> mainPresenter.onBottomTracksClicked()
@@ -113,31 +119,31 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
 
     override fun enableToolbar() {
         if (vs_toolbar != null) {
-            val toolbarView = vs_toolbar.inflate()
-            setSupportActionBar(toolbarView as Toolbar?)
+            toolbarView = vs_toolbar.inflate() as Toolbar
+            setSupportActionBar(toolbarView)
         }
     }
 
     override fun showSearchChose() {
-        bottomNav.selectedItemId = R.id.bottom_action_search
+        bottomNav?.selectedItemId = R.id.bottom_action_search
     }
 
     override fun showTrackListChose() {
-        bottomNav.selectedItemId = R.id.bottom_action_tracks
+        bottomNav?.selectedItemId = R.id.bottom_action_tracks
     }
 
     override fun showTrendsChose() {
-        bottomNav.selectedItemId = R.id.bottom_action_trends
+        bottomNav?.selectedItemId = R.id.bottom_action_trends
     }
 
     override fun sendTrackToPlayer(track: Track?) {
-        musicServiceHelper.startMusicService(this, track)
+        musicServiceHelper.startMusicService(track)
         mainPresenter.showTrack()
     }
 
     override fun showFooter() {
         vs_footer_player?.let {
-            vs_footer_player.inflate()
+            footer = vs_footer_player.inflate()
         }
         sendMessage(MusicServiceConnection.MESSAGE_TYPE_FOOTER_INIT)
         addFooterListeners()
@@ -151,25 +157,67 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
             .into(iv_footer_player_cover)
     }
 
+    override fun updatePlayer(title: String?, author: String?, imgLink: String?, source: StreamServiceEnum) {
+        val playerFragment = supportFragmentManager
+            .findFragmentById(R.id.main_container)
+        playerFragment?.let {
+            if (it is MusicPlayerFragment) {
+                it.updateView(title, author, imgLink, source)
+            }
+        }
+    }
+
+    override fun sendPlayerStartedToService() {
+        sendMessage(MusicServiceConnection.MESSAGE_TYPE_PLAYER_STARTED)
+    }
+
+    override fun hideMainViews() {
+        footer?.visibility = View.GONE
+        bottomNav?.visibility = View.GONE
+        toolbarView?.visibility = View.GONE
+    }
+
+    override fun showMainViews() {
+        footer?.visibility = View.VISIBLE
+        bottomNav?.visibility = View.VISIBLE
+        toolbarView?.visibility = View.VISIBLE
+    }
+
+    override fun nextTrack() {
+        sendMessage(MusicServiceConnection.MESSAGE_TYPE_NEXT)
+    }
+
+    override fun prevTrack() {
+        sendMessage(MusicServiceConnection.MESSAGE_TYPE_PREV)
+    }
+
+    override fun pauseTrack() {
+        sendMessage(MusicServiceConnection.MESSAGE_TYPE_PAUSE)
+    }
+
+    override fun resumeTrack() {
+        sendMessage(MusicServiceConnection.MESSAGE_TYPE_RESUME)
+    }
+
     private fun addFooterListeners() {
         btn_footer_player_play_pause.setOnClickListener {
             val message = if (btn_footer_player_play_pause.isChecked) {
-                Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_FOOTER_PAUSE)
+                Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_PAUSE)
             } else {
-                Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_FOOTER_RESUME)
+                Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_RESUME)
             }
             musicServiceConnection.messengerService?.send(message)
         }
         btn_footer_player_prev.setOnClickListener {
-            sendMessage(MusicServiceConnection.MESSAGE_TYPE_FOOTER_PREV)
+            sendMessage(MusicServiceConnection.MESSAGE_TYPE_PREV)
         }
         btn_footer_player_next.setOnClickListener {
-            sendMessage(MusicServiceConnection.MESSAGE_TYPE_FOOTER_NEXT)
+            sendMessage(MusicServiceConnection.MESSAGE_TYPE_NEXT)
         }
 
-//        footer_player.setOnClickListener {
-//            mainPresenter.onFooterClicked()
-//        }
+        footer?.setOnClickListener {
+            mainPresenter.onFooterClicked()
+        }
     }
 
     private fun sendMessage(what: Int) {
@@ -184,8 +232,18 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
                 MusicServiceConnection.MESSAGE_TYPE_FOOTER_RESPONSE -> {
                     val data = message.data
                     val title = data.getString(MusicServiceConnection.MESSAGE_TITLE_TRACK)
-                    val cover = data.getString(MusicServiceConnection.MESSAGE_LINK_COVER_TRACK)
-                    callback.updateFooter(title, cover)
+                    val imgLink = data.getString(MusicServiceConnection.MESSAGE_LINK_COVER_TRACK)
+                    callback.updateFooter(title, imgLink)
+                }
+                MusicServiceConnection.MESSAGE_TYPE_PLAYER_RESPONSE -> {
+                    val data = message.data
+                    val title = data.getString(MusicServiceConnection.MESSAGE_TITLE_TRACK)
+                    val imgLink = data.getString(MusicServiceConnection.MESSAGE_LINK_COVER_TRACK)
+                    val author = data.getString(MusicServiceConnection.MESSAGE_AUTHOR_TRACK)
+                    val source = StreamServiceEnum.valueOf(
+                        data.getString(MusicServiceConnection.MESSAGE_SOURCE_TRACK) ?: ""
+                    )
+                    callback.updatePlayer(title, author, imgLink, source)
                 }
             }
         }

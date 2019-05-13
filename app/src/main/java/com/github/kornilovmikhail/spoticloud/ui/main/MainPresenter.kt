@@ -21,6 +21,7 @@ class MainPresenter @Inject constructor(
 ) : MvpPresenter<MainView>() {
 
     private val disposables = CompositeDisposable()
+    private var isPlayer = false
 
     fun onCreate() {
         disposables.add(loginUseCase.checkLogin()
@@ -71,19 +72,24 @@ class MainPresenter @Inject constructor(
     }
 
     fun onBackPressed() {
-        if (queue.size == 1) {
-            router.exit()
-        }
-        if (queue.size > 1) {
-            queue.removeLast()
-            when (queue.last) {
-                FragmentBottomEnum.SEARCH -> viewState.showSearchChose()
-                FragmentBottomEnum.TRACKLIST -> viewState.showTrackListChose()
-                FragmentBottomEnum.TRENDS -> viewState.showTrendsChose()
-                else -> return
+        if (!isPlayer) {
+            if (queue.size == 1) {
+                router.exit()
+            }
+            if (queue.size > 1) {
+                queue.removeLast()
+                when (queue.last) {
+                    FragmentBottomEnum.SEARCH -> viewState.showSearchChose()
+                    FragmentBottomEnum.TRACKLIST -> viewState.showTrackListChose()
+                    FragmentBottomEnum.TRENDS -> viewState.showTrendsChose()
+                    else -> return
+                }
+            } else {
+                router.back()
             }
         } else {
             router.back()
+            isPlayer = false
         }
     }
 
@@ -93,6 +99,8 @@ class MainPresenter @Inject constructor(
 
     fun onFooterClicked() {
         router.navigateToMusicPlayer()
+        viewState.sendPlayerStartedToService()
+        isPlayer = true
     }
 
     private fun showGeneralViews() {

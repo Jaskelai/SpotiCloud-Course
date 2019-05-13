@@ -46,6 +46,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     private var trackId: Int? = null
     private var trackStreamUrl: String? = null
     private var trackArtworkUrl: String? = null
+    private var trackArtworkUrlHQ: String? = null
     private var trackStreamService: StreamServiceEnum? = null
     private var trackTitle: String? = null
     private var trackAuthor: String? = null
@@ -62,10 +63,10 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         super.onCreate()
         App.component
             .inject(this)
-        isServiceStarted = true
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        isServiceStarted = true
         intent?.let {
             setupTrackToPlay(intent)
         }
@@ -87,23 +88,14 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         trackId = intent.getIntExtra(MusicServiceHelper.TRACK_ID, -1)
         trackStreamUrl = intent.getStringExtra(MusicServiceHelper.TRACK_URL)
         trackArtworkUrl = intent.getStringExtra(MusicServiceHelper.TRACK_COVER_LINK)
+        trackArtworkUrlHQ = intent.getStringExtra(MusicServiceHelper.TRACK_COVER_LINK_HQ)
         trackStreamService = StreamServiceEnum.valueOf(intent.getStringExtra(MusicServiceHelper.TRACK_SOURCE))
         trackTitle = intent.getStringExtra(MusicServiceHelper.TRACK_TITLE)
         trackAuthor = intent.getStringExtra(MusicServiceHelper.TRACK_AUTHOR)
         sendTokenToPlay()
     }
 
-    private fun getInfoFromTrack(track: Track) {
-        trackId = track.id
-        trackStreamUrl = track.streamUrl
-        trackArtworkUrl = track.artworkLowSizeUrl ?: track.artworkUrl
-        trackStreamService = track.streamService
-        trackTitle = track.title
-        trackAuthor = track.author.username
-    }
-
     private fun sendTokenToPlay() {
-        terminatePrevious()
         val token = trackStreamService?.let {
             when (it) {
                 StreamServiceEnum.SOUNDCLOUD -> {
@@ -244,6 +236,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                     .subscribe({ track ->
                         getInfoFromTrack(track)
                         sendFooterUpdate(messenger)
+                        sendPlayerUpdate(messenger)
                         sendTokenToPlay()
                     }, {
 
@@ -261,6 +254,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                     .subscribe({ track ->
                         getInfoFromTrack(track)
                         sendFooterUpdate(messenger)
+                        sendPlayerUpdate(messenger)
                         sendTokenToPlay()
                     }, {
 
@@ -306,10 +300,6 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
             .build()
     }
 
-    private fun terminatePrevious() {
-        disposables.clear()
-    }
-
     private fun clearMusicPlayer() {
         mediaPlayer?.reset()
         mediaPlayer?.release()
@@ -321,6 +311,16 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         spotifyPlayer = null
     }
 
+    private fun getInfoFromTrack(track: Track) {
+        trackId = track.id
+        trackStreamUrl = track.streamUrl
+        trackArtworkUrl = track.artworkLowSizeUrl ?: track.artworkUrl
+        trackArtworkUrlHQ = trackArtworkUrl
+        trackStreamService = track.streamService
+        trackTitle = track.title
+        trackAuthor = track.author.username
+    }
+
     // handler for messages from activity
 
     class IncomingHandler(private val callback: CallbackMessageService) : Handler() {
@@ -330,17 +330,20 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 MusicServiceConnection.MESSAGE_TYPE_FOOTER_INIT -> {
                     callback.sendFooterUpdate(msg.replyTo)
                 }
-                MusicServiceConnection.MESSAGE_TYPE_FOOTER_PAUSE -> {
+                MusicServiceConnection.MESSAGE_TYPE_PAUSE -> {
                     callback.pausePlaying()
                 }
-                MusicServiceConnection.MESSAGE_TYPE_FOOTER_RESUME -> {
+                MusicServiceConnection.MESSAGE_TYPE_RESUME -> {
                     callback.resumePlaying()
                 }
-                MusicServiceConnection.MESSAGE_TYPE_FOOTER_PREV -> {
+                MusicServiceConnection.MESSAGE_TYPE_PREV -> {
                     callback.playPrev(msg.replyTo)
                 }
-                MusicServiceConnection.MESSAGE_TYPE_FOOTER_NEXT -> {
+                MusicServiceConnection.MESSAGE_TYPE_NEXT -> {
                     callback.playNext(msg.replyTo)
+                }
+                MusicServiceConnection.MESSAGE_TYPE_PLAYER_STARTED -> {
+                    callback.sendPlayerUpdate(msg.replyTo)
                 }
             }
         }
@@ -353,6 +356,20 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         bundle.putString(MusicServiceConnection.MESSAGE_LINK_COVER_TRACK, trackArtworkUrl)
         bundle.putString(MusicServiceConnection.MESSAGE_TITLE_TRACK, trackTitle)
         val backMsg = Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_FOOTER_RESPONSE)
+        backMsg.data = bundle
+        messengerResponse = messenger
+        messengerResponse?.send(backMsg)
+    }
+
+    override fun sendPlayerUpdate(messenger: Messenger) {
+        val bundle = Bundle()
+        bundle.apply {
+            putString(MusicServiceConnection.MESSAGE_LINK_COVER_TRACK, trackArtworkUrlHQ)
+            putString(MusicServiceConnection.MESSAGE_TITLE_TRACK, trackTitle)
+            putString(MusicServiceConnection.MESSAGE_AUTHOR_TRACK, trackAuthor)
+            putString(MusicServiceConnection.MESSAGE_SOURCE_TRACK, trackStreamService?.name)
+        }
+        val backMsg = Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_PLAYER_RESPONSE)
         backMsg.data = bundle
         messengerResponse = messenger
         messengerResponse?.send(backMsg)

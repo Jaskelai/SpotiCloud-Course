@@ -35,4 +35,7 @@
     <dimen name="player_header">20sp</dimen>
     <dimen name="iv_player_track_cover">256dp</dimen>
     <dimen name="btn_play_oval">56dp</dimen>
+    <dimen name="fav_button_player">36dp</dimen>
+    <dimen name="btn_player_drawable">36dp</dimen>
+    <dimen name="btn_player_play">56dp</dimen>
 </resources>
