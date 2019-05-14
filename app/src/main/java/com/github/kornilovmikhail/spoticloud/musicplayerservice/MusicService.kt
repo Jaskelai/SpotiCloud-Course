@@ -24,6 +24,9 @@ import com.github.kornilovmikhail.spoticloud.R
 import com.github.kornilovmikhail.spoticloud.core.model.Track
 import com.github.kornilovmikhail.spoticloud.ui.main.MainActivity
 import com.spotify.sdk.android.player.*
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener,
     MediaPlayer.OnErrorListener, CallbackMessageService, Player.OperationCallback {
@@ -40,6 +43,10 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     @Inject
     lateinit var context: Context
 
+    private var notificationView: RemoteViews? = null
+    private var notificationBuilder: NotificationCompat.Builder? = null
+    private var notificationManager: NotificationManager? = null
+
     private var mediaPlayer: MediaPlayer? = null
     private var spotifyPlayer: Player? = null
 
@@ -50,6 +57,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     private var trackStreamService: StreamServiceEnum? = null
     private var trackTitle: String? = null
     private var trackAuthor: String? = null
+    private var trackDuration: Long? = null
     private lateinit var state: PlayingStatusEnum
 
     private val messengerReceiver = Messenger(IncomingHandler(this))
@@ -129,6 +137,23 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 .subscribeOn(Schedulers.io())
                 .subscribe({}, {})
         )
+        state = PlayingStatusEnum.PlAYING
+        disposables.add(
+            Observable.interval(1000L, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe({
+                    if (state == PlayingStatusEnum.PlAYING) {
+                        if (trackStreamService == StreamServiceEnum.SPOTIFY) {
+                            sendSeekBarUpdate(messengerResponse, 5)
+                        } else {
+                            mediaPlayer?.currentPosition?.let {
+                                sendSeekBarUpdate(messengerResponse, it)
+                            }
+                        }
+                    }
+                }, {
+                })
+        )
     }
 
     //play spotify track
@@ -191,11 +216,9 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
 
     override fun onPrepared(mp: MediaPlayer?) {
         mp?.start()
-        state = PlayingStatusEnum.PlAYING
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        //TODO ON COMPLETION SOUNDCLOUD TRACK
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean = false
@@ -235,6 +258,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 tracksUseCase.getTrackById(it - 1)
                     .subscribe({ track ->
                         getInfoFromTrack(track)
+                        updateNotifiaction()
                         sendFooterUpdate(messenger)
                         sendPlayerUpdate(messenger)
                         sendTokenToPlay()
@@ -253,6 +277,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 tracksUseCase.getTrackById(it + 1)
                     .subscribe({ track ->
                         getInfoFromTrack(track)
+                        updateNotifiaction()
                         sendFooterUpdate(messenger)
                         sendPlayerUpdate(messenger)
                         sendTokenToPlay()
@@ -266,13 +291,13 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     //notification
 
     private fun startForegroundNotification() {
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        createNotificationChannel(notificationManager)
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        createNotificationChannel(notificationManager as NotificationManager)
         val notIntent = Intent(this, MainActivity::class.java)
         notIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendInt = PendingIntent.getActivity(this, 0, notIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val notification = createNotification(pendInt)
-        startForeground(FOREGROUND_ID, notification)
+        startForeground(FOREGROUND_NOTIFICATION_ID, notification)
     }
 
     private fun createNotificationChannel(notificationManager: NotificationManager) {
@@ -291,13 +316,21 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     }
 
     private fun createNotification(pendIntent: PendingIntent): Notification {
-        val notificationView = RemoteViews(applicationContext.packageName, R.layout.notification_player)
-        notificationView.setTextViewText(R.id.tv_notification_title, trackTitle)
-        return NotificationCompat.Builder(this, MUSIC_CHANNEL_ID)
+        notificationView = RemoteViews(context.packageName, R.layout.notification_player)
+        notificationView?.setTextViewText(R.id.tv_notification_title, trackTitle)
+
+        notificationBuilder = NotificationCompat.Builder(this, MUSIC_CHANNEL_ID)
             .setSmallIcon(R.drawable.logo)
             .setContentIntent(pendIntent)
             .setContent(notificationView)
-            .build()
+        return (notificationBuilder as NotificationCompat.Builder).build()
+    }
+
+    private fun updateNotifiaction() {
+        notificationView?.setTextViewText(R.id.tv_notification_title, trackTitle)
+        notificationBuilder?.setCustomContentView(notificationView)
+        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager?.notify(FOREGROUND_NOTIFICATION_ID, notificationBuilder?.build())
     }
 
     private fun clearMusicPlayer() {
@@ -315,7 +348,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         trackId = track.id
         trackStreamUrl = track.streamUrl
         trackArtworkUrl = track.artworkLowSizeUrl ?: track.artworkUrl
-        trackArtworkUrlHQ = trackArtworkUrl
+        trackArtworkUrlHQ = track.artworkUrl
         trackStreamService = track.streamService
         trackTitle = track.title
         trackAuthor = track.author.username
@@ -368,6 +401,14 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
             putString(MusicServiceConnection.MESSAGE_TITLE_TRACK, trackTitle)
             putString(MusicServiceConnection.MESSAGE_AUTHOR_TRACK, trackAuthor)
             putString(MusicServiceConnection.MESSAGE_SOURCE_TRACK, trackStreamService?.name)
+            trackDuration = if (trackStreamService == StreamServiceEnum.SPOTIFY) {
+                spotifyPlayer?.metadata?.currentTrack?.durationMs
+            } else {
+                mediaPlayer?.duration?.toLong()
+            }
+            trackDuration?.let {
+                putLong(MusicServiceConnection.MESSAGE_DURATION_TRACK, it)
+            }
         }
         val backMsg = Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_PLAYER_RESPONSE)
         backMsg.data = bundle
@@ -375,10 +416,17 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         messengerResponse?.send(backMsg)
     }
 
+    private fun sendSeekBarUpdate(messenger: Messenger?, value: Int) {
+        val bundle = Bundle()
+        bundle.putInt(MusicServiceConnection.MESSAGE_BAR_TRACK, value)
+        val backMsg = Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_PLAYER_SEEK_BAR)
+        backMsg.data = bundle
+        messenger?.send(backMsg)
+    }
+
     companion object {
         var isServiceStarted = false
-        private const val FOREGROUND_ID = 1338
-        private const val MUSIC_NOTIFICATION_ID = 1339
+        private const val FOREGROUND_NOTIFICATION_ID = 1338
         private const val MUSIC_CHANNEL_ID = "CHANNEL_MUSIC_SPOTICLOUD"
     }
 }

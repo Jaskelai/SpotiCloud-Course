@@ -26,7 +26,7 @@
     <dimen name="tv_search_title">20sp</dimen>
     <dimen name="tv_soundcloud_login_error">16sp</dimen>
     <dimen name="rounded_edit_text_corner_radius">20dp</dimen>
-    <dimen name="notification_player_margin">8dp</dimen>
+    <dimen name="notification_player_margin">12dp</dimen>
     <dimen name="notification_btns_size">36dp</dimen>
     <dimen name="notification_title">14sp</dimen>
     <dimen name="max_width">120dp</dimen>
@@ -36,6 +36,10 @@
     <dimen name="iv_player_track_cover">256dp</dimen>
     <dimen name="btn_play_oval">56dp</dimen>
     <dimen name="fav_button_player">36dp</dimen>
-    <dimen name="btn_player_drawable">36dp</dimen>
-    <dimen name="btn_player_play">56dp</dimen>
+    <dimen name="btn_player_drawable">44dp</dimen>
+    <dimen name="btn_player_play">72dp</dimen>
+    <dimen name="player_track_title">16sp</dimen>
+    <dimen name="player_action">44dp</dimen>
+    <dimen name="btn_player_margin">16dp</dimen>
+    <dimen name="track_item_max_width">232dp</dimen>
 </resources>

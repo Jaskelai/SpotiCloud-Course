@@ -157,12 +157,28 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
             .into(iv_footer_player_cover)
     }
 
-    override fun updatePlayer(title: String?, author: String?, imgLink: String?, source: StreamServiceEnum) {
+    override fun updatePlayer(
+        title: String?,
+        author: String?,
+        imgLink: String?,
+        source: StreamServiceEnum,
+        duration: Long
+    ) {
         val playerFragment = supportFragmentManager
             .findFragmentById(R.id.main_container)
         playerFragment?.let {
             if (it is MusicPlayerFragment) {
-                it.updateView(title, author, imgLink, source)
+                it.updateView(title, author, imgLink, source, duration)
+            }
+        }
+    }
+
+    override fun updateSeekBar(position: Int) {
+        val playerFragment = supportFragmentManager
+            .findFragmentById(R.id.main_container)
+        playerFragment?.let {
+            if (it is MusicPlayerFragment) {
+                it.updateSeekBar(position)
             }
         }
     }
@@ -243,7 +259,13 @@ class MainActivity : MvpAppCompatActivity(), MainView, CallbackFromFragments, Ca
                     val source = StreamServiceEnum.valueOf(
                         data.getString(MusicServiceConnection.MESSAGE_SOURCE_TRACK) ?: ""
                     )
-                    callback.updatePlayer(title, author, imgLink, source)
+                    val duration = data.getLong(MusicServiceConnection.MESSAGE_DURATION_TRACK)
+                    callback.updatePlayer(title, author, imgLink, source, duration)
+                }
+                MusicServiceConnection.MESSAGE_TYPE_PLAYER_SEEK_BAR -> {
+                    val data = message.data
+                    val position = data.getInt(MusicServiceConnection.MESSAGE_BAR_TRACK)
+                    callback.updateSeekBar(position)
                 }
             }
         }

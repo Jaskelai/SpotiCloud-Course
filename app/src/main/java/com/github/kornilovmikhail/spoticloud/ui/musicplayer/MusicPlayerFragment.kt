@@ -69,14 +69,19 @@ class MusicPlayerFragment : MvpAppCompatFragment(), MusicPlayerView {
         callback?.hideMainViews()
     }
 
-    fun updateView(title: String?, author: String?, imgLink: String?, source: StreamServiceEnum) {
+    fun updateView(title: String?, author: String?, imgLink: String?, source: StreamServiceEnum, duration: Long) {
         tv_player_track_title.text = title
         tv_player_track_author.text = author
         when (source) {
             StreamServiceEnum.SPOTIFY -> iv_player_track_source.isSelected = true
             StreamServiceEnum.SOUNDCLOUD -> iv_player_track_source.isSelected = false
         }
+        sb_player.max = duration.toInt() / 1000
         loadImg(imgLink)
+    }
+
+    fun updateSeekBar(position: Int) {
+        sb_player.progress = position / 1000
     }
 
     private fun loadImg(link: String?) {

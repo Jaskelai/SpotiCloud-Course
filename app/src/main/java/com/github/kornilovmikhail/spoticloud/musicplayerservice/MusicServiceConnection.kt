@@ -29,12 +29,15 @@ class MusicServiceConnection : ServiceConnection {
     companion object {
         const val MESSAGE_TYPE_FOOTER_INIT = 7865
         const val MESSAGE_TYPE_FOOTER_RESPONSE = 7866
-        const val MESSAGE_TYPE_PLAYER_STARTED = 7871
-        const val MESSAGE_TYPE_PLAYER_RESPONSE = 7872
         const val MESSAGE_TYPE_RESUME = 7867
         const val MESSAGE_TYPE_PAUSE = 7868
         const val MESSAGE_TYPE_NEXT = 7869
         const val MESSAGE_TYPE_PREV = 7870
+        const val MESSAGE_TYPE_PLAYER_STARTED = 7871
+        const val MESSAGE_TYPE_PLAYER_RESPONSE = 7872
+        const val MESSAGE_TYPE_PLAYER_SEEK_BAR = 7873
+        const val MESSAGE_BAR_TRACK = "BAR_TRACK"
+        const val MESSAGE_DURATION_TRACK = "BAR_TRACK"
         const val MESSAGE_LINK_COVER_TRACK = "COVER_IMAGE"
         const val MESSAGE_TITLE_TRACK = "TRACK_TITLE"
         const val MESSAGE_AUTHOR_TRACK = "TRACK_AUTHOR"

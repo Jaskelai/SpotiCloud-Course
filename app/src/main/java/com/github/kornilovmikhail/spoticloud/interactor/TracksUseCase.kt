@@ -16,8 +16,8 @@ class TracksUseCase(
 
     fun getFavoriteTracks(): Single<List<Track>> =
         Single.zip(
-            tracksSoundcloudUseCase.getFavoriteTracks(),
             tracksSpotifyUseCase.getFavoriteTracks(),
+            tracksSoundcloudUseCase.getFavoriteTracks(),
             BiFunction { soundcloudList, spotifyList ->
                 val result = ArrayList<Track>()
                 result.addAll(soundcloudList)

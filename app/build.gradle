@@ -107,6 +107,6 @@ dependencies {
     implementation "com.squareup.picasso:picasso:${picasso_version}"
     //spotify auth
     implementation "com.spotify.android:auth:${spotifyauth_version}"
-
+    //spotify sdk
     implementation 'com.spotify.sdk:spotify-player-24-noconnect-2.20b@aar'
 }

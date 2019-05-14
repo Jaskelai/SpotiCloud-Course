@@ -6,5 +6,7 @@ interface CallbackFromService {
 
     fun updateFooter(title: String?, imgLink: String?)
 
-    fun updatePlayer(title: String?, author: String?, imgLink: String?, source: StreamServiceEnum)
+    fun updatePlayer(title: String?, author: String?, imgLink: String?, source: StreamServiceEnum, duration: Long)
+
+    fun updateSeekBar(position: Int)
 }
