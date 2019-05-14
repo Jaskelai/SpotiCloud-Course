@@ -29,6 +29,7 @@ class SoundcloudLoginPresenter(private val router: Router, private val soundclou
             .subscribe(
                 {
                     soundcloudUseCase.saveToken(it.accessToken)
+                    soundcloudUseCase.saveRefreshToken(it.refreshToken)
                     router.back()
                 },
                 {

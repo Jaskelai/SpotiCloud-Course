@@ -15,6 +15,6 @@ class SharedPrefModule {
         context.getSharedPreferences(NAME_SHAREDPREF, Context.MODE_PRIVATE)
 
     companion object {
-        private const val NAME_SHAREDPREF: String = "PREFS"
+        private const val NAME_SHAREDPREF: String = "SPOTIFY_PREFERENCES"
     }
 }

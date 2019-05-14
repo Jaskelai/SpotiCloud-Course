@@ -18,4 +18,10 @@ interface UserRepository {
     fun saveLogged()
 
     fun checkLogin(): Single<String>
+
+    fun saveSoundCloudRefreshToken(token: String)
+
+    fun loadLocalSoundCloudRefreshToken(): Single<String>
+
+    fun loadSoundCloudTokenByRefreshToken(token: String): Single<TokenSoundCloud>
 }

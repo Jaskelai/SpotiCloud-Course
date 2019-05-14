@@ -24,6 +24,16 @@ class UserRepositoryImpl(private val sharedPrefStorage: SharedPrefStorage, priva
         )
             .map { mapSoundCloudTokenRemoteToToken(it) }
 
+    override fun loadSoundCloudTokenByRefreshToken(token: String): Single<TokenSoundCloud> =
+        soundCloudApi.getTokenByRefreshToken(
+            BuildConfig.SOUNDCLOUD_CLIENT_ID,
+            BuildConfig.SOUNDCLOUD_CLIENT_SECRET,
+            token
+        )
+            .map {
+                mapSoundCloudTokenRemoteToToken(it)
+            }
+
     override fun saveSoundCloudToken(token: String) {
         sharedPrefStorage.writeMessage(TOKEN_SOUNDCLOUD, token)
     }
@@ -40,10 +50,18 @@ class UserRepositoryImpl(private val sharedPrefStorage: SharedPrefStorage, priva
     override fun checkLogin(): Single<String> =
         sharedPrefStorage.readMessage(IS_LOGGED)
 
+    override fun saveSoundCloudRefreshToken(token: String) {
+        sharedPrefStorage.writeMessage(TOKEN_REFRESH_SOUNDCLOUD, token)
+    }
+
+    override fun loadLocalSoundCloudRefreshToken(): Single<String> =
+        sharedPrefStorage.readMessage(TOKEN_REFRESH_SOUNDCLOUD)
+
     companion object {
         private const val IS_LOGGED = "IS_LOGGED"
         private const val TOKEN_SPOTIFY = "TOKEN_SPOTIFY"
         private const val TOKEN_SOUNDCLOUD = "TOKEN_SOUNDCLOUD"
+        private const val TOKEN_REFRESH_SOUNDCLOUD = "TOKEN_REFRESH_SOUNDCLOUD"
         private const val SOUNDCLOUD_GRANT_TYPE = "password"
     }
 }

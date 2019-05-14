@@ -15,6 +15,21 @@ class LoginSoundcloudUseCase(private val userRepository: UserRepository) {
         userRepository.saveSoundCloudToken(token)
     }
 
+    fun saveRefreshToken(token: String) {
+        userRepository.saveSoundCloudRefreshToken(token)
+    }
+
     fun loadLocalSoundCloudToken(): Single<String> = userRepository.loadLocalSoundcloudToken()
         .subscribeOn(Schedulers.io())
+
+    fun loadSoundCloudTokenByRefreshToken(): Single<String> = userRepository.loadLocalSoundCloudRefreshToken()
+        .observeOn(Schedulers.io())
+        .flatMap {
+            userRepository.loadSoundCloudTokenByRefreshToken(it)
+        }
+        .map {
+            userRepository.saveSoundCloudToken(it.accessToken)
+            userRepository.saveSoundCloudRefreshToken(it.refreshToken)
+            it.accessToken
+        }
 }

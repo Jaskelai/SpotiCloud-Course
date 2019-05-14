@@ -18,6 +18,14 @@ interface SoundCloudApi {
         @Field("grant_type") grantType: String
     ): Single<TokenSoundCloudRemote>
 
+    @FormUrlEncoded
+    @POST("oauth2/token")
+    fun getTokenByRefreshToken(
+        @Field("client_id") clientId: String,
+        @Field("client_secret") clientSecret: String,
+        @Field("refresh_token") refreshToken: String
+    ): Single<TokenSoundCloudRemote>
+
     @GET("me/favorites")
     fun getFavoriteTracks(
         @Query("oauth_token") token: String
