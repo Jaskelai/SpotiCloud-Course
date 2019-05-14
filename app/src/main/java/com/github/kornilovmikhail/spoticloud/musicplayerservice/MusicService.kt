@@ -115,12 +115,9 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     private fun sendTokenToPlay() {
         val token = trackStreamService?.let {
             when (it) {
-                StreamServiceEnum.SOUNDCLOUD -> {
-                    loginSoundloudUseCase.loadLocalSoundCloudToken()
-                }
-                StreamServiceEnum.SPOTIFY -> {
-                    loginSpotifyUseCase.loadLocalSpotifyToken()
-                }
+                StreamServiceEnum.SOUNDCLOUD -> loginSoundloudUseCase.loadLocalSoundCloudToken()
+
+                StreamServiceEnum.SPOTIFY -> loginSpotifyUseCase.loadLocalSpotifyToken()
             }
         }
         token?.let {
@@ -155,7 +152,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 .subscribe({
                     if (state == PlayingStatusEnum.PlAYING) {
                         if (trackStreamService == StreamServiceEnum.SPOTIFY) {
-                            sendSeekBarUpdate(messengerResponse, 0)
+                            sendSeekBarUpdate(messengerResponse, SPOTIFY_SEEK_BAR)
                         } else {
                             mediaPlayer?.currentPosition?.let {
                                 sendSeekBarUpdate(messengerResponse, it)
@@ -173,7 +170,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         clearMusicPlayer()
         spotifyPlayer?.pause(this)
         configSpotifyPlayer(token)
-        Thread.sleep(2000)
+        Thread.sleep(WAITING_FOR_SPOTIFY)
         configSpotifyPlayer(token)
         spotifyPlayer?.playUri(null, trackStreamUrl, 0, 0)
     }
@@ -371,19 +368,17 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
 
         override fun handleMessage(msg: Message?) {
             when (msg?.what) {
-                MusicServiceConnection.MESSAGE_TYPE_FOOTER_INIT -> {
-                    callback.sendFooterUpdate(msg.replyTo)
-                }
-                MusicServiceConnection.MESSAGE_TYPE_PAUSE -> { callback.pausePlaying() }
-                MusicServiceConnection.MESSAGE_TYPE_RESUME -> { callback.resumePlaying() }
-                MusicServiceConnection.MESSAGE_TYPE_PREV -> { callback.playPrev(msg.replyTo) }
-                MusicServiceConnection.MESSAGE_TYPE_NEXT -> { callback.playNext(msg.replyTo) }
-                MusicServiceConnection.MESSAGE_TYPE_PLAYER_STARTED -> { callback.sendPlayerUpdate(msg.replyTo) }
+                MusicServiceConnection.MESSAGE_TYPE_FOOTER_INIT -> callback.sendFooterUpdate(msg.replyTo)
+                MusicServiceConnection.MESSAGE_TYPE_PAUSE -> callback.pausePlaying()
+                MusicServiceConnection.MESSAGE_TYPE_RESUME -> callback.resumePlaying()
+                MusicServiceConnection.MESSAGE_TYPE_PREV -> callback.playPrev(msg.replyTo)
+                MusicServiceConnection.MESSAGE_TYPE_NEXT -> callback.playNext(msg.replyTo)
+                MusicServiceConnection.MESSAGE_TYPE_PLAYER_STARTED -> callback.sendPlayerUpdate(msg.replyTo)
             }
         }
     }
 
-    //messages to activity
+//messages to activity
 
     override fun sendFooterUpdate(messenger: Messenger) {
         val bundle = Bundle()
@@ -432,6 +427,8 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     companion object {
         var isServiceStarted = false
         private const val FOREGROUND_NOTIFICATION_ID = 1338
+        private const val SPOTIFY_SEEK_BAR = 0
+        private const val WAITING_FOR_SPOTIFY = 2000L
         private const val MUSIC_CHANNEL_ID = "CHANNEL_MUSIC_SPOTICLOUD"
     }
 }
