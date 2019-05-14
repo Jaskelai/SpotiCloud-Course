@@ -72,9 +72,7 @@ class TrackListFragment : MvpAppCompatFragment(), TrackListView{
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_sort -> {
-                trackListPresenter.onSortClicked()
-            }
+            R.id.action_sort -> trackListPresenter.onSortClicked()
         }
         return true
     }

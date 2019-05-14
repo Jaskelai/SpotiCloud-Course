@@ -5,5 +5,4 @@ import com.arellomobile.mvp.viewstate.strategy.SkipStrategy
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(value = SkipStrategy::class)
-interface MusicPlayerView : MvpView {
-}
+interface MusicPlayerView : MvpView

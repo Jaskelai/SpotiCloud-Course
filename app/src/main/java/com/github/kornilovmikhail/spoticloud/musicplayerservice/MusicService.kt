@@ -147,7 +147,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
 
     private fun handleSeekBar() {
         disposables.add(
-            Observable.interval(1000L, TimeUnit.MILLISECONDS)
+            Observable.interval(PERIOD_SEEK_BAR, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
                     if (state == PlayingStatusEnum.PlAYING) {
@@ -428,6 +428,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         var isServiceStarted = false
         private const val FOREGROUND_NOTIFICATION_ID = 1338
         private const val SPOTIFY_SEEK_BAR = 0
+        private const val PERIOD_SEEK_BAR = 1000L
         private const val WAITING_FOR_SPOTIFY = 2000L
         private const val MUSIC_CHANNEL_ID = "CHANNEL_MUSIC_SPOTICLOUD"
     }
