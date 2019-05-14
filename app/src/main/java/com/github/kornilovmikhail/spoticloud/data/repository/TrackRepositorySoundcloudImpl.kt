@@ -11,15 +11,10 @@ import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudV2Api
 import com.github.kornilovmikhail.spoticloud.data.network.model.soundcloud.AuthorSoundCloudRemote
 import com.github.kornilovmikhail.spoticloud.data.network.model.soundcloud.TrackSoundCloudResponse
-import io.reactivex.*
+import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.BiFunction
-import io.reactivex.functions.Function
-import io.reactivex.functions.Function6
-import io.reactivex.functions.Function7
-import io.reactivex.rxkotlin.cast
 import io.reactivex.schedulers.Schedulers
-import kotlin.jvm.functions.FunctionN
 
 class TrackRepositorySoundcloudImpl(
     private val soundCloudApi: SoundCloudApi,

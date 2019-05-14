@@ -87,7 +87,6 @@ class RepositoryModule {
         LoginSpotifyUseCase(userRepository)
 
     companion object {
-        private const val TRACK_REPOSITORY = "TRACK_REPOSITORY"
         private const val SOUNDCLOUD_TRACK_REPOSITORY = "SOUNDCLOUD_TRACK_REPOSITORY"
         private const val SPOTIFY_TRACK_REPOSITORY = "SPOTIFY_TRACK_REPOSITORY"
     }

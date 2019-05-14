@@ -1,6 +1,10 @@
 package com.github.kornilovmikhail.spoticloud.musicplayerservice
 
-import android.app.*
+import android.app.Service
+import android.app.NotificationManager
+import android.app.NotificationChannel
+import android.app.Notification
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.AudioAttributes
@@ -17,7 +21,13 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import android.graphics.Color
-import android.os.*
+import android.os.Messenger
+import android.os.Message
+import android.os.Handler
+import android.os.Bundle
+import android.os.IBinder
+import android.os.Build
+import android.os.PowerManager
 import android.widget.RemoteViews
 import com.github.kornilovmikhail.spoticloud.BuildConfig
 import com.github.kornilovmikhail.spoticloud.R
@@ -25,7 +35,6 @@ import com.github.kornilovmikhail.spoticloud.core.model.Track
 import com.github.kornilovmikhail.spoticloud.ui.main.MainActivity
 import com.spotify.sdk.android.player.*
 import io.reactivex.Observable
-import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
 class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener,
@@ -144,7 +153,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 .subscribe({
                     if (state == PlayingStatusEnum.PlAYING) {
                         if (trackStreamService == StreamServiceEnum.SPOTIFY) {
-                            sendSeekBarUpdate(messengerResponse, 5)
+                            sendSeekBarUpdate(messengerResponse, 0)
                         } else {
                             mediaPlayer?.currentPosition?.let {
                                 sendSeekBarUpdate(messengerResponse, it)

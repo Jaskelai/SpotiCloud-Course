@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arellomobile.mvp.MvpAppCompatFragment
@@ -17,7 +16,6 @@ import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.core.model.Track
 import com.github.kornilovmikhail.spoticloud.ui.main.CallbackFromFragments
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 class SearchFragment : MvpAppCompatFragment(), SearchView {

@@ -2,7 +2,7 @@ package com.github.kornilovmikhail.spoticloud.navigation
 
 import java.util.LinkedList
 
-class LimitedUniqueQueue<E : Any>(private val limit: Int) : LinkedList<E>() {
+class BottomNavigation<E : Any>(private val limit: Int) : LinkedList<E>() {
 
     override fun add(element: E): Boolean {
         // For uniqueness

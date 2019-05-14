@@ -2,7 +2,6 @@ package com.github.kornilovmikhail.spoticloud.ui.musicplayer
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,6 @@ import com.github.kornilovmikhail.spoticloud.app.App
 import com.github.kornilovmikhail.spoticloud.core.model.StreamServiceEnum
 import com.github.kornilovmikhail.spoticloud.ui.main.CallbackFromFragments
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.footer_player.*
 import kotlinx.android.synthetic.main.fragment_music_player.*
 import javax.inject.Inject
 

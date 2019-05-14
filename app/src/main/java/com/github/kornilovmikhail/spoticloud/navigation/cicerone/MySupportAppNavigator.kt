@@ -11,7 +11,11 @@ import com.github.kornilovmikhail.spoticloud.navigation.cicerone.command.Forward
 import com.github.kornilovmikhail.spoticloud.navigation.cicerone.command.SingleFragmentForwardCommand
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 import ru.terrakok.cicerone.android.support.SupportAppScreen
-import ru.terrakok.cicerone.commands.*
+import ru.terrakok.cicerone.commands.Forward
+import ru.terrakok.cicerone.commands.Replace
+import ru.terrakok.cicerone.commands.Back
+import ru.terrakok.cicerone.commands.BackTo
+import ru.terrakok.cicerone.commands.Command
 import java.util.LinkedList
 
 class MySupportAppNavigator(
