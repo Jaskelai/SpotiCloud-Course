@@ -74,12 +74,12 @@ class MusicPlayerFragment : MvpAppCompatFragment(), MusicPlayerView {
             StreamServiceEnum.SPOTIFY -> iv_player_track_source.isSelected = true
             StreamServiceEnum.SOUNDCLOUD -> iv_player_track_source.isSelected = false
         }
-        sb_player.max = duration.toInt() / 1000
+        sb_player.max = duration.toInt() / DELIMETER
         loadImg(imgLink)
     }
 
     fun updateSeekBar(position: Int) {
-        sb_player.progress = position / 1000
+        sb_player.progress = position / DELIMETER
     }
 
     private fun loadImg(link: String?) {
@@ -106,5 +106,9 @@ class MusicPlayerFragment : MvpAppCompatFragment(), MusicPlayerView {
                 callback?.resumeTrack()
             }
         }
+    }
+
+    companion object {
+        private const val DELIMETER = 1000
     }
 }

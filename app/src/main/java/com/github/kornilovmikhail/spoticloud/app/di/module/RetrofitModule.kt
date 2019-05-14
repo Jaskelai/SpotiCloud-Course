@@ -6,7 +6,6 @@ import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudV2Api
 import com.github.kornilovmikhail.spoticloud.data.network.api.SpotifyApi
 import com.github.kornilovmikhail.spoticloud.data.network.interceptor.TokenInterceptor
-import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
