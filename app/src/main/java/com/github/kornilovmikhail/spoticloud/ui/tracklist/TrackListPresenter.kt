@@ -32,6 +32,20 @@ class TrackListPresenter(
         )
     }
 
+    fun onSortClicked() {
+        disposables.add(
+            tracksUseCase.getSortedTracks()
+                .doOnSubscribe { viewState.showProgressBar() }
+                .doAfterTerminate { viewState.hideProgressBar() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    viewState.showTracks(it)
+                },{
+                    viewState.showErrorMessage()
+                })
+        )
+    }
+
     fun onCleared() {
         if (!disposables.isDisposed) {
             disposables.dispose()

@@ -171,7 +171,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
         clearMusicPlayer()
         spotifyPlayer?.pause(this)
         configSpotifyPlayer(token)
-        Thread.sleep(1500)
+        Thread.sleep(2000)
         configSpotifyPlayer(token)
         spotifyPlayer?.playUri(null, trackStreamUrl, 0, 0)
     }

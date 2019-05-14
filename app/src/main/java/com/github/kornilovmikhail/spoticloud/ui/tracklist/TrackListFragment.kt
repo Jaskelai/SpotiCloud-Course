@@ -1,11 +1,7 @@
 package com.github.kornilovmikhail.spoticloud.ui.tracklist
 
 import android.os.Bundle
-import android.view.View
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.view.Menu
-import android.view.MenuInflater
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -72,6 +68,15 @@ class TrackListFragment : MvpAppCompatFragment(), TrackListView{
         val searchedMenuView = menu?.findItem(R.id.action_search)
         val searchView = searchedMenuView?.actionView as SearchView
         addSearchListener(searchView)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_sort -> {
+                trackListPresenter.onSortClicked()
+            }
+        }
+        return true
     }
 
     override fun showErrorMessage() {

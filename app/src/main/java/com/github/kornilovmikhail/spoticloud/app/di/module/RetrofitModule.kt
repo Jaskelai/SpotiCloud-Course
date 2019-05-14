@@ -25,17 +25,13 @@ class RetrofitModule {
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
         @Named(SOUNDCLOUD_URL) baseURL: String,
-        tokenInterceptor: TokenInterceptor,
         client: OkHttpClient
-    ): Retrofit {
-        client.interceptors().add(tokenInterceptor)
-        return Retrofit.Builder()
-            .baseUrl(baseURL)
-            .client(client)
-            .addConverterFactory(gsonConverterFactory)
-            .addCallAdapterFactory(rxJava2CallAdapterFactory)
-            .build()
-    }
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(baseURL)
+        .client(client)
+        .addConverterFactory(gsonConverterFactory)
+        .addCallAdapterFactory(rxJava2CallAdapterFactory)
+        .build()
 
     @Provides
     @ApplicationScope
@@ -44,17 +40,13 @@ class RetrofitModule {
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
         @Named(SOUNDCLOUD_URL_V2) baseURL: String,
-        tokenInterceptor: TokenInterceptor,
         client: OkHttpClient
-    ): Retrofit {
-        client.interceptors().add(tokenInterceptor)
-        return Retrofit.Builder()
-            .baseUrl(baseURL)
-            .client(client)
-            .addConverterFactory(gsonConverterFactory)
-            .addCallAdapterFactory(rxJava2CallAdapterFactory)
-            .build()
-    }
+    ): Retrofit = Retrofit.Builder()
+        .baseUrl(baseURL)
+        .client(client)
+        .addConverterFactory(gsonConverterFactory)
+        .addCallAdapterFactory(rxJava2CallAdapterFactory)
+        .build()
 
     @Provides
     @ApplicationScope
@@ -94,8 +86,10 @@ class RetrofitModule {
 
     @Provides
     @ApplicationScope
-    fun provideOkHttpClient(): OkHttpClient =
-        OkHttpClient.Builder().build()
+    fun provideOkHttpClient(interceptor: TokenInterceptor): OkHttpClient =
+        OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .build()
 
     @Provides
     @ApplicationScope
