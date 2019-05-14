@@ -78,18 +78,22 @@ class MainPresenter @Inject constructor(
             }
             if (queue.size > 1) {
                 queue.removeLast()
-                when (queue.last) {
-                    FragmentBottomEnum.SEARCH -> viewState.showSearchChose()
-                    FragmentBottomEnum.TRACKLIST -> viewState.showTrackListChose()
-                    FragmentBottomEnum.TRENDS -> viewState.showTrendsChose()
-                    else -> return
-                }
+                bottomNavigationChooser()
             } else {
                 router.back()
             }
         } else {
             router.back()
             isPlayer = false
+        }
+    }
+
+    fun bottomNavigationChooser() {
+        when (queue.last) {
+            FragmentBottomEnum.SEARCH -> viewState.showSearchChose()
+            FragmentBottomEnum.TRACKLIST -> viewState.showTrackListChose()
+            FragmentBottomEnum.TRENDS -> viewState.showTrendsChose()
+            else -> return
         }
     }
 

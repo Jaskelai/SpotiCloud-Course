@@ -127,9 +127,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
             disposables.add(
                 it.subscribe({
                     playTrack(it)
-                }, {
-                    it.printStackTrace()
-                })
+                }, { })
             )
         }
     }
@@ -147,6 +145,10 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 .subscribe({}, {})
         )
         state = PlayingStatusEnum.PlAYING
+        handleSeekBar()
+    }
+
+    private fun handleSeekBar() {
         disposables.add(
             Observable.interval(1000L, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
@@ -372,21 +374,11 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 MusicServiceConnection.MESSAGE_TYPE_FOOTER_INIT -> {
                     callback.sendFooterUpdate(msg.replyTo)
                 }
-                MusicServiceConnection.MESSAGE_TYPE_PAUSE -> {
-                    callback.pausePlaying()
-                }
-                MusicServiceConnection.MESSAGE_TYPE_RESUME -> {
-                    callback.resumePlaying()
-                }
-                MusicServiceConnection.MESSAGE_TYPE_PREV -> {
-                    callback.playPrev(msg.replyTo)
-                }
-                MusicServiceConnection.MESSAGE_TYPE_NEXT -> {
-                    callback.playNext(msg.replyTo)
-                }
-                MusicServiceConnection.MESSAGE_TYPE_PLAYER_STARTED -> {
-                    callback.sendPlayerUpdate(msg.replyTo)
-                }
+                MusicServiceConnection.MESSAGE_TYPE_PAUSE -> { callback.pausePlaying() }
+                MusicServiceConnection.MESSAGE_TYPE_RESUME -> { callback.resumePlaying() }
+                MusicServiceConnection.MESSAGE_TYPE_PREV -> { callback.playPrev(msg.replyTo) }
+                MusicServiceConnection.MESSAGE_TYPE_NEXT -> { callback.playNext(msg.replyTo) }
+                MusicServiceConnection.MESSAGE_TYPE_PLAYER_STARTED -> { callback.sendPlayerUpdate(msg.replyTo) }
             }
         }
     }
@@ -404,6 +396,13 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
     }
 
     override fun sendPlayerUpdate(messenger: Messenger) {
+        val backMsg = Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_PLAYER_RESPONSE)
+        backMsg.data = putBundleForMusicPlayer()
+        messengerResponse = messenger
+        messengerResponse?.send(backMsg)
+    }
+
+    private fun putBundleForMusicPlayer(): Bundle {
         val bundle = Bundle()
         bundle.apply {
             putString(MusicServiceConnection.MESSAGE_LINK_COVER_TRACK, trackArtworkUrlHQ)
@@ -419,10 +418,7 @@ class MusicService : Service(), MediaPlayer.OnPreparedListener, MediaPlayer.OnCo
                 putLong(MusicServiceConnection.MESSAGE_DURATION_TRACK, it)
             }
         }
-        val backMsg = Message.obtain(null, MusicServiceConnection.MESSAGE_TYPE_PLAYER_RESPONSE)
-        backMsg.data = bundle
-        messengerResponse = messenger
-        messengerResponse?.send(backMsg)
+        return bundle
     }
 
     private fun sendSeekBarUpdate(messenger: Messenger?, value: Int) {
