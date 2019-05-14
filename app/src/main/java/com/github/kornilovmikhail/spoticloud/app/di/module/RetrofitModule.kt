@@ -5,6 +5,8 @@ import com.github.kornilovmikhail.spoticloud.app.di.scope.ApplicationScope
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudApi
 import com.github.kornilovmikhail.spoticloud.data.network.api.SoundCloudV2Api
 import com.github.kornilovmikhail.spoticloud.data.network.api.SpotifyApi
+import com.github.kornilovmikhail.spoticloud.data.network.interceptor.TokenInterceptor
+import com.github.kornilovmikhail.spoticloud.interactor.LoginSoundcloudUseCase
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -22,12 +24,18 @@ class RetrofitModule {
     fun provideRetrofitSoundCloud(
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
-        @Named(SOUNDCLOUD_URL) baseURL: String
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(baseURL)
-        .addConverterFactory(gsonConverterFactory)
-        .addCallAdapterFactory(rxJava2CallAdapterFactory)
-        .build()
+        @Named(SOUNDCLOUD_URL) baseURL: String,
+        tokenInterceptor: TokenInterceptor,
+        client: OkHttpClient
+    ): Retrofit {
+        client.interceptors().add(tokenInterceptor)
+        return Retrofit.Builder()
+            .baseUrl(baseURL)
+            .client(client)
+            .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(rxJava2CallAdapterFactory)
+            .build()
+    }
 
     @Provides
     @ApplicationScope
@@ -35,12 +43,18 @@ class RetrofitModule {
     fun provideRetrofitSoundCloudV2(
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
-        @Named(SOUNDCLOUD_URL_V2) baseURL: String
-    ): Retrofit = Retrofit.Builder()
-        .baseUrl(baseURL)
-        .addConverterFactory(gsonConverterFactory)
-        .addCallAdapterFactory(rxJava2CallAdapterFactory)
-        .build()
+        @Named(SOUNDCLOUD_URL_V2) baseURL: String,
+        tokenInterceptor: TokenInterceptor,
+        client: OkHttpClient
+    ): Retrofit {
+        client.interceptors().add(tokenInterceptor)
+        return Retrofit.Builder()
+            .baseUrl(baseURL)
+            .client(client)
+            .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(rxJava2CallAdapterFactory)
+            .build()
+    }
 
     @Provides
     @ApplicationScope
@@ -97,6 +111,11 @@ class RetrofitModule {
     @ApplicationScope
     @Named(SPOTIFY_URL)
     fun provideSpotifyURL(): String = BuildConfig.SPOTIFY_URL
+
+    @Provides
+    @ApplicationScope
+    fun provideRefreshInterceptor(): TokenInterceptor =
+        TokenInterceptor()
 
     companion object {
         private const val SOUNDCLOUD_URL = "SOUNDCLOUD_URL"
