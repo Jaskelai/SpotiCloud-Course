@@ -11,9 +11,7 @@
             </item>
 
             <item android:drawable="@drawable/ripple_pause"
-                  android:gravity="center"
-                  android:height="@dimen/btn_player_drawable"
-                  android:width="@dimen/btn_player_drawable">
+                  android:gravity="center">
             </item>
         </layer-list>
     </item>
@@ -28,9 +26,7 @@
             </item>
 
             <item android:drawable="@drawable/ripple_play"
-                  android:gravity="center"
-                  android:height="@dimen/btn_player_drawable"
-                  android:width="@dimen/btn_player_drawable">
+                  android:gravity="center">
             </item>
         </layer-list>
     </item>
