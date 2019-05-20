@@ -15,6 +15,14 @@ class TrackListPresenter(
     private val disposables = CompositeDisposable()
 
     override fun onFirstViewAttach() {
+        getTracks()
+    }
+
+    fun onRefresh() {
+        getTracks()
+    }
+
+    fun getTracks() {
         disposables.add(
             tracksUseCase.getFavoriteTracks()
                 .doOnSubscribe { viewState.showProgressBar() }

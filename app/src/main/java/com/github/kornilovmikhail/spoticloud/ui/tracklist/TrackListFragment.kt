@@ -51,6 +51,10 @@ class TrackListFragment : MvpAppCompatFragment(), TrackListView{
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         initRecyclerViewAdapter()
+        refreshlistener_track_list.setOnRefreshListener {
+            trackListPresenter.onRefresh()
+            refreshlistener_track_list.isRefreshing = false
+        }
     }
 
     override fun onDetach() {
